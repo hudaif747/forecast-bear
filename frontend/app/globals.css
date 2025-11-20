@@ -10,24 +10,75 @@
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
+/* GRIZZLYS THEME CONFIGURATION
+   The variables in :root are "naked channels" (Shadcn convention).
+   We MUST wrap them in hsl() here so Tailwind v4 generates valid CSS.
 */
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
+@theme {
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+
+  --breakpoint-toast-mobile: 600px;
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* 🟢 FIX: Wrapped all color mappings in hsl() */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-danger: hsl(var(--danger));
+  --color-danger-foreground: hsl(var(--danger-foreground));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
 }
 
+/* DATA DEFINITION LAYER
+   These are your raw HSL channel values. 
+*/
 @layer base {
   :root {
     /* Grizzlys Wolfsburg Dark Theme - Professional Sports Analytics */
@@ -40,7 +91,7 @@
     --popover: 0 0% 10%;
     --popover-foreground: 0 0% 98%;
 
-    /* Grizzlys Orange - Primary Brand Color */
+    /* Grizzlys Orange */
     --primary: 25 95% 53%;
     --primary-foreground: 0 0% 100%;
 
@@ -62,13 +113,13 @@
 
     --radius: 0.75rem;
 
-    /* Confidence Level Colors */
+    /* Confidence Levels */
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
-
+    
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 0%;
-
+    
     --danger: 0 84% 60%;
     --danger-foreground: 0 0% 100%;
 
@@ -82,86 +133,14 @@
     --sidebar-border: 0 0% 15%;
     --sidebar-ring: 25 95% 53%;
 
-    /* Chart Colors */
+    /* Charts */
     --chart-1: 25 95% 53%;
     --chart-2: 142 76% 36%;
     --chart-3: 217 91% 60%;
     --chart-4: 38 92% 50%;
     --chart-5: 340 82% 52%;
-
-    /* Gradients */
-    --gradient-primary: linear-gradient(
-      135deg,
-      hsl(25 95% 53%),
-      hsl(25 85% 45%)
-    );
-    --gradient-dark: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 5%));
-
-    /* Shadows */
-    --shadow-glow: 0 0 30px hsl(25 95% 53% / 0.2);
-    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.5);
-
-    /* Transitions */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-}
 
-/* define theme */
-@theme {
-  --font-sans: var(--font-geist);
-  --font-mono: var(--font-geist-mono);
-
-  --breakpoint-toast-mobile: 600px;
-
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
-
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-
-  --color-sidebar: var(--sidebar-background);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
-
-@layer base {
   * {
     @apply border-border;
   }
@@ -170,3 +149,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Compatibility Styles:
+  I removed the duplicate `* { border-color: ... }` block that was here. 
+  The `@apply border-border` above now correctly handles borders because 
+  --color-border is now valid CSS.
+*/
