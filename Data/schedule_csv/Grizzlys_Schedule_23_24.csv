@@ -1,0 +1,53 @@
+Match_ID,Day,Date,Time,Home_Team,Away_Team
+1,Fri,2023-09-15,19.30,Grizzlys Wolfsburg,Augsburger Panther
+2,Sun,2023-09-17,14.00,Pinguins Bremerhaven,Grizzlys Wolfsburg
+3,Fri,2023-09-22,19.30,Grizzlys Wolfsburg,Straubing Tigers
+4,Sun,2023-09-24,19.00,Schwenninger Wild Wings,Grizzlys Wolfsburg
+5,Fri,2023-09-29,19.30,ERC Ingolstadt,Grizzlys Wolfsburg
+6,Sun,2023-10-01,16.30,Grizzlys Wolfsburg,Iserlohn Roosters
+7,Tue,2023-10-03,14.00,Düsseldorfer EG,Grizzlys Wolfsburg
+8,Fri,2023-10-06,19.30,Grizzlys Wolfsburg,Adler Mannheim
+9,Sun,2023-10-08,14.00,Grizzlys Wolfsburg,Eisbären Berlin
+10,Fri,2023-10-13,19.30,EHC Red Bull München,Grizzlys Wolfsburg
+11,Sun,2023-10-15,16.30,Grizzlys Wolfsburg,Löwen Frankfurt
+12,Fri,2023-10-20,19.30,Grizzlys Wolfsburg,Kölner Haie
+13,Sun,2023-10-22,14.00,Nürnberg Ice Tigers,Grizzlys Wolfsburg
+14,Fri,2023-10-27,19.30,Düsseldorfer EG,Grizzlys Wolfsburg
+15,Sun,2023-10-29,19.00,Grizzlys Wolfsburg,Iserlohn Roosters
+16,Wed,2023-11-01,18.00,ERC Ingolstadt,Grizzlys Wolfsburg
+17,Fri,2023-11-03,19.30,Nürnberg Ice Tigers,Grizzlys Wolfsburg
+18,Sun,2023-11-05,14.00,Grizzlys Wolfsburg,Löwen Frankfurt
+19,Thu,2023-11-16,18.00,Grizzlys Wolfsburg,Schwenninger Wild Wings
+20,Sat,2023-11-18,20.00,Eisbären Berlin,Grizzlys Wolfsburg
+21,Fri,2023-11-24,19.30,Adler Mannheim,Grizzlys Wolfsburg
+22,Tue,2023-11-28,19.30,Kölner Haie,Grizzlys Wolfsburg
+23,Fri,2023-12-01,19.30,Grizzlys Wolfsburg,Augsburger Panther
+24,Sun,2023-12-03,19.00,Straubing Tigers,Grizzlys Wolfsburg
+25,Fri,2023-12-08,19.30,EHC Red Bull München,Grizzlys Wolfsburg
+26,Sun,2023-12-10,14.00,Grizzlys Wolfsburg,Pinguins Bremerhaven
+27,Fri,2023-12-15,19.30,Grizzlys Wolfsburg,Nürnberg Ice Tigers
+28,Sun,2023-12-17,19.00,Grizzlys Wolfsburg,ERC Ingolstadt
+29,Thu,2023-12-21,19.30,Kölner Haie,Grizzlys Wolfsburg
+30,Sat,2023-12-23,16.30,Grizzlys Wolfsburg,Adler Mannheim
+31,Tue,2023-12-26,14.00,Eisbären Berlin,Grizzlys Wolfsburg
+32,Thu,2023-12-28,19.30,Grizzlys Wolfsburg,EHC Red Bull München
+33,Sat,2023-12-30,14.00,Pinguins Bremerhaven,Grizzlys Wolfsburg
+34,Wed,2024-01-03,19.30,Löwen Frankfurt,Grizzlys Wolfsburg
+35,Fri,2024-01-05,19.30,Iserlohn Roosters,Grizzlys Wolfsburg
+36,Sun,2024-01-07,14.00,Grizzlys Wolfsburg,Düsseldorfer EG
+37,Fri,2024-01-12,19.30,Augsburger Panther,Grizzlys Wolfsburg
+38,Sun,2024-01-14,19.00,Grizzlys Wolfsburg,Straubing Tigers
+39,Fri,2024-01-19,19.30,Grizzlys Wolfsburg,Schwenninger Wild Wings
+40,Sun,2024-01-21,19.00,Iserlohn Roosters,Grizzlys Wolfsburg
+41,Fri,2024-01-26,19.30,Grizzlys Wolfsburg,Eisbären Berlin
+42,Sun,2024-01-28,14.00,Löwen Frankfurt,Grizzlys Wolfsburg
+43,Fri,2024-02-02,19.30,Grizzlys Wolfsburg,ERC Ingolstadt
+44,Sun,2024-02-04,16.30,Grizzlys Wolfsburg,EHC Red Bull München
+46,Thu,2024-02-15,19.30,Adler Mannheim,Grizzlys Wolfsburg
+47,Sun,2024-02-18,14.00,Grizzlys Wolfsburg,Pinguins Bremerhaven
+45,Tue,2024-02-20,19.30,Grizzlys Wolfsburg,Düsseldorfer EG
+48,Fri,2024-02-23,19.30,Schwenninger Wild Wings,Grizzlys Wolfsburg
+49,Sun,2024-02-25,16.30,Augsburger Panther,Grizzlys Wolfsburg
+50,Fri,2024-03-01,19.30,Grizzlys Wolfsburg,Kölner Haie
+51,Sun,2024-03-03,14.00,Grizzlys Wolfsburg,Nürnberg Ice Tigers
+52,Fri,2024-03-08,19.30,Straubing Tigers,Grizzlys Wolfsburg
