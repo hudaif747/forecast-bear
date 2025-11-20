@@ -62,7 +62,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
     <>
       <Sidebar
         className="relative group-data-[side=left]:border-r-0"
-        variant="inset"
+        variant="floating"
       >
         <SidebarHeader>
           <SidebarMenu>
