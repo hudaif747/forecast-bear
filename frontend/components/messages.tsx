@@ -31,7 +31,6 @@ function PureMessages({
   setMessages,
   regenerate,
   isReadonly,
-  selectedModelId,
 }: MessagesProps) {
   const {
     containerRef: messagesContainerRef,
@@ -61,7 +60,7 @@ function PureMessages({
 
   return (
     <div
-      className="overscroll-behavior-contain -webkit-overflow-scrolling-touch flex-1 touch-pan-y overflow-y-scroll"
+      className="-webkit-overflow-scrolling-touch overscroll-behavior-contain flex-1 touch-pan-y overflow-y-scroll [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       ref={messagesContainerRef}
       style={{ overflowAnchor: "none" }}
     >

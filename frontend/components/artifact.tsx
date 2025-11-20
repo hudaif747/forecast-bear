@@ -13,7 +13,9 @@ import {
 import useSWR, { useSWRConfig } from "swr";
 import { useDebounceCallback, useWindowSize } from "usehooks-ts";
 import { codeArtifact } from "@/artifacts/code/client";
+import { forecastArtifact } from "@/artifacts/forecast/client";
 import { imageArtifact } from "@/artifacts/image/client";
+import { inlineChartArtifact } from "@/artifacts/inline-chart/client";
 import { sheetArtifact } from "@/artifacts/sheet/client";
 import { textArtifact } from "@/artifacts/text/client";
 import { useArtifact } from "@/hooks/use-artifact";
@@ -35,6 +37,8 @@ export const artifactDefinitions = [
   codeArtifact,
   imageArtifact,
   sheetArtifact,
+  forecastArtifact,
+  inlineChartArtifact,
 ];
 export type ArtifactKind = (typeof artifactDefinitions)[number]["kind"];
 
@@ -252,6 +256,13 @@ function PureArtifact({
     throw new Error("Artifact definition not found!");
   }
 
+  // Type-safe metadata handling - metadata type depends on artifact kind
+  // Cast to satisfy TypeScript since metadata type varies by artifact kind
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const typedMetadata = metadata as any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const typedSetMetadata = setMetadata as any;
+
   useEffect(() => {
     if (artifact.documentId !== "init" && artifactDefinition.initialize) {
       artifactDefinition.initialize({
@@ -458,25 +469,31 @@ function PureArtifact({
             </div>
 
             <div className="h-full max-w-full! items-center overflow-y-scroll bg-background dark:bg-muted">
-              <artifactDefinition.content
-                content={
-                  isCurrentVersion
-                    ? artifact.content
-                    : getDocumentContentById(currentVersionIndex)
-                }
-                currentVersionIndex={currentVersionIndex}
-                getDocumentContentById={getDocumentContentById}
-                isCurrentVersion={isCurrentVersion}
-                isInline={false}
-                isLoading={isDocumentsFetching && !artifact.content}
-                metadata={metadata}
-                mode={mode}
-                onSaveContent={saveContent}
-                setMetadata={setMetadata}
-                status={artifact.status}
-                suggestions={[]}
-                title={artifact.title}
-              />
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+              {(() => {
+                const ContentComponent = artifactDefinition.content as any;
+                return (
+                  <ContentComponent
+                    content={
+                      isCurrentVersion
+                        ? artifact.content
+                        : getDocumentContentById(currentVersionIndex)
+                    }
+                    currentVersionIndex={currentVersionIndex}
+                    getDocumentContentById={getDocumentContentById}
+                    isCurrentVersion={isCurrentVersion}
+                    isInline={false}
+                    isLoading={isDocumentsFetching && !artifact.content}
+                    metadata={typedMetadata}
+                    mode={mode}
+                    onSaveContent={saveContent}
+                    setMetadata={typedSetMetadata}
+                    status={artifact.status}
+                    suggestions={[]}
+                    title={artifact.title}
+                  />
+                );
+              })()}
 
               <AnimatePresence>
                 {isCurrentVersion && (

@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
 import { ChatHeader } from "@/components/chat-header";
-import { API_ROUTES, PAGE_ROUTES } from "@/lib/constants";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +20,7 @@ import {
 import { useArtifactSelector } from "@/hooks/use-artifact";
 import { useAutoResume } from "@/hooks/use-auto-resume";
 import { useChatVisibility } from "@/hooks/use-chat-visibility";
+import { API_ROUTES, PAGE_ROUTES } from "@/lib/constants";
 import type { Vote } from "@/lib/db/schema";
 import { ChatSDKError } from "@/lib/errors";
 import type { Attachment, ChatMessage } from "@/lib/types";
@@ -157,7 +157,7 @@ export function Chat({
 
   return (
     <>
-      <div className="overscroll-behavior-contain flex flex-1 h-dvh min-w-0 touch-pan-y flex-col bg-background">
+      <div className="overscroll-behavior-contain flex h-dvh min-w-0 flex-1 touch-pan-y flex-col bg-background">
         <ChatHeader
           chatId={id}
           isReadonly={isReadonly}

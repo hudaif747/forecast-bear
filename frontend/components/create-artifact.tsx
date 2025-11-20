@@ -47,6 +47,7 @@ type ArtifactContent<M = any> = {
   isLoading: boolean;
   metadata: M;
   setMetadata: Dispatch<SetStateAction<M>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 };
 
 type InitializeParameters<M = any> = {
