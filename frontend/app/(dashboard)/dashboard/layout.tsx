@@ -7,6 +7,7 @@ import {
   MessageSquare,
   Settings,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import {
   Sidebar,
@@ -21,6 +22,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { NavLink } from "./NavLink";
 
@@ -31,6 +33,31 @@ const navigation = [
   { name: "Assistant", href: "/dashboard/assistant", icon: MessageSquare },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
+
+function getPageTitle(pathname: string): string {
+  const routeMap: Record<string, string> = {
+    "/dashboard": "Dashboard",
+    "/dashboard/games": "All Games",
+    "/dashboard/analytics": "Analytics",
+    "/dashboard/assistant": "Assistant",
+    "/dashboard/settings": "Settings",
+  };
+
+  // Check for exact match first
+  if (routeMap[pathname]) {
+    return routeMap[pathname];
+  }
+
+  // Check for nested routes (e.g., /dashboard/assistant/chat)
+  for (const [route, title] of Object.entries(routeMap)) {
+    if (pathname.startsWith(route) && route !== "/dashboard") {
+      return title;
+    }
+  }
+
+  // Default fallback
+  return "Ticket Sales Forecast Dashboard";
+}
 
 function AppSidebar() {
   const { state } = useSidebar();
@@ -64,11 +91,11 @@ function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink
                       className={cn(
-                        "bg-sidebar-accent font-medium text-primary hover:bg-sidebar-accent",
                         isCollapsed
                           ? "h-8 w-8 items-center justify-center rounded-lg"
-                          : "w-full justify-start pl-8"
+                          : "w-full justify-start pl-2"
                       )}
+                      activeClassName="bg-sidebar-accent font-medium text-primary hover:bg-sidebar-accent"
                       href={item.href}
                     >
                       <item.icon className="h-5 w-5" />
@@ -86,6 +113,9 @@ function AppSidebar() {
 }
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const pageTitle = getPageTitle(pathname ?? "");
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background">
@@ -93,8 +123,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <div className="flex flex-1 flex-col">
           <header className="flex h-16 items-center border-border border-b bg-card px-6">
             <SidebarTrigger className="mr-4" />
-            <h1 className="font-bold text-2xl text-foreground">
-              Ticket Sales Forecast Dashboard
+            <Separator orientation="vertical" className="h-6" />
+            <h1 className="ml-4 font-bold text-2xl text-foreground">
+              {pageTitle}
             </h1>
           </header>
           <main className="flex-1 overflow-auto">{children}</main>
