@@ -5,6 +5,7 @@ import { memo } from "react";
 import { useWindowSize } from "usehooks-ts";
 import { SidebarToggle } from "@/components/sidebar-toggle";
 import { Button } from "@/components/ui/button";
+import { PAGE_ROUTES } from "@/lib/constants";
 import { PlusIcon } from "./icons";
 import { useSidebar } from "./ui/sidebar";
 import { VisibilitySelector, type VisibilityType } from "./visibility-selector";
@@ -31,7 +32,7 @@ function PureChatHeader({
         <Button
           className="order-2 ml-auto h-8 px-2 md:order-1 md:ml-0 md:h-fit md:px-2"
           onClick={() => {
-            router.push("/dashboard/assistant");
+            router.push(PAGE_ROUTES.assistant);
             router.refresh();
           }}
           variant="outline"

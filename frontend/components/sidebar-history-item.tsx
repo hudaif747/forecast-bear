@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { memo } from "react";
 import { useChatVisibility } from "@/hooks/use-chat-visibility";
+import { PAGE_ROUTES } from "@/lib/constants";
 import type { Chat } from "@/lib/db/schema";
 import {
   CheckCircleFillIcon,
@@ -45,7 +46,10 @@ const PureChatItem = ({
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild isActive={isActive}>
-        <Link href={`/chat/${chat.id}`} onClick={() => setOpenMobile(false)}>
+        <Link
+          href={PAGE_ROUTES.chat(chat.id)}
+          onClick={() => setOpenMobile(false)}
+        >
           <span>{chat.title}</span>
         </Link>
       </SidebarMenuButton>

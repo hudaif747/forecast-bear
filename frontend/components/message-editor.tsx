@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { deleteTrailingMessages } from "@/app/(dashboard)/dashboard/assistant/(chat)/actions";
+import { deleteTrailingMessages } from "@/app/(dashboard)/dashboard/assistant/chat/actions";
 import type { ChatMessage } from "@/lib/types";
 import { getTextFromMessage } from "@/lib/utils";
 import { Button } from "./ui/button";

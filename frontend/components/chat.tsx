@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
 import { ChatHeader } from "@/components/chat-header";
+import { API_ROUTES, PAGE_ROUTES } from "@/lib/constants";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -82,7 +83,7 @@ export function Chat({
     experimental_throttle: 100,
     generateId: generateUUID,
     transport: new DefaultChatTransport({
-      api: "/api/chat",
+      api: API_ROUTES.chat,
       fetch: fetchWithErrorHandlers,
       prepareSendMessagesRequest(request) {
         return {
@@ -135,12 +136,12 @@ export function Chat({
       });
 
       setHasAppendedQuery(true);
-      window.history.replaceState({}, "", `/chat/${id}`);
+      window.history.replaceState({}, "", PAGE_ROUTES.chat(id));
     }
   }, [query, sendMessage, hasAppendedQuery, id]);
 
   const { data: votes } = useSWR<Vote[]>(
-    messages.length >= 2 ? `/api/vote?chatId=${id}` : null,
+    messages.length >= 2 ? `${API_ROUTES.vote}?chatId=${id}` : null,
     fetcher
   );
 

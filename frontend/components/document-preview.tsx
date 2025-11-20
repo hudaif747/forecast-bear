@@ -11,6 +11,7 @@ import {
 } from "react";
 import useSWR from "swr";
 import { useArtifact } from "@/hooks/use-artifact";
+import { API_ROUTES } from "@/lib/constants";
 import type { Document } from "@/lib/db/schema";
 import { cn, fetcher } from "@/lib/utils";
 import type { ArtifactKind, UIArtifact } from "./artifact";
@@ -37,7 +38,7 @@ export function DocumentPreview({
 
   const { data: documents, isLoading: isDocumentsFetching } = useSWR<
     Document[]
-  >(result ? `/api/document?id=${result.id}` : null, fetcher);
+  >(result ? `${API_ROUTES.document}?id=${result.id}` : null, fetcher);
 
   const previewDocument = useMemo(() => documents?.[0], [documents]);
   const hitboxRef = useRef<HTMLDivElement>(null);
@@ -87,15 +88,15 @@ export function DocumentPreview({
   const document: Document | null = previewDocument
     ? previewDocument
     : artifact.status === "streaming"
-      ? {
-          title: artifact.title,
-          kind: artifact.kind,
-          content: artifact.content,
-          id: artifact.documentId,
-          createdAt: new Date(),
-          userId: "noop",
-        }
-      : null;
+    ? {
+        title: artifact.title,
+        kind: artifact.kind,
+        content: artifact.content,
+        id: artifact.documentId,
+        createdAt: new Date(),
+        userId: "noop",
+      }
+    : null;
 
   if (!document) {
     return <LoadingSkeleton artifactKind={artifact.kind} />;

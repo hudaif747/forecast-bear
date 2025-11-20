@@ -18,7 +18,7 @@ import {
 } from "react";
 import { toast } from "sonner";
 import { useLocalStorage, useWindowSize } from "usehooks-ts";
-import { saveChatModelAsCookie } from "@/app/(dashboard)/dashboard/assistant/(chat)/actions";
+import { saveChatModelAsCookie } from "@/app/(dashboard)/dashboard/assistant/chat/actions";
 import { SelectItem } from "@/components/ui/select";
 import { chatModels } from "@/lib/ai/models";
 import { myProvider } from "@/lib/ai/providers";
@@ -130,7 +130,7 @@ function PureMultimodalInput({
   const [uploadQueue, setUploadQueue] = useState<string[]>([]);
 
   const submitForm = useCallback(() => {
-    window.history.pushState({}, "", `/chat/${chatId}`);
+    window.history.pushState({}, "", PAGE_ROUTES.chat(chatId));
 
     sendMessage({
       role: "user",
@@ -173,7 +173,7 @@ function PureMultimodalInput({
     formData.append("file", file);
 
     try {
-      const response = await fetch("/api/files/upload", {
+      const response = await fetch(API_ROUTES.files.upload, {
         method: "POST",
         body: formData,
       });

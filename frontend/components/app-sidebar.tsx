@@ -9,8 +9,8 @@ import { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
 import { PlusIcon, TrashIcon } from "@/components/icons";
 import {
-  SidebarHistory,
   getChatHistoryPaginationKey,
+  SidebarHistory,
 } from "@/components/sidebar-history";
 import { SidebarUserNav } from "@/components/sidebar-user-nav";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ import {
   SidebarMenu,
   useSidebar,
 } from "@/components/ui/sidebar-chat";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { API_ROUTES, PAGE_ROUTES } from "@/lib/constants";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,6 +33,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "./ui/alert-dialog";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
@@ -41,7 +42,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
   const [showDeleteAllDialog, setShowDeleteAllDialog] = useState(false);
 
   const handleDeleteAll = () => {
-    const deletePromise = fetch("/api/history", {
+    const deletePromise = fetch(API_ROUTES.history, {
       method: "DELETE",
     });
 
@@ -49,7 +50,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
       loading: "Deleting all chats...",
       success: () => {
         mutate(unstable_serialize(getChatHistoryPaginationKey));
-        router.push("/");
+        router.push(PAGE_ROUTES.assistant);
         setShowDeleteAllDialog(false);
         return "All chats deleted successfully";
       },
@@ -60,8 +61,8 @@ export function AppSidebar({ user }: { user: User | undefined }) {
   return (
     <>
       <Sidebar
-        variant="inset"
         className="relative group-data-[side=left]:border-r-0"
+        variant="inset"
       >
         <SidebarHeader>
           <SidebarMenu>
@@ -101,7 +102,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                       className="h-8 p-1 md:h-fit md:p-2"
                       onClick={() => {
                         setOpenMobile(false);
-                        router.push("/");
+                        router.push(PAGE_ROUTES.assistant);
                         router.refresh();
                       }}
                       type="button"

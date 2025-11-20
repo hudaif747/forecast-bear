@@ -23,6 +23,7 @@ import {
   SidebarMenu,
   useSidebar,
 } from "@/components/ui/sidebar-chat";
+import { API_ROUTES, PAGE_ROUTES } from "@/lib/constants";
 import type { Chat } from "@/lib/db/schema";
 import { fetcher } from "@/lib/utils";
 import { LoaderIcon } from "./icons";
@@ -85,7 +86,7 @@ export function getChatHistoryPaginationKey(
   }
 
   if (pageIndex === 0) {
-    return `/api/history?limit=${PAGE_SIZE}`;
+    return `${API_ROUTES.history}?limit=${PAGE_SIZE}`;
   }
 
   const firstChatFromPage = previousPageData.chats.at(-1);
@@ -94,7 +95,7 @@ export function getChatHistoryPaginationKey(
     return null;
   }
 
-  return `/api/history?ending_before=${firstChatFromPage.id}&limit=${PAGE_SIZE}`;
+  return `${API_ROUTES.history}?ending_before=${firstChatFromPage.id}&limit=${PAGE_SIZE}`;
 }
 
 export function SidebarHistory({ user }: { user: User | undefined }) {
@@ -124,7 +125,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     : false;
 
   const handleDelete = () => {
-    const deletePromise = fetch(`/api/chat?id=${deleteId}`, {
+    const deletePromise = fetch(`${API_ROUTES.chat}?id=${deleteId}`, {
       method: "DELETE",
     });
 
@@ -148,7 +149,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     setShowDeleteDialog(false);
 
     if (deleteId === id) {
-      router.push("/");
+      router.push(PAGE_ROUTES.assistant);
     }
   };
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { SessionProvider } from "next-auth/react";
 import {
   BarChart3,
   Calendar,
@@ -87,19 +88,21 @@ function AppSidebar() {
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-background">
-        <AppSidebar />
-        <div className="flex flex-1 flex-col">
-          <header className="flex h-16 items-center border-border border-b bg-card px-6">
-            <SidebarTrigger className="mr-4" />
-            <h1 className="font-bold text-2xl text-foreground">
-              Ticket Sales Forecast Dashboard
-            </h1>
-          </header>
-          <main className="flex-1 overflow-auto">{children}</main>
+    <SessionProvider>
+      <SidebarProvider>
+        <div className="flex min-h-screen w-full bg-background">
+          <AppSidebar />
+          <div className="flex flex-1 flex-col">
+            <header className="flex h-16 items-center border-border border-b bg-card px-6">
+              <SidebarTrigger className="mr-4" />
+              <h1 className="font-bold text-2xl text-foreground">
+                Ticket Sales Forecast Dashboard
+              </h1>
+            </header>
+            <main className="flex-1 overflow-auto">{children}</main>
+          </div>
         </div>
-      </div>
-    </SidebarProvider>
+      </SidebarProvider>
+    </SessionProvider>
   );
 }

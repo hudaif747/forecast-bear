@@ -36,15 +36,28 @@
 
 ## Model Providers
 
-This template uses the [Vercel AI Gateway](https://vercel.com/docs/ai-gateway) to access multiple AI models through a unified interface. The default configuration includes [xAI](https://x.ai) models (`grok-2-vision-1212`, `grok-3-mini`) routed through the gateway.
+This template uses [OpenAI](https://openai.com) models directly via the [AI SDK](https://ai-sdk.dev/docs/introduction). The default configuration includes:
 
-### AI Gateway Authentication
+- **GPT-4o** - Advanced multimodal model with vision and text capabilities (main chat model)
+- **GPT-4o Mini** - Efficient model for reasoning, title generation, and artifact creation
 
-**For Vercel deployments**: Authentication is handled automatically via OIDC tokens.
+### OpenAI API Key
 
-**For non-Vercel deployments**: You need to provide an AI Gateway API key by setting the `AI_GATEWAY_API_KEY` environment variable in your `.env.local` file.
+You need to provide an OpenAI API key by setting the `OPENAI_API_KEY` environment variable in your `.env.local` file:
 
-With the [AI SDK](https://ai-sdk.dev/docs/introduction), you can also switch to direct LLM providers like [OpenAI](https://openai.com), [Anthropic](https://anthropic.com), [Cohere](https://cohere.com/), and [many more](https://ai-sdk.dev/providers/ai-sdk-providers) with just a few lines of code.
+```bash
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+To get an OpenAI API key:
+
+1. Go to [platform.openai.com](https://platform.openai.com/)
+2. Sign up or log in to your account
+3. Navigate to API Keys section
+4. Create a new secret key
+5. Copy the key and add it to your `.env.local` file
+
+With the [AI SDK](https://ai-sdk.dev/docs/introduction), you can also switch to other LLM providers like [Anthropic](https://anthropic.com), [Cohere](https://cohere.com/), and [many more](https://ai-sdk.dev/providers/ai-sdk-providers) with just a few lines of code.
 
 ## Deploy Your Own
 

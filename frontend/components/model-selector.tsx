@@ -2,7 +2,7 @@
 
 import type { Session } from "next-auth";
 import { startTransition, useMemo, useOptimistic, useState } from "react";
-import { saveChatModelAsCookie } from "@/app/(dashboard)/dashboard/assistant/(chat)/actions";
+import { saveChatModelAsCookie } from "@/app/(dashboard)/dashboard/assistant/chat/actions";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

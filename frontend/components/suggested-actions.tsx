@@ -3,6 +3,7 @@
 import type { UseChatHelpers } from "@ai-sdk/react";
 import { motion } from "framer-motion";
 import { memo } from "react";
+import { PAGE_ROUTES } from "@/lib/constants";
 import type { ChatMessage } from "@/lib/types";
 import { Suggestion } from "./elements/suggestion";
 import type { VisibilityType } from "./visibility-selector";
@@ -37,7 +38,7 @@ function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
           <Suggestion
             className="h-auto w-full whitespace-normal p-3 text-left"
             onClick={(suggestion) => {
-              window.history.replaceState({}, "", `/chat/${chatId}`);
+              window.history.replaceState({}, "", PAGE_ROUTES.chat(chatId));
               sendMessage({
                 role: "user",
                 parts: [{ type: "text", text: suggestion }],

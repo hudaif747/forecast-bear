@@ -3,6 +3,7 @@ import { memo } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import { useCopyToClipboard } from "usehooks-ts";
+import { API_ROUTES } from "@/lib/constants";
 import type { Vote } from "@/lib/db/schema";
 import type { ChatMessage } from "@/lib/types";
 import { Action, Actions } from "./elements/actions";
@@ -77,7 +78,7 @@ export function PureMessageActions({
         data-testid="message-upvote"
         disabled={vote?.isUpvoted}
         onClick={() => {
-          const upvote = fetch("/api/vote", {
+          const upvote = fetch(API_ROUTES.vote, {
             method: "PATCH",
             body: JSON.stringify({
               chatId,
@@ -90,7 +91,7 @@ export function PureMessageActions({
             loading: "Upvoting Response...",
             success: () => {
               mutate<Vote[]>(
-                `/api/vote?chatId=${chatId}`,
+                `${API_ROUTES.vote}?chatId=${chatId}`,
                 (currentVotes) => {
                   if (!currentVotes) {
                     return [];
@@ -126,7 +127,7 @@ export function PureMessageActions({
         data-testid="message-downvote"
         disabled={vote && !vote.isUpvoted}
         onClick={() => {
-          const downvote = fetch("/api/vote", {
+          const downvote = fetch(API_ROUTES.vote, {
             method: "PATCH",
             body: JSON.stringify({
               chatId,
@@ -139,7 +140,7 @@ export function PureMessageActions({
             loading: "Downvoting Response...",
             success: () => {
               mutate<Vote[]>(
-                `/api/vote?chatId=${chatId}`,
+                `${API_ROUTES.vote}?chatId=${chatId}`,
                 (currentVotes) => {
                   if (!currentVotes) {
                     return [];

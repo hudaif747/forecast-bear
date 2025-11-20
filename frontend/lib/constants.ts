@@ -11,3 +11,22 @@ export const isTestEnvironment = Boolean(
 export const guestRegex = /^guest-\d+$/;
 
 export const DUMMY_PASSWORD = generateDummyPassword();
+
+// API Routes
+export const API_BASE_PATH = "/dashboard/assistant/chat/api";
+export const API_ROUTES = {
+  chat: `${API_BASE_PATH}/chat`,
+  document: `${API_BASE_PATH}/document`,
+  vote: `${API_BASE_PATH}/vote`,
+  history: `${API_BASE_PATH}/history`,
+  files: {
+    upload: `${API_BASE_PATH}/files/upload`,
+  },
+  suggestions: `${API_BASE_PATH}/suggestions`,
+} as const;
+
+// Page Routes
+export const PAGE_ROUTES = {
+  assistant: "/dashboard/assistant",
+  chat: (id: string) => `/dashboard/assistant/chat/${id}`,
+} as const;
