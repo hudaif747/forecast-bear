@@ -1,6 +1,5 @@
 "use client";
 
-import { AlertTriangle, DollarSign, TrendingUp, Users } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,96 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-// Mock data for upcoming games
-const upcomingGames = [
-  {
-    id: 1,
-    date: "2025-11-22",
-    opponent: "Eisbären Berlin",
-    weekday: "Saturday",
-    faceoff: "19:30",
-    predictedTickets: 4200,
-    predictedRevenue: 168_000,
-    occupancy: 93,
-    confidence: "high",
-  },
-  {
-    id: 2,
-    date: "2025-11-25",
-    opponent: "Adler Mannheim",
-    weekday: "Tuesday",
-    faceoff: "19:30",
-    predictedTickets: 3800,
-    predictedRevenue: 152_000,
-    occupancy: 84,
-    confidence: "medium",
-  },
-  {
-    id: 3,
-    date: "2025-11-29",
-    opponent: "Red Bull München",
-    weekday: "Saturday",
-    faceoff: "19:30",
-    predictedTickets: 4350,
-    predictedRevenue: 174_000,
-    occupancy: 96,
-    confidence: "high",
-  },
-  {
-    id: 4,
-    date: "2025-12-03",
-    opponent: "Kölner Haie",
-    weekday: "Wednesday",
-    faceoff: "19:30",
-    predictedTickets: 3200,
-    predictedRevenue: 128_000,
-    occupancy: 71,
-    confidence: "low",
-  },
-  {
-    id: 5,
-    date: "2025-12-06",
-    opponent: "Straubing Tigers",
-    weekday: "Saturday",
-    faceoff: "19:30",
-    predictedTickets: 3950,
-    predictedRevenue: 158_000,
-    occupancy: 87,
-    confidence: "medium",
-  },
-];
-
-const kpis = [
-  {
-    title: "Forecasted Seasonal Attendance",
-    value: "165,400",
-    subtitle: "Total tickets",
-    icon: Users,
-    trend: "+8.2%",
-  },
-  {
-    title: "Forecasted Seasonal Revenue",
-    value: "€6.62M",
-    subtitle: "Total revenue",
-    icon: DollarSign,
-    trend: "+12.4%",
-  },
-  {
-    title: "Highest-Risk Game",
-    value: "Dec 3 vs Köln",
-    subtitle: "71% occupancy",
-    icon: AlertTriangle,
-    trend: "Needs boost",
-  },
-  {
-    title: "Avg. Confidence Score",
-    value: "8.3/10",
-    subtitle: "Model reliability",
-    icon: TrendingUp,
-    trend: "High",
-  },
-];
+import { useDashboardStore } from "@/lib/store";
 
 const confidenceColors = {
   high: "bg-success/20 text-success border-success",
@@ -116,6 +26,7 @@ const rowColors = {
 };
 
 export default function Dashboard() {
+  const { upcomingGames, kpis } = useDashboardStore();
   return (
     <div className="space-y-6">
       {/* KPI Cards */}

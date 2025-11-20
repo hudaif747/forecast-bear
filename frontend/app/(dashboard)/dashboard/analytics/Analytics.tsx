@@ -13,36 +13,10 @@ import {
   YAxis,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-// Mock historical data
-const seasonalData = [
-  { month: "Sep", tickets: 3200, revenue: 128_000 },
-  { month: "Oct", tickets: 3800, revenue: 152_000 },
-  { month: "Nov", tickets: 4100, revenue: 164_000 },
-  { month: "Dec", tickets: 4350, revenue: 174_000 },
-  { month: "Jan", tickets: 3900, revenue: 156_000 },
-  { month: "Feb", tickets: 4200, revenue: 168_000 },
-  { month: "Mar", tickets: 4500, revenue: 180_000 },
-];
-
-const opponentData = [
-  { opponent: "Berlin", attendance: 4300 },
-  { opponent: "München", attendance: 4450 },
-  { opponent: "Mannheim", attendance: 3900 },
-  { opponent: "Köln", attendance: 3200 },
-  { opponent: "Ingolstadt", attendance: 3600 },
-  { opponent: "Augsburg", attendance: 3450 },
-  { opponent: "Straubing", attendance: 3850 },
-];
-
-const weatherData = [
-  { condition: "Clear", avgAttendance: 4100 },
-  { condition: "Cloudy", avgAttendance: 3900 },
-  { condition: "Rainy", avgAttendance: 3400 },
-  { condition: "Snow", avgAttendance: 3600 },
-];
+import { useAnalyticsStore } from "@/lib/store";
 
 export default function Analytics() {
+  const { seasonalData, opponentData, weatherData } = useAnalyticsStore();
   return (
     <div className="space-y-6">
       <div>
