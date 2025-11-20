@@ -22,7 +22,7 @@ import {
   SidebarGroupContent,
   SidebarMenu,
   useSidebar,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar-chat";
 import type { Chat } from "@/lib/db/schema";
 import { fetcher } from "@/lib/utils";
 import { LoaderIcon } from "./icons";

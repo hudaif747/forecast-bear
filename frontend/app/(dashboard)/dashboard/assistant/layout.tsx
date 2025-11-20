@@ -2,8 +2,11 @@ import { cookies } from "next/headers";
 import Script from "next/script";
 import { AppSidebar } from "@/components/app-sidebar";
 import { DataStreamProvider } from "@/components/data-stream-provider";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { auth } from "../(auth)/auth";
+import {
+  SidebarInsetChat,
+  SidebarProvider,
+} from "@/components/ui/sidebar-chat";
+import { auth } from "@/app/(auth)/auth";
 
 export const experimental_ppr = true;
 
@@ -21,10 +24,16 @@ export default async function Layout({
         src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"
         strategy="beforeInteractive"
       />
-      <DataStreamProvider>
-        <AppSidebar user={session?.user} />
-        {children}
-      </DataStreamProvider>
+      <div className="flex h-full w-full flex-row">
+        <SidebarProvider defaultOpen={!isCollapsed}>
+          <DataStreamProvider>
+            <AppSidebar user={session?.user} />
+            <SidebarInsetChat className="flex-1 overflow-auto">
+              {children}
+            </SidebarInsetChat>
+          </DataStreamProvider>
+        </SidebarProvider>
+      </div>
     </>
   );
 }

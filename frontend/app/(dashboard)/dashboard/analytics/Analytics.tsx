@@ -18,7 +18,7 @@ import { useAnalyticsStore } from "@/lib/store";
 export default function Analytics() {
   const { seasonalData, opponentData, weatherData } = useAnalyticsStore();
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div>
         <h2 className="mb-2 font-bold text-2xl text-foreground">
           Historical Performance Analytics

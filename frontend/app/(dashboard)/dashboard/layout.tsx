@@ -97,7 +97,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               Ticket Sales Forecast Dashboard
             </h1>
           </header>
-          <main className="flex-1 overflow-auto p-6">{children}</main>
+          <main className="flex-1 overflow-auto">{children}</main>
         </div>
       </div>
     </SidebarProvider>

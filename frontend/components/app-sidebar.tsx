@@ -8,7 +8,10 @@ import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
 import { PlusIcon, TrashIcon } from "@/components/icons";
-import { SidebarHistory, getChatHistoryPaginationKey } from "@/components/sidebar-history";
+import {
+  SidebarHistory,
+  getChatHistoryPaginationKey,
+} from "@/components/sidebar-history";
 import { SidebarUserNav } from "@/components/sidebar-user-nav";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +21,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   useSidebar,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar-chat";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import {
   AlertDialog,
@@ -56,7 +59,10 @@ export function AppSidebar({ user }: { user: User | undefined }) {
 
   return (
     <>
-      <Sidebar className="group-data-[side=left]:border-r-0">
+      <Sidebar
+        variant="inset"
+        className="relative group-data-[side=left]:border-r-0"
+      >
         <SidebarHeader>
           <SidebarMenu>
             <div className="flex flex-row items-center justify-between">
@@ -118,13 +124,16 @@ export function AppSidebar({ user }: { user: User | undefined }) {
         <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>
       </Sidebar>
 
-      <AlertDialog onOpenChange={setShowDeleteAllDialog} open={showDeleteAllDialog}>
+      <AlertDialog
+        onOpenChange={setShowDeleteAllDialog}
+        open={showDeleteAllDialog}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete all chats?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete all your
-              chats and remove them from our servers.
+              This action cannot be undone. This will permanently delete all
+              your chats and remove them from our servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
