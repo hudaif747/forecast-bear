@@ -3,8 +3,7 @@ import Script from "next/script";
 import { AppSidebar } from "@/components/app-sidebar";
 import { DataStreamProvider } from "@/components/data-stream-provider";
 import {
-  SidebarInsetChat,
-  SidebarProvider,
+  SidebarProvider
 } from "@/components/ui/sidebar-chat";
 import { auth } from "@/app/(auth)/auth";
 
@@ -28,9 +27,9 @@ export default async function Layout({
         <SidebarProvider defaultOpen={!isCollapsed}>
           <DataStreamProvider>
             <AppSidebar user={session?.user} />
-            <SidebarInsetChat className="flex-1 overflow-auto">
+            {/* <SidebarInsetChat className="flex flex-1 overflow-auto"> */}
               {children}
-            </SidebarInsetChat>
+            {/* </SidebarInsetChat> */}
           </DataStreamProvider>
         </SidebarProvider>
       </div>
