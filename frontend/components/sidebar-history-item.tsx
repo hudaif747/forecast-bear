@@ -24,7 +24,7 @@ import {
   SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "./ui/sidebar";
+} from "./ui/sidebar-chat";
 
 const PureChatItem = ({
   chat,

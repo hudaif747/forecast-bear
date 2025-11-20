@@ -1,7 +1,6 @@
 "use client";
 
 import { AlertTriangle, DollarSign, TrendingUp, Users } from "lucide-react";
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -12,6 +11,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 // Mock data for upcoming games
 const upcomingGames = [
@@ -116,8 +117,9 @@ const rowColors = {
 };
 
 export default function Dashboard() {
+  const router = useRouter();
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       {/* KPI Cards */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
         {kpis.map((kpi) => (
@@ -167,23 +169,20 @@ export default function Dashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {upcomingGames.map((game) => (
+              {upcomingGames.map((game, index) => (
                 <TableRow
-                  className={
-                    rowColors[game.confidence as keyof typeof rowColors]
-                  }
-                  key={game.id}
+                  className={cn(
+                    rowColors[game.confidence as keyof typeof rowColors],
+                    "cursor-pointer"
+                  )}
+                  key={index}
+                  onClick={() => router.push(`/dashboard/games/${game.id}`)}
                 >
                   <TableCell className="font-medium text-foreground">
-                    <Link
-                      className="inline-flex items-center gap-1 text-foreground underline-offset-4 hover:underline"
-                      href={`/dashboard/game/${game.id}`}
-                    >
-                      {new Date(game.date).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </Link>
+                    {new Date(game.date).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    })}
                   </TableCell>
                   <TableCell className="text-foreground">
                     {game.opponent}

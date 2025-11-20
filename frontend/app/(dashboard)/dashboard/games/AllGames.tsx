@@ -110,7 +110,7 @@ const rowColors = {
 
 export default function AllGames() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="mb-2 font-bold text-2xl text-foreground">
@@ -202,7 +202,7 @@ export default function AllGames() {
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="[&_tr:last-child]:border-b">
                 {allGames.map((game) => (
                   <tr
                     className={`border-border border-b transition-colors ${
@@ -246,7 +246,7 @@ export default function AllGames() {
                       </Badge>
                     </td>
                     <td className="px-4 py-4 text-center">
-                      <Link href={`/dashboard/game/${game.id}`}>
+                      <Link href={`/dashboard/games/${game.id}`}>
                         <Button size="sm" variant="outline">
                           View Details
                         </Button>
