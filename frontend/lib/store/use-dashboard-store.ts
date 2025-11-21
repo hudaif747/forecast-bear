@@ -13,8 +13,10 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
 // Import predictions data
-// @ts-ignore
-import predictionsDataRaw from "./2025-26_predictions.json";
+// @ts-expect-error
+import predictionsDataRaw from "./2025-26_predictions.json" with {
+  type: "json",
+};
 
 interface PredictionData {
   date: string;
@@ -75,42 +77,102 @@ const scheduleMap: Record<
     weekday: "Sunday",
     time: "14:00",
   },
-  "2025-10-12": { opponent: "Straubing Tigers", weekday: "Sunday", time: "16:30" },
-  "2025-10-19": { opponent: "Adler Mannheim", weekday: "Sunday", time: "14:00" },
-  "2025-10-24": { opponent: "Iserlohn Roosters", weekday: "Friday", time: "19:30" },
+  "2025-10-12": {
+    opponent: "Straubing Tigers",
+    weekday: "Sunday",
+    time: "16:30",
+  },
+  "2025-10-19": {
+    opponent: "Adler Mannheim",
+    weekday: "Sunday",
+    time: "14:00",
+  },
+  "2025-10-24": {
+    opponent: "Iserlohn Roosters",
+    weekday: "Friday",
+    time: "19:30",
+  },
   "2025-10-28": {
     opponent: "EHC Red Bull München",
     weekday: "Tuesday",
     time: "19:30",
   },
-  "2025-10-30": { opponent: "Augsburger Panther", weekday: "Thursday", time: "19:30" },
+  "2025-10-30": {
+    opponent: "Augsburger Panther",
+    weekday: "Thursday",
+    time: "19:30",
+  },
   "2025-11-14": { opponent: "Kölner Haie", weekday: "Friday", time: "19:30" },
-  "2025-11-21": { opponent: "ERC Ingolstadt", weekday: "Friday", time: "19:30" },
-  "2025-11-28": { opponent: "Eisbären Berlin", weekday: "Friday", time: "19:30" },
-  "2025-12-05": { opponent: "Löwen Frankfurt", weekday: "Friday", time: "19:30" },
+  "2025-11-21": {
+    opponent: "ERC Ingolstadt",
+    weekday: "Friday",
+    time: "19:30",
+  },
+  "2025-11-28": {
+    opponent: "Eisbären Berlin",
+    weekday: "Friday",
+    time: "19:30",
+  },
+  "2025-12-05": {
+    opponent: "Löwen Frankfurt",
+    weekday: "Friday",
+    time: "19:30",
+  },
   "2025-12-12": {
     opponent: "Pinguins Bremerhaven",
     weekday: "Friday",
     time: "19:30",
   },
-  "2025-12-21": { opponent: "Adler Mannheim", weekday: "Sunday", time: "14:00" },
-  "2025-12-23": { opponent: "Iserlohn Roosters", weekday: "Tuesday", time: "19:30" },
-  "2025-12-30": { opponent: "Straubing Tigers", weekday: "Tuesday", time: "19:30" },
+  "2025-12-21": {
+    opponent: "Adler Mannheim",
+    weekday: "Sunday",
+    time: "14:00",
+  },
+  "2025-12-23": {
+    opponent: "Iserlohn Roosters",
+    weekday: "Tuesday",
+    time: "19:30",
+  },
+  "2025-12-30": {
+    opponent: "Straubing Tigers",
+    weekday: "Tuesday",
+    time: "19:30",
+  },
   "2026-01-02": {
     opponent: "EHC Red Bull München",
     weekday: "Friday",
     time: "19:30",
   },
-  "2026-01-09": { opponent: "Augsburger Panther", weekday: "Friday", time: "19:30" },
-  "2026-01-11": { opponent: "Löwen Frankfurt", weekday: "Sunday", time: "14:00" },
-  "2026-01-18": { opponent: "Eisbären Berlin", weekday: "Sunday", time: "14:00" },
+  "2026-01-09": {
+    opponent: "Augsburger Panther",
+    weekday: "Friday",
+    time: "19:30",
+  },
+  "2026-01-11": {
+    opponent: "Löwen Frankfurt",
+    weekday: "Sunday",
+    time: "14:00",
+  },
+  "2026-01-18": {
+    opponent: "Eisbären Berlin",
+    weekday: "Sunday",
+    time: "14:00",
+  },
   "2026-02-25": {
     opponent: "Schwenninger Wild Wings",
     weekday: "Wednesday",
     time: "19:30",
   },
-  "2026-03-04": { opponent: "ERC Ingolstadt", weekday: "Wednesday", time: "19:30" },
-  "2026-03-08": { opponent: "Nürnberg Ice Tigers", weekday: "Sunday", time: "16:30" },
+  "2026-03-04": {
+    opponent: "ERC Ingolstadt",
+    weekday: "Wednesday",
+    time: "19:30",
+  },
+  "2026-03-08": {
+    opponent: "Nürnberg Ice Tigers",
+    weekday: "Sunday",
+    time: "16:30",
+  },
   "2026-03-13": { opponent: "Kölner Haie", weekday: "Friday", time: "19:30" },
 };
 
@@ -122,7 +184,7 @@ function convertDateFormat(dateStr: string): string {
 
 // Helper function to determine confidence based on occupancy rate (including season tickets)
 function getConfidence(occupancy: number): "high" | "medium" | "low" {
-  if (occupancy >= 0.65) return "high";  // 65%+ with season tickets
+  if (occupancy >= 0.65) return "high"; // 65%+ with season tickets
   if (occupancy >= 0.5) return "medium"; // 50-64% with season tickets
   return "low"; // <50% with season tickets
 }
@@ -169,7 +231,8 @@ const lowestOccupancyGame = initialUpcomingGames.reduce(
 // Calculate average occupancy for confidence (including season tickets)
 const avgOccupancy =
   predictionsData.reduce(
-    (sum: number, pred: PredictionData) => sum + pred.season_included_occupancy_rate,
+    (sum: number, pred: PredictionData) =>
+      sum + pred.season_included_occupancy_rate,
     0
   ) / predictionsData.length;
 
@@ -193,14 +256,24 @@ const initialKPIs: KPI[] = [
     value: `${lowestOccupancyGame.occupancy}%`,
     subtitle: `${new Date(lowestOccupancyGame.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })} vs ${lowestOccupancyGame.opponent}`,
     icon: AlertTriangle,
-    trend: lowestOccupancyGame.occupancy < 50 ? "Critical" : lowestOccupancyGame.occupancy < 65 ? "Needs attention" : "Monitor",
+    trend:
+      lowestOccupancyGame.occupancy < 50
+        ? "Critical"
+        : lowestOccupancyGame.occupancy < 65
+          ? "Needs attention"
+          : "Monitor",
   },
   {
     title: "Avg. Occupancy Rate",
     value: `${Math.round(avgOccupancy * 100)}%`,
     subtitle: "Season average (incl. season tickets)",
     icon: TrendingUp,
-    trend: avgOccupancy >= 0.6 ? "Excellent" : avgOccupancy >= 0.5 ? "Good" : "Needs improvement",
+    trend:
+      avgOccupancy >= 0.6
+        ? "Excellent"
+        : avgOccupancy >= 0.5
+          ? "Good"
+          : "Needs improvement",
   },
 ];
 

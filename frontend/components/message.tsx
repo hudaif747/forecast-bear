@@ -254,6 +254,25 @@ const PurePreviewMessage = ({
                       operator: "<" | ">" | "<=" | ">=" | "==" | "!=";
                       value: number;
                     };
+                    dataset?:
+                      | "forecast"
+                      | "upcoming"
+                      | "seasonal"
+                      | "seasonalSeries"
+                      | "forecastSeasonal"
+                      | "opponent"
+                      | "weather";
+                    season?: string;
+                  }>;
+                  historicalInsights?: Array<{
+                    title: string;
+                    insight: string;
+                    source:
+                      | "seasonal"
+                      | "seasonalSeries"
+                      | "opponent"
+                      | "historicalGames"
+                      | "weather";
                   }>;
                 };
 
@@ -266,6 +285,7 @@ const PurePreviewMessage = ({
                     <ForecastBubble
                       charts={output.charts}
                       forecasts={output.forecasts}
+                      historicalInsights={output.historicalInsights}
                       key={toolCallId}
                       summary={output.summary || ""}
                       title={output.title}

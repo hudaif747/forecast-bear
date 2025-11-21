@@ -10,8 +10,10 @@
 
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import historicalDataRaw from "./historical-data.json";
-import predictionsDataRaw from "./2025-26_predictions.json";
+import predictionsDataRaw from "./2025-26_predictions.json" with {
+  type: "json",
+};
+import historicalDataRaw from "./historical-data.json" with { type: "json" };
 
 interface HistoricalGame {
   date: string;
@@ -169,9 +171,10 @@ function processForecastData(): SeasonalForecastPoint[] {
 
   for (const prediction of predictionsData) {
     const [day, month] = prediction.date.split(".");
-    const monthAbbr = new Date(
-      `2025-${month}-${day}`
-    ).toLocaleDateString("en-US", { month: "short" });
+    const monthAbbr = new Date(`2025-${month}-${day}`).toLocaleDateString(
+      "en-US",
+      { month: "short" }
+    );
 
     if (!monthMap[monthAbbr]) {
       monthMap[monthAbbr] = { total: 0, count: 0 };

@@ -13,7 +13,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useDashboardStore } from "@/lib/store";
+import { useAnalyticsStore, useDashboardStore } from "@/lib/store";
 
 type ForecastGame = {
   gameId: number;
@@ -32,6 +32,15 @@ type ForecastGame = {
   };
 };
 
+type ChartDataset =
+  | "forecast"
+  | "upcoming"
+  | "seasonal"
+  | "seasonalSeries"
+  | "forecastSeasonal"
+  | "opponent"
+  | "weather";
+
 type ForecastBubbleProps = {
   title: string;
   summary: string;
@@ -41,11 +50,23 @@ type ForecastBubbleProps = {
     xKey: string;
     yKey: string;
     title: string;
+    dataset?: ChartDataset;
+    season?: string;
     filter?: {
       field: string;
       operator: "<" | ">" | "<=" | ">=" | "==" | "!=";
       value: number;
     };
+  }>;
+  historicalInsights?: Array<{
+    title: string;
+    insight: string;
+    source:
+      | "seasonal"
+      | "seasonalSeries"
+      | "opponent"
+      | "historicalGames"
+      | "weather";
   }>;
 };
 
@@ -62,8 +83,16 @@ export function ForecastBubble({
   summary,
   forecasts,
   charts = [],
+  historicalInsights = [],
 }: ForecastBubbleProps) {
   const { upcomingGames } = useDashboardStore();
+  const {
+    seasonalSeries,
+    seasonalData,
+    forecastSeasonalData,
+    opponentData,
+    weatherData,
+  } = useAnalyticsStore();
 
   // Merge forecast data with upcoming games data for charting
   const forecastData = useMemo(() => {
@@ -105,12 +134,52 @@ export function ForecastBubble({
         ]
       : charts;
 
+  const getDataset = (
+    datasetName: ChartDataset | undefined,
+    seasonLabel?: string
+  ): unknown[] => {
+    const targetDataset = datasetName ?? "forecast";
+
+    switch (targetDataset) {
+      case "upcoming":
+        return upcomingGames;
+      case "seasonal":
+        return seasonalData;
+      case "seasonalSeries": {
+        const seriesEntry =
+          seasonalSeries.find(
+            (seasonEntry) => seasonEntry.season === seasonLabel
+          ) ?? seasonalSeries[0];
+        return seriesEntry ? seriesEntry.points : [];
+      }
+      case "forecastSeasonal":
+        return forecastSeasonalData;
+      case "opponent":
+        return opponentData;
+      case "weather":
+        return weatherData;
+      case "forecast":
+        return forecastData;
+      default:
+        return forecastData;
+    }
+  };
+
   const renderChart = (
     chart: {
       type: "bar" | "line" | "area";
       xKey: string;
       yKey: string;
       title: string;
+      dataset?:
+        | "forecast"
+        | "upcoming"
+        | "seasonal"
+        | "seasonalSeries"
+        | "forecastSeasonal"
+        | "opponent"
+        | "weather";
+      season?: string;
       filter?: {
         field: string;
         operator: "<" | ">" | "<=" | ">=" | "==" | "!=";
@@ -119,10 +188,15 @@ export function ForecastBubble({
     },
     index: number
   ) => {
-    let data = forecastData.map((f) => ({
-      [chart.xKey]: f[chart.xKey as keyof typeof f],
-      [chart.yKey]: f[chart.yKey as keyof typeof f],
-    }));
+    const dataSource = getDataset(chart.dataset, chart.season);
+
+    let data = dataSource.map((item) => {
+      const record = item as Record<string, unknown>;
+      return {
+        [chart.xKey]: record[chart.xKey],
+        [chart.yKey]: record[chart.yKey],
+      };
+    });
 
     // Apply filter if provided
     if (chart.filter) {
@@ -273,6 +347,20 @@ export function ForecastBubble({
     <div className="my-4 rounded-lg border bg-card p-6">
       <h2 className="mb-4 font-bold text-xl">{title}</h2>
       {summary && <div className="mb-6 text-muted-foreground">{summary}</div>}
+
+      {historicalInsights.length > 0 && (
+        <div className="mb-6 space-y-2">
+          <h3 className="font-semibold">Historical context</h3>
+          <ul className="space-y-1 text-muted-foreground text-sm">
+            {historicalInsights.map((insight) => (
+              <li key={`${insight.title}-${insight.source}`}>
+                <strong className="text-foreground">{insight.title}:</strong>{" "}
+                {insight.insight}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {defaultCharts.length > 0 && (
         <div className="mb-6 space-y-6">
