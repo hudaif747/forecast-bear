@@ -122,7 +122,6 @@ export function AppSidebar({ user }: { user: User | undefined }) {
         <SidebarContent>
           <SidebarHistory user={user} />
         </SidebarContent>
-        
       </Sidebar>
 
       <AlertDialog

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import type { TooltipProps } from "recharts";
 import {
   Bar,
   BarChart,
@@ -17,7 +18,6 @@ import {
   YAxis,
   ZAxis,
 } from "recharts";
-import type { TooltipProps } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnalyticsStore, useDashboardStore } from "@/lib/store";
@@ -95,7 +95,7 @@ export default function Analytics() {
         {
           month: "short",
           day: "numeric",
-        },
+        }
       )}`,
       revenue: game.predictedRevenue,
       occupancy: game.occupancy,
@@ -248,7 +248,9 @@ export default function Analytics() {
             </p>
           ) : (
             <ResponsiveContainer height={360} width="100%">
-              <ScatterChart margin={{ top: 16, right: 24, bottom: 12, left: 12 }}>
+              <ScatterChart
+                margin={{ top: 16, right: 24, bottom: 12, left: 12 }}
+              >
                 <CartesianGrid
                   stroke="hsl(var(--border))"
                   strokeDasharray="3 3"
@@ -273,13 +275,16 @@ export default function Analytics() {
                   range={[60, 200]}
                   type="number"
                 />
-                <Tooltip cursor={{ strokeDasharray: "3 3" }} content={<RiskTooltip />} />
+                <Tooltip
+                  content={<RiskTooltip />}
+                  cursor={{ strokeDasharray: "3 3" }}
+                />
                 <Legend />
                 <Scatter data={riskPoints} name="Games">
                   {riskPoints.map((point) => (
                     <Cell
-                      key={point.id}
                       fill={confidenceColors[point.confidence]}
+                      key={point.id}
                     />
                   ))}
                 </Scatter>

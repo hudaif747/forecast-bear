@@ -1,23 +1,27 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import type { ReactNode } from "react";
+import { Button } from "@/components/ui/button";
 
-export default function MissionControlLayout({ children }: { children: ReactNode }) {
+export default function MissionControlLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const router = useRouter();
 
   return (
     <div className="fixed inset-0 z-50 overflow-auto bg-background">
       {/* Exit button */}
-      <div className="absolute right-4 top-4 z-50">
+      <div className="absolute top-4 right-4 z-50">
         <Button
-          variant="outline"
-          size="icon"
-          onClick={() => router.push("/dashboard")}
-          className="h-10 w-10 rounded-full bg-background/80 backdrop-blur-sm border-border/50 hover:bg-background"
           aria-label="Exit Mission Control"
+          className="h-10 w-10 rounded-full border-border/50 bg-background/80 backdrop-blur-sm hover:bg-background"
+          onClick={() => router.push("/dashboard")}
+          size="icon"
+          variant="outline"
         >
           <X className="h-5 w-5" />
         </Button>
@@ -26,4 +30,3 @@ export default function MissionControlLayout({ children }: { children: ReactNode
     </div>
   );
 }
-

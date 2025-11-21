@@ -1,6 +1,8 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { useMemo, useState } from "react";
+import type { TooltipProps } from "recharts";
 import {
   Area,
   AreaChart,
@@ -12,11 +14,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import type { TooltipProps } from "recharts";
-import { Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -24,9 +24,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 import { useAnalyticsStore, useDashboardStore } from "@/lib/store";
 import type { SeasonalDataPoint } from "@/lib/store/types";
+import { cn } from "@/lib/utils";
 
 const seasonMonths = ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"] as const;
 
@@ -51,10 +51,10 @@ const formatMonth = (dateString: string) =>
 
 const monthButtonClasses = (isActive: boolean) =>
   cn(
-    "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+    "flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-medium text-sm transition-colors",
     isActive
       ? "border-primary bg-primary/10 text-primary shadow-sm"
-      : "border-border/70 text-muted-foreground hover:border-primary/40 hover:text-foreground",
+      : "border-border/70 text-muted-foreground hover:border-primary/40 hover:text-foreground"
   );
 
 function WeekdayTooltip({ active, payload }: TooltipProps<number, string>) {
@@ -84,11 +84,11 @@ export default function SeasonAttendanceOutlook() {
   const { upcomingGames } = useDashboardStore();
   const { seasonalSeries, seasonalData, forecastSeasonalData } =
     useAnalyticsStore();
-  const [selectedMonths, setSelectedMonths] = useState<string[]>(
-    () => [...seasonMonths],
-  );
+  const [selectedMonths, setSelectedMonths] = useState<string[]>(() => [
+    ...seasonMonths,
+  ]);
   const [seasonOption, setSeasonOption] = useState<string>(
-    () => (seasonalSeries[0]?.season ?? "Current"),
+    () => seasonalSeries[0]?.season ?? "Current"
   );
 
   const historicalSeason = useMemo(() => {
@@ -102,12 +102,12 @@ export default function SeasonAttendanceOutlook() {
       for (const series of seasonalSeries) {
         for (const point of series.points) {
           if (
-            seasonMonths.includes(
-              point.month as (typeof seasonMonths)[number],
-            )
+            seasonMonths.includes(point.month as (typeof seasonMonths)[number])
           ) {
-            const existing =
-              monthAggregates.get(point.month) ?? { total: 0, count: 0 };
+            const existing = monthAggregates.get(point.month) ?? {
+              total: 0,
+              count: 0,
+            };
             monthAggregates.set(point.month, {
               total: existing.total + point.tickets,
               count: existing.count + 1,
@@ -124,20 +124,20 @@ export default function SeasonAttendanceOutlook() {
     }
 
     const baseline = seasonalSeries.find(
-      (series) => series.season === seasonOption,
+      (series) => series.season === seasonOption
     );
     const points = baseline ? baseline.points : seasonalData;
     return points.filter((point: SeasonalDataPoint) =>
-      seasonMonths.includes(point.month as (typeof seasonMonths)[number]),
+      seasonMonths.includes(point.month as (typeof seasonMonths)[number])
     );
   }, [seasonOption, seasonalData, seasonalSeries]);
 
   const performanceData = useMemo(() => {
     const historicalMap = new Map(
-      historicalSeason.map((item) => [item.month, item]),
+      historicalSeason.map((item) => [item.month, item])
     );
     const forecastMap = new Map(
-      forecastSeasonalData.map((item) => [item.month, item]),
+      forecastSeasonalData.map((item) => [item.month, item])
     );
 
     return seasonMonths.map((month) => ({
@@ -148,20 +148,15 @@ export default function SeasonAttendanceOutlook() {
   }, [forecastSeasonalData, historicalSeason]);
 
   const filteredPerformanceData = useMemo(
-    () =>
-      performanceData.filter((item) =>
-        selectedMonths.includes(item.month),
-      ),
-    [performanceData, selectedMonths],
+    () => performanceData.filter((item) => selectedMonths.includes(item.month)),
+    [performanceData, selectedMonths]
   );
 
   const weekdayInsightData = useMemo<WeekdayPoint[]>(() => {
     const aggregates = new Map<
       (typeof weekdayOrder)[number],
       { totalTickets: number; games: number }
-    >(
-      weekdayOrder.map((weekday) => [weekday, { totalTickets: 0, games: 0 }]),
-    );
+    >(weekdayOrder.map((weekday) => [weekday, { totalTickets: 0, games: 0 }]));
 
     for (const game of upcomingGames) {
       const monthLabel = formatMonth(game.date);
@@ -213,7 +208,7 @@ export default function SeasonAttendanceOutlook() {
         <CardTitle className="text-foreground text-xl">
           Season Attendance Outlook
         </CardTitle>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Filter the September–March season and compare match-day performance.
         </p>
       </CardHeader>
@@ -221,14 +216,14 @@ export default function SeasonAttendanceOutlook() {
         {/* Season Selector */}
         <div className="flex items-center justify-between rounded-lg border border-border/70 bg-muted/30 px-4 py-3">
           <div>
-            <p className="text-sm font-medium text-foreground">
+            <p className="font-medium text-foreground text-sm">
               Compare Historical Season
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Select a past season or view aggregated data across all seasons
             </p>
           </div>
-          <Select value={seasonOption} onValueChange={setSeasonOption}>
+          <Select onValueChange={setSeasonOption} value={seasonOption}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select season" />
             </SelectTrigger>
@@ -247,10 +242,10 @@ export default function SeasonAttendanceOutlook() {
         <div className="rounded-xl border border-border/70 bg-muted/30 p-4">
           <div className="flex flex-wrap items-center gap-3">
             <div>
-              <p className="text-sm font-medium text-foreground">
+              <p className="font-medium text-foreground text-sm">
                 Season months
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Tap to focus on specific stretches of the schedule
               </p>
             </div>
@@ -258,10 +253,10 @@ export default function SeasonAttendanceOutlook() {
               {selectedMonths.length}/{seasonMonths.length} selected
             </Badge>
             <Button
+              className="text-muted-foreground"
               onClick={selectAllMonths}
               size="sm"
               variant="ghost"
-              className="text-muted-foreground"
             >
               Select all
             </Button>
@@ -271,11 +266,11 @@ export default function SeasonAttendanceOutlook() {
               const isActive = selectedMonths.includes(month);
               return (
                 <button
-                  key={month}
-                  type="button"
                   aria-pressed={isActive}
                   className={monthButtonClasses(isActive)}
+                  key={month}
                   onClick={() => toggleMonth(month)}
+                  type="button"
                 >
                   {isActive && <Check className="h-3.5 w-3.5" />}
                   {month}
@@ -295,8 +290,8 @@ export default function SeasonAttendanceOutlook() {
                   <linearGradient
                     id="historicalGradient"
                     x1="0"
-                    y1="0"
                     x2="0"
+                    y1="0"
                     y2="1"
                   >
                     <stop
@@ -313,8 +308,8 @@ export default function SeasonAttendanceOutlook() {
                   <linearGradient
                     id="forecastGradient"
                     x1="0"
-                    y1="0"
                     x2="0"
+                    y1="0"
                     y2="1"
                   >
                     <stop
@@ -345,6 +340,7 @@ export default function SeasonAttendanceOutlook() {
                 />
                 <Area
                   dataKey="historical"
+                  fill="url(#historicalGradient)"
                   name={
                     seasonOption === "all"
                       ? "Average Historical Tickets (All Seasons)"
@@ -352,16 +348,15 @@ export default function SeasonAttendanceOutlook() {
                   }
                   stroke="hsl(var(--primary))"
                   strokeWidth={2.5}
-                  fill="url(#historicalGradient)"
                   type="monotone"
                 />
                 <Area
                   dataKey="forecast"
+                  fill="url(#forecastGradient)"
                   name="Forecast Tickets"
                   stroke="hsl(var(--chart-2))"
-                  strokeWidth={2.5}
                   strokeDasharray="4 4"
-                  fill="url(#forecastGradient)"
+                  strokeWidth={2.5}
                   type="monotone"
                 />
               </AreaChart>
@@ -369,15 +364,15 @@ export default function SeasonAttendanceOutlook() {
           </div>
           <div className="rounded-xl border border-border p-4">
             <div>
-              <p className="text-sm font-medium text-foreground">
+              <p className="font-medium text-foreground text-sm">
                 Match Day Insights
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Avg. predicted tickets by weekday
               </p>
             </div>
             {weekdayInsightData.length === 0 ? (
-              <p className="mt-6 text-sm text-muted-foreground">
+              <p className="mt-6 text-muted-foreground text-sm">
                 No games scheduled for the selected months.
               </p>
             ) : (
@@ -419,4 +414,3 @@ export default function SeasonAttendanceOutlook() {
     </Card>
   );
 }
-

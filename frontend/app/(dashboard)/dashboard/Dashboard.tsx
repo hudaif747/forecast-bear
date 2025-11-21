@@ -134,8 +134,8 @@ export default function Dashboard() {
         </CardContent>
       </Card>
 
-       {/* Seasonal Performance */}
-       <SeasonAttendanceOutlook />
+      {/* Seasonal Performance */}
+      <SeasonAttendanceOutlook />
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

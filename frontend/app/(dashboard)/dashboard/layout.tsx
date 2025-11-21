@@ -1,15 +1,14 @@
-
 import { SessionProvider } from "next-auth/react";
 import type { ReactNode } from "react";
+import { auth } from "@/app/(auth)/auth";
+import { SidebarUserNav } from "@/components/sidebar-user-nav";
 import {
   SidebarContent,
   SidebarFooter,
   SidebarProvider,
 } from "@/components/ui/sidebar";
-import { auth } from "@/app/(auth)/auth";
-import { SidebarUserNav } from "@/components/sidebar-user-nav";
-import { DashboardHeader } from "./DashboardHeader";
 import { AppSidebarClient } from "./AppSidebarClient";
+import { DashboardHeader } from "./DashboardHeader";
 import { SidebarLogo } from "./SidebarLogo";
 import { SidebarNavigation } from "./SidebarNavigation";
 

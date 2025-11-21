@@ -80,7 +80,8 @@ const initialSeasonalSeries: SeasonalSeries[] = [
   },
 ];
 
-const initialSeasonalData: SeasonalDataPoint[] = initialSeasonalSeries[0].points;
+const initialSeasonalData: SeasonalDataPoint[] =
+  initialSeasonalSeries[0].points;
 
 const initialForecastSeasonalData: SeasonalForecastPoint[] = [
   { month: "Sep", forecastTickets: 3350 },

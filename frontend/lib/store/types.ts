@@ -14,10 +14,10 @@
 
 export type {
   AnalyticsStoreState,
-  SeasonalSeries,
-  SeasonalForecastPoint,
   OpponentDataPoint,
   SeasonalDataPoint,
+  SeasonalForecastPoint,
+  SeasonalSeries,
   WeatherDataPoint,
 } from "./use-analytics-store";
 export type {
