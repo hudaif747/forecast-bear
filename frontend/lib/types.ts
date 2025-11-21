@@ -1,6 +1,5 @@
 import type { InferUITool, UIMessage } from "ai";
 import { z } from "zod";
-import type { generateChart } from "./ai/tools/generate-chart";
 import type { generateForecast } from "./ai/tools/generate-forecast";
 import type { getStoreData } from "./ai/tools/get-store-data";
 import type { getWeather } from "./ai/tools/get-weather";
@@ -16,13 +15,11 @@ export type MessageMetadata = z.infer<typeof messageMetadataSchema>;
 
 type weatherTool = InferUITool<typeof getWeather>;
 type getStoreDataTool = InferUITool<ReturnType<typeof getStoreData>>;
-type generateChartTool = InferUITool<ReturnType<typeof generateChart>>;
 type generateForecastTool = InferUITool<ReturnType<typeof generateForecast>>;
 
 export type ChatTools = {
   getWeather: weatherTool;
   getStoreData: getStoreDataTool;
-  generateChart: generateChartTool;
   generateForecast: generateForecastTool;
 };
 

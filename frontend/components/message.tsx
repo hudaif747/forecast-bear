@@ -6,7 +6,6 @@ import { memo, useState } from "react";
 import type { Vote } from "@/lib/db/schema";
 import type { ChatMessage } from "@/lib/types";
 import { cn, sanitizeText } from "@/lib/utils";
-import { ChartBubble } from "./chart-bubble";
 import { useDataStream } from "./data-stream-provider";
 import { MessageContent } from "./elements/message";
 import { Response } from "./elements/response";
@@ -126,7 +125,7 @@ const PurePreviewMessage = ({
                   <div key={key}>
                     <MessageContent
                       className={cn({
-                        "w-fit break-words rounded-2xl px-3 py-2 text-right text-white":
+                        "wrap-break-word w-fit rounded-2xl bg-primary px-4 py-2 text-right text-primary-foreground":
                           message.role === "user",
                         "bg-transparent px-0 py-0 text-left":
                           message.role === "assistant",
@@ -134,7 +133,7 @@ const PurePreviewMessage = ({
                       data-testid="message-content"
                       style={
                         message.role === "user"
-                          ? { backgroundColor: "#006cff" }
+                          ? { backgroundColor: "#eb6911" }
                           : undefined
                       }
                     >
@@ -186,56 +185,44 @@ const PurePreviewMessage = ({
               );
             }
 
-            if (type === "tool-generateChart") {
-              const { toolCallId, state } = part;
-
-              if (state === "output-available" && part.output) {
-                const output = part.output as {
-                  type?: string;
-                  title?: string;
-                  chartType?: "bar" | "line" | "area";
-                  dataSource?:
-                    | "seasonal"
-                    | "opponent"
-                    | "weather"
-                    | "upcomingGames";
-                  xKey?: string;
-                  yKey?: string;
-                  filter?: {
-                    field: string;
-                    operator: "<" | ">" | "<=" | ">=" | "==" | "!=";
-                    value: number;
-                  };
-                };
-
-                if (
-                  output.type === "chart" &&
-                  output.title &&
-                  output.chartType &&
-                  output.dataSource &&
-                  output.xKey &&
-                  output.yKey
-                ) {
-                  return (
-                    <ChartBubble
-                      chartType={output.chartType}
-                      dataSource={output.dataSource}
-                      filter={output.filter}
-                      key={toolCallId}
-                      title={output.title}
-                      xKey={output.xKey}
-                      yKey={output.yKey}
-                    />
-                  );
-                }
-              }
-
-              return null;
-            }
-
             if (type === "tool-generateForecast") {
               const { toolCallId, state } = part;
 
+              // Show loading state while tool is running
+              if (state === "input-streaming" || state === "input-available") {
+                return (
+                  <Tool defaultOpen={true} key={toolCallId}>
+                    <ToolHeader state={state} type="tool-generateForecast" />
+                    <ToolContent>
+                      {state === "input-available" && (
+                        <ToolInput input={part.input} />
+                      )}
+                      <div className="flex items-center justify-center p-8">
+                        <div className="flex flex-col items-center gap-2">
+                          <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                          <p className="text-muted-foreground text-sm">
+                            Generating forecast and charts...
+                          </p>
+                        </div>
+                      </div>
+                    </ToolContent>
+                  </Tool>
+                );
+              }
+
+              // Show error state
+              if (state === "output-error") {
+                return (
+                  <Tool defaultOpen={true} key={toolCallId}>
+                    <ToolHeader state={state} type="tool-generateForecast" />
+                    <ToolContent>
+                      <ToolOutput errorText={part.errorText} output={null} />
+                    </ToolContent>
+                  </Tool>
+                );
+              }
+
+              // Show completed forecast
               if (state === "output-available" && part.output) {
                 const output = part.output as {
                   type?: string;
@@ -262,6 +249,11 @@ const PurePreviewMessage = ({
                     xKey: string;
                     yKey: string;
                     title: string;
+                    filter?: {
+                      field: string;
+                      operator: "<" | ">" | "<=" | ">=" | "==" | "!=";
+                      value: number;
+                    };
                   }>;
                 };
 
