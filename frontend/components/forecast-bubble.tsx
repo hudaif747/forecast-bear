@@ -23,12 +23,12 @@ type ForecastGame = {
   predictedRevenue: number;
   occupancy: number;
   confidence: "high" | "medium" | "low";
-  explanations: {
-    opponent: string;
-    revenue: string;
+  explanations?: {
+    opponent?: string;
+    revenue?: string;
     weather?: string;
-    weekday: string;
-    overall: string;
+    weekday?: string;
+    overall?: string;
   };
 };
 
@@ -333,7 +333,7 @@ export function ForecastBubble({
                   <div className="font-semibold">{forecast.occupancy}%</div>
                 </div>
               </div>
-              {forecast.explanations && (
+              {forecast.explanations?.overall && (
                 <div className="mt-4 border-t pt-4">
                   <div className="text-muted-foreground text-sm">
                     <strong>Explanation:</strong>{" "}
