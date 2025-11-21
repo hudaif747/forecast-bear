@@ -14,6 +14,8 @@
 
 export type {
   AnalyticsStoreState,
+  SeasonalSeries,
+  SeasonalForecastPoint,
   OpponentDataPoint,
   SeasonalDataPoint,
   WeatherDataPoint,

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import { useDashboardStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import SeasonAttendanceOutlook from "./SeasonAttendanceOutlook";
 
 const confidenceColors = {
   high: "bg-success/20 text-success border-success",
@@ -30,6 +31,7 @@ const rowColors = {
 export default function Dashboard() {
   const router = useRouter();
   const { upcomingGames, kpis } = useDashboardStore();
+
   return (
     <div className="space-y-6 p-6">
       {/* KPI Cards */}
@@ -131,6 +133,9 @@ export default function Dashboard() {
           </Table>
         </CardContent>
       </Card>
+
+       {/* Seasonal Performance */}
+       <SeasonAttendanceOutlook />
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
