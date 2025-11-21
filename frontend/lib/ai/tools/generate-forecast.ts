@@ -57,7 +57,9 @@ export const generateForecast = () =>
                 "historicalGames",
                 "weather",
               ])
-              .describe("Which store dataset backs this insight."),
+              .describe(
+                "Which HISTORICAL dataset backs this insight. MUST be a historical source only. DO NOT use 'forecastSeasonal', 'upcoming', or 'forecast' here. Use historicalInsights only for past season/game context."
+              ),
           })
         )
         .optional(),
