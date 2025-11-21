@@ -22,7 +22,6 @@ import { entitlementsByUserType } from "@/lib/ai/entitlements";
 import type { ChatModel } from "@/lib/ai/models";
 import { type RequestHints, systemPrompt } from "@/lib/ai/prompts";
 import { myProvider } from "@/lib/ai/providers";
-import { generateChart } from "@/lib/ai/tools/generate-chart";
 import { generateForecast } from "@/lib/ai/tools/generate-forecast";
 import { getStoreData } from "@/lib/ai/tools/get-store-data";
 import { getWeather } from "@/lib/ai/tools/get-weather";
@@ -187,17 +186,11 @@ export async function POST(request: Request) {
           experimental_activeTools:
             selectedChatModel === "chat-model-reasoning"
               ? []
-              : [
-                  "getWeather",
-                  "getStoreData",
-                  "generateChart",
-                  "generateForecast",
-                ],
+              : ["getWeather", "getStoreData", "generateForecast"],
           experimental_transform: smoothStream({ chunking: "word" }),
           tools: {
             getWeather,
             getStoreData: getStoreData(),
-            generateChart: generateChart(),
             generateForecast: generateForecast(),
           },
           experimental_telemetry: {

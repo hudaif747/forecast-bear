@@ -8,8 +8,6 @@ import {
   BarChart,
   CartesianGrid,
   Legend,
-  Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -43,8 +41,15 @@ type ForecastBubbleProps = {
     xKey: string;
     yKey: string;
     title: string;
+    filter?: {
+      field: string;
+      operator: "<" | ">" | "<=" | ">=" | "==" | "!=";
+      value: number;
+    };
   }>;
 };
+
+const CHART_COLORS = ["#eb6911", "#b5866e", "#fff7f1", "#dfe0df"];
 
 const COLORS = {
   high: "#22c55e",
@@ -86,7 +91,7 @@ export function ForecastBubble({
             title: "Predicted Attendance by Opponent",
           },
           {
-            type: "line" as const,
+            type: "area" as const,
             xKey: "date",
             yKey: "predictedRevenue",
             title: "Revenue Forecast Trend",
@@ -100,79 +105,162 @@ export function ForecastBubble({
         ]
       : charts;
 
-  const renderChart = (chart: {
-    type: "bar" | "line" | "area";
-    xKey: string;
-    yKey: string;
-    title: string;
-  }) => {
-    const data = forecastData.map((f) => ({
+  const renderChart = (
+    chart: {
+      type: "bar" | "line" | "area";
+      xKey: string;
+      yKey: string;
+      title: string;
+      filter?: {
+        field: string;
+        operator: "<" | ">" | "<=" | ">=" | "==" | "!=";
+        value: number;
+      };
+    },
+    index: number
+  ) => {
+    let data = forecastData.map((f) => ({
       [chart.xKey]: f[chart.xKey as keyof typeof f],
       [chart.yKey]: f[chart.yKey as keyof typeof f],
     }));
 
+    // Apply filter if provided
+    if (chart.filter) {
+      const filter = chart.filter;
+      data = data.filter((item) => {
+        const fieldValue = item[filter.field as keyof typeof item];
+        if (typeof fieldValue !== "number") {
+          return false;
+        }
+        switch (filter.operator) {
+          case "<":
+            return fieldValue < filter.value;
+          case ">":
+            return fieldValue > filter.value;
+          case "<=":
+            return fieldValue <= filter.value;
+          case ">=":
+            return fieldValue >= filter.value;
+          case "==":
+            return fieldValue === filter.value;
+          case "!=":
+            return fieldValue !== filter.value;
+          default:
+            return true;
+        }
+      });
+    }
+
+    const color = CHART_COLORS[index % CHART_COLORS.length];
+    const gradientId = `gradient-${index}`;
+
     if (chart.type === "bar") {
       return (
-        <div className="h-64 w-full">
+        <div className="h-80 min-h-80 w-full">
           <ResponsiveContainer height="100%" width="100%">
             <BarChart
               data={data}
               margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              <defs>
+                <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor={color} stopOpacity={1} />
+                  <stop offset="100%" stopColor={color} stopOpacity={0.3} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid
+                stroke="hsl(var(--muted-foreground) / 0.1)"
+                vertical={false}
+              />
               <XAxis dataKey={chart.xKey} />
               <YAxis />
-              <Tooltip />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "hsl(var(--background))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "0.5rem",
+                  color: "hsl(var(--foreground))",
+                }}
+                itemStyle={{ color: "hsl(var(--foreground))" }}
+                labelStyle={{ color: "hsl(var(--foreground))" }}
+              />
               <Legend />
-              <Bar dataKey={chart.yKey} fill={COLORS.high} />
+              <Bar dataKey={chart.yKey} fill={`url(#${gradientId})`} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       );
     }
 
-    if (chart.type === "line") {
+    // Treat "line" as "area" - always use area charts
+    if (chart.type === "line" || chart.type === "area") {
       return (
-        <div className="h-64 w-full">
+        <div className="h-80 min-h-80 w-full">
           <ResponsiveContainer height="100%" width="100%">
-            <LineChart
+            <AreaChart
               data={data}
               margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              <defs>
+                <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor={color} stopOpacity={0.8} />
+                  <stop offset="100%" stopColor={color} stopOpacity={0.2} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid
+                stroke="hsl(var(--muted-foreground) / 0.1)"
+                vertical={false}
+              />
               <XAxis dataKey={chart.xKey} />
               <YAxis />
-              <Tooltip />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "hsl(var(--background))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "0.5rem",
+                  color: "hsl(var(--foreground))",
+                }}
+                itemStyle={{ color: "hsl(var(--foreground))" }}
+                labelStyle={{ color: "hsl(var(--foreground))" }}
+              />
               <Legend />
-              <Line
+              <Area
                 dataKey={chart.yKey}
-                stroke={COLORS.high}
-                strokeWidth={2}
+                fill={`url(#${gradientId})`}
+                stroke={color}
                 type="monotone"
               />
-            </LineChart>
+            </AreaChart>
           </ResponsiveContainer>
         </div>
       );
     }
 
     return (
-      <div className="h-64 w-full">
+      <div className="h-80 min-h-80 w-full">
         <ResponsiveContainer height="100%" width="100%">
           <AreaChart
             data={data}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <defs>
+              <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor={color} stopOpacity={0.8} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.2} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid
+              stroke="hsl(var(--muted-foreground) / 0.1)"
+              vertical={false}
+            />
             <XAxis dataKey={chart.xKey} />
             <YAxis />
             <Tooltip />
             <Legend />
             <Area
               dataKey={chart.yKey}
-              fill={COLORS.high}
-              fillOpacity={0.6}
-              stroke={COLORS.high}
+              fill={`url(#${gradientId})`}
+              stroke={color}
               type="monotone"
             />
           </AreaChart>
@@ -189,9 +277,9 @@ export function ForecastBubble({
       {defaultCharts.length > 0 && (
         <div className="mb-6 space-y-6">
           {defaultCharts.map((chart, index) => (
-            <div key={`chart-${index}`}>
+            <div key={chart.title}>
               <h3 className="mb-3 font-semibold">{chart.title}</h3>
-              {renderChart(chart)}
+              {renderChart(chart, index)}
             </div>
           ))}
         </div>
