@@ -15,6 +15,8 @@ export type { StoreState } from "./use-store";
 export type {
   AnalyticsStoreState,
   SeasonalDataPoint,
+  SeasonalSeries,
+  SeasonalForecastPoint,
   OpponentDataPoint,
   WeatherDataPoint,
 } from "./use-analytics-store";

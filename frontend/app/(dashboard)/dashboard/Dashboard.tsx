@@ -14,6 +14,7 @@ import {
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useDashboardStore } from "@/lib/store";
+import SeasonAttendanceOutlook from "./SeasonAttendanceOutlook";
 
 const confidenceColors = {
   high: "bg-success/20 text-success border-success",
@@ -30,6 +31,7 @@ const rowColors = {
 export default function Dashboard() {
   const router = useRouter();
   const { upcomingGames, kpis } = useDashboardStore();
+
   return (
     <div className="space-y-6 p-6">
       {/* KPI Cards */}
@@ -56,6 +58,9 @@ export default function Dashboard() {
           </Card>
         ))}
       </div>
+
+      {/* Seasonal Performance */}
+      <SeasonAttendanceOutlook />
 
       {/* Upcoming Games Forecast Table */}
       <Card className="border-border">
