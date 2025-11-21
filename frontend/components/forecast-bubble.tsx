@@ -229,23 +229,32 @@ export function ForecastBubble({
       );
     }
 
-    let data = dataSource
-      .map((item) => {
+    const mappedData: Array<Record<string, unknown> | null> = dataSource.map(
+      (item) => {
         const record = item as Record<string, unknown>;
         const xValue = record[chart.xKey];
         const yValue = record[chart.yKey];
-        
+
         // Skip items where required keys are missing or undefined
-        if (xValue === undefined || xValue === null || yValue === undefined || yValue === null) {
+        if (
+          xValue === undefined ||
+          xValue === null ||
+          yValue === undefined ||
+          yValue === null
+        ) {
           return null;
         }
-        
+
         return {
           [chart.xKey]: xValue,
           [chart.yKey]: yValue,
-        };
-      })
-      .filter((item): item is Record<string, unknown> => item !== null);
+        } as Record<string, unknown>;
+      }
+    );
+
+    let data = mappedData.filter(
+      (item): item is Record<string, unknown> => item !== null
+    );
 
     // Apply filter if provided
     if (chart.filter) {
@@ -316,14 +325,15 @@ export function ForecastBubble({
                   borderRadius: "0.5rem",
                   color: "hsl(var(--foreground))",
                 }}
+                formatter={(value, name) => {
+                  const nameStr = String(name);
+                  if (typeof value === "number") {
+                    return [value.toLocaleString(), formatFieldName(nameStr)];
+                  }
+                  return [value, formatFieldName(nameStr)];
+                }}
                 itemStyle={{ color: "hsl(var(--foreground))" }}
                 labelStyle={{ color: "hsl(var(--foreground))" }}
-                formatter={(value, name) => {
-                  if (typeof value === "number") {
-                    return [value.toLocaleString(), formatFieldName(name)];
-                  }
-                  return [value, formatFieldName(name)];
-                }}
               />
               <Legend />
               <Bar dataKey={chart.yKey} fill={`url(#${gradientId})`} />
@@ -364,14 +374,15 @@ export function ForecastBubble({
                   borderRadius: "0.5rem",
                   color: "hsl(var(--foreground))",
                 }}
+                formatter={(value, name) => {
+                  const nameStr = String(name);
+                  if (typeof value === "number") {
+                    return [value.toLocaleString(), formatFieldName(nameStr)];
+                  }
+                  return [value, formatFieldName(nameStr)];
+                }}
                 itemStyle={{ color: "hsl(var(--foreground))" }}
                 labelStyle={{ color: "hsl(var(--foreground))" }}
-                formatter={(value, name) => {
-                  if (typeof value === "number") {
-                    return [value.toLocaleString(), formatFieldName(name)];
-                  }
-                  return [value, formatFieldName(name)];
-                }}
               />
               <Legend />
               <Area

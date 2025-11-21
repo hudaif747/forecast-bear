@@ -13,7 +13,6 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
 // Import predictions data
-// @ts-expect-error
 import predictionsDataRaw from "./2025-26_predictions.json" with {
   type: "json",
 };
