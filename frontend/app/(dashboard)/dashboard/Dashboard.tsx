@@ -59,9 +59,6 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Seasonal Performance */}
-      <SeasonAttendanceOutlook />
-
       {/* Upcoming Games Forecast Table */}
       <Card className="border-border">
         <CardHeader>
@@ -136,6 +133,9 @@ export default function Dashboard() {
           </Table>
         </CardContent>
       </Card>
+
+       {/* Seasonal Performance */}
+       <SeasonAttendanceOutlook />
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

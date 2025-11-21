@@ -6,12 +6,15 @@ import {
   Home,
   MessageSquare,
   Settings,
+  Rocket,
+  Maximize2,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -22,6 +25,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { NavLink } from "./NavLink";
@@ -61,6 +65,7 @@ function getPageTitle(pathname: string): string {
 
 function AppSidebar() {
   const { state } = useSidebar();
+  const router = useRouter();
   const isCollapsed = state === "collapsed";
 
   return (
@@ -108,6 +113,26 @@ function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      <SidebarFooter className="p-4">
+        <Button
+          onClick={() => router.push("/dashboard/mission-control")}
+          className={cn(
+            "w-full gap-2 bg-primary hover:bg-primary/90 text-primary-foreground",
+            isCollapsed && "h-10 w-10 p-0"
+          )}
+          size={isCollapsed ? "icon" : "default"}
+          aria-label={isCollapsed ? "Launch Mission Control" : undefined}
+        >
+          <Rocket className="h-4 w-4 shrink-0" />
+          {!isCollapsed && (
+            <>
+              <span className="font-semibold">Mission Control</span>
+              <Maximize2 className="h-3.5 w-3.5 shrink-0 ml-auto" />
+            </>
+          )}
+        </Button>
+      </SidebarFooter>
     </Sidebar>
   );
 }
@@ -115,6 +140,12 @@ function AppSidebar() {
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const pageTitle = getPageTitle(pathname ?? "");
+  const isMissionControl = pathname === "/dashboard/mission-control";
+
+  // Fullscreen layout for mission control
+  if (isMissionControl) {
+    return <>{children}</>;
+  }
 
   return (
     <SidebarProvider>
