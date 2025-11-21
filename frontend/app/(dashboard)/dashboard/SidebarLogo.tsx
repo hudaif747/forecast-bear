@@ -14,8 +14,8 @@ export function SidebarLogo() {
           <div className="flex items-center gap-3">
             <div className="relative h-10 w-10 shrink-0">
               <Image
-                src="/assets/grizzlys-wolfsburg.svg"
-                alt="Grizzlys Wolfsburg Logo"
+                src="/assets/bearcast-logo.svg"
+                alt="Bearcast Logo"
                 fill
                 className="object-contain"
                 priority
@@ -35,8 +35,8 @@ export function SidebarLogo() {
       {isCollapsed && (
         <div className="flex h-10 w-10 items-center justify-center rounded-lg overflow-hidden bg-primary/10 p-1.5">
           <Image
-            src="/assets/grizzlys-wolfsburg.svg"
-            alt="Grizzlys Wolfsburg Logo"
+            src="/assets/bearcast-logo.svg"
+            alt="Bearcast Logo"
             width={32}
             height={32}
             className="object-contain"

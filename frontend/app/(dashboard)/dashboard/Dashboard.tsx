@@ -2,8 +2,18 @@
 
 import { AlertTriangle, DollarSign, TrendingUp, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import {
   Table,
   TableBody,
@@ -16,7 +26,7 @@ import { useDashboardStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import SeasonAttendanceOutlook from "./SeasonAttendanceOutlook";
 
-const confidenceColors = {
+const turnoutColors = {
   high: "bg-success/20 text-success border-success",
   medium: "bg-warning/20 text-warning border-warning",
   low: "bg-danger/20 text-danger border-danger",
@@ -28,9 +38,53 @@ const rowColors = {
   low: "border-l-4 border-l-danger hover:bg-danger/5",
 };
 
+const ITEMS_PER_PAGE = 5;
+
 export default function Dashboard() {
   const router = useRouter();
   const { upcomingGames, kpis } = useDashboardStore();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(upcomingGames.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedGames = upcomingGames.slice(startIndex, endIndex);
+
+  const getPageNumbers = () => {
+    const pages: (number | "ellipsis")[] = [];
+    const maxVisiblePages = 5;
+
+    if (totalPages <= maxVisiblePages) {
+      // Show all pages if total pages is less than max visible
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Always show first page
+      pages.push(1);
+
+      if (currentPage > 3) {
+        pages.push("ellipsis");
+      }
+
+      // Show pages around current page
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+
+      if (currentPage < totalPages - 2) {
+        pages.push("ellipsis");
+      }
+
+      // Always show last page
+      pages.push(totalPages);
+    }
+
+    return pages;
+  };
 
   return (
     <div className="space-y-6 p-6">
@@ -96,19 +150,26 @@ export default function Dashboard() {
                 <TableHead className="text-right">Predicted Tickets</TableHead>
                 <TableHead className="text-right">Predicted Revenue</TableHead>
                 <TableHead className="text-right">Occupancy</TableHead>
-                <TableHead className="text-center">Confidence</TableHead>
+                <TableHead className="text-center">Expected Turnout</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {upcomingGames.map((game, index) => (
-                <TableRow
-                  className={cn(
-                    rowColors[game.confidence as keyof typeof rowColors],
-                    "cursor-pointer"
-                  )}
-                  key={index}
-                  onClick={() => router.push(`/dashboard/games/${game.id}`)}
-                >
+              {paginatedGames.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="h-24 text-center">
+                    No games found.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                paginatedGames.map((game, index) => (
+                  <TableRow
+                    className={cn(
+                      rowColors[game.confidence as keyof typeof rowColors],
+                      "cursor-pointer"
+                    )}
+                    key={startIndex + index}
+                    onClick={() => router.push(`/dashboard/games/${game.id}`)}
+                  >
                   <TableCell className="font-medium text-foreground">
                     {new Date(game.date).toLocaleDateString("en-US", {
                       month: "short",
@@ -135,19 +196,79 @@ export default function Dashboard() {
                   <TableCell className="text-center">
                     <Badge
                       className={
-                        confidenceColors[
-                          game.confidence as keyof typeof confidenceColors
+                        turnoutColors[
+                          game.confidence as keyof typeof turnoutColors
                         ]
                       }
                       variant="outline"
                     >
-                      {game.confidence}
+                      {game.confidence === "high" ? "High" : game.confidence === "medium" ? "Medium" : "Low"}
                     </Badge>
                   </TableCell>
-                </TableRow>
-              ))}
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
+          {totalPages > 1 && (
+            <div className="border-t border-border p-4">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage > 1) {
+                          setCurrentPage(currentPage - 1);
+                        }
+                      }}
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+                  {getPageNumbers().map((page, index) => (
+                    <PaginationItem key={index}>
+                      {page === "ellipsis" ? (
+                        <PaginationEllipsis />
+                      ) : (
+                        <PaginationLink
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentPage(page);
+                          }}
+                          isActive={currentPage === page}
+                          className="cursor-pointer"
+                        >
+                          {page}
+                        </PaginationLink>
+                      )}
+                    </PaginationItem>
+                  ))}
+                  <PaginationItem>
+                    <PaginationNext
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage < totalPages) {
+                          setCurrentPage(currentPage + 1);
+                        }
+                      }}
+                      className={
+                        currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </CardContent>
       </Card>
 
