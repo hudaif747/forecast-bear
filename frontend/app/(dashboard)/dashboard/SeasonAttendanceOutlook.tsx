@@ -487,13 +487,68 @@ export default function SeasonAttendanceOutlook() {
             </ResponsiveContainer>
           </div>
           <div className="rounded-xl border border-border p-4">
-            <div>
-              <p className="font-medium text-foreground text-sm">
-                Feature Importance
-              </p>
-              <p className="text-muted-foreground text-xs">
-                Key factors driving attendance predictions • Hover for details
-              </p>
+            <div className="mb-4 flex items-start justify-between">
+              <div>
+                <p className="font-medium text-foreground text-sm">
+                  Feature Importance
+                </p>
+                <p className="text-muted-foreground text-xs">
+                  Key factors driving attendance predictions • Hover for details
+                </p>
+              </div>
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <div className="flex cursor-help flex-col gap-1">
+                    <Badge
+                      className="bg-success/10 text-success border-success"
+                      variant="outline"
+                    >
+                      {featureImportanceData.mape}% MAPE
+                    </Badge>
+                    <span className="text-right text-muted-foreground text-xs">
+                      Model Accuracy
+                    </span>
+                  </div>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80" side="left">
+                  <div className="space-y-3">
+                    <div>
+                      <h4 className="mb-1 font-semibold text-sm">
+                        Model Performance Metrics
+                      </h4>
+                      <p className="text-muted-foreground text-xs">
+                        {featureImportanceData.model}
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground text-sm">
+                          MAPE (Error Rate)
+                        </span>
+                        <span className="font-semibold text-success text-sm">
+                          {featureImportanceData.mape}%
+                        </span>
+                      </div>
+                      <p className="text-muted-foreground text-xs">
+                        On average, predictions are within {featureImportanceData.mape}% of actual attendance
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground text-sm">
+                          MAE (Avg Error)
+                        </span>
+                        <span className="font-semibold text-sm">
+                          ±{Math.round(featureImportanceData.mae)} tickets
+                        </span>
+                      </div>
+                      <p className="text-muted-foreground text-xs">
+                        Average prediction error of {Math.round(featureImportanceData.mae)} tickets per game
+                      </p>
+                    </div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
             </div>
             <div className="mt-4 space-y-3">
               {Object.entries(featureImportanceData.feature_importance)

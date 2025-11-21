@@ -21,7 +21,7 @@ import { NavLink } from "./NavLink";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
-  { name: "All Games", href: "/dashboard/games", icon: Calendar },
+  // { name: "All Games", href: "/dashboard/games", icon: Calendar },
   { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
   { name: "Assistant", href: "/dashboard/assistant", icon: MessageSquare },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },

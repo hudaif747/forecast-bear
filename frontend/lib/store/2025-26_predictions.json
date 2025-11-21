@@ -1,146 +1,27 @@
-[
-    {
-        "date": "14.09.2025",
-        "predicted_attendance": 1691.545434150088,
-        "predicted_revenue": 42288.6358537522,
-        "occupancy_rate": 0.422886358537522
-    },
-    {
-        "date": "26.09.2025",
-        "predicted_attendance": 1110.9849034299505,
-        "predicted_revenue": 27774.622585748763,
-        "occupancy_rate": 0.2777462258574876
-    },
-    {
-        "date": "05.10.2025",
-        "predicted_attendance": 1926.5029927254009,
-        "predicted_revenue": 48162.57481813501,
-        "occupancy_rate": 0.4816257481813502
-    },
-    {
-        "date": "12.10.2025",
-        "predicted_attendance": 1231.1764051351963,
-        "predicted_revenue": 30779.410128379903,
-        "occupancy_rate": 0.3077941012837991
-    },
-    {
-        "date": "19.10.2025",
-        "predicted_attendance": 1527.2994674144288,
-        "predicted_revenue": 38182.48668536072,
-        "occupancy_rate": 0.3818248668536072
-    },
-    {
-        "date": "24.10.2025",
-        "predicted_attendance": 1240.8316685016043,
-        "predicted_revenue": 31020.791712540107,
-        "occupancy_rate": 0.3102079171254011
-    },
-    {
-        "date": "28.10.2025",
-        "predicted_attendance": 746.4337050531781,
-        "predicted_revenue": 18660.842626329453,
-        "occupancy_rate": 0.1866084262632945
-    },
-    {
-        "date": "30.10.2025",
-        "predicted_attendance": 914.852453389038,
-        "predicted_revenue": 22871.311334725957,
-        "occupancy_rate": 0.2287131133472595
-    },
-    {
-        "date": "14.11.2025",
-        "predicted_attendance": 1506.8407989256225,
-        "predicted_revenue": 37671.01997314056,
-        "occupancy_rate": 0.3767101997314056
-    },
-    {
-        "date": "21.11.2025",
-        "predicted_attendance": 1158.2947451975797,
-        "predicted_revenue": 28957.368629939487,
-        "occupancy_rate": 0.2895736862993948
-    },
-    {
-        "date": "28.11.2025",
-        "predicted_attendance": 1514.0299981465687,
-        "predicted_revenue": 37850.74995366421,
-        "occupancy_rate": 0.3785074995366421
-    },
-    {
-        "date": "05.12.2025",
-        "predicted_attendance": 1258.1188663049584,
-        "predicted_revenue": 31452.97165762396,
-        "occupancy_rate": 0.3145297165762395
-    },
-    {
-        "date": "12.12.2025",
-        "predicted_attendance": 1679.963205749501,
-        "predicted_revenue": 41999.08014373753,
-        "occupancy_rate": 0.4199908014373752
-    },
-    {
-        "date": "21.12.2025",
-        "predicted_attendance": 2680.7312660486245,
-        "predicted_revenue": 67018.28165121561,
-        "occupancy_rate": 0.6701828165121562
-    },
-    {
-        "date": "23.12.2025",
-        "predicted_attendance": 2220.0761260007675,
-        "predicted_revenue": 55501.90315001919,
-        "occupancy_rate": 0.5550190315001919
-    },
-    {
-        "date": "30.12.2025",
-        "predicted_attendance": 1894.036590760225,
-        "predicted_revenue": 47350.91476900563,
-        "occupancy_rate": 0.4735091476900562
-    },
-    {
-        "date": "02.01.2026",
-        "predicted_attendance": 1672.6603217244287,
-        "predicted_revenue": 41816.50804311072,
-        "occupancy_rate": 0.4181650804311072
-    },
-    {
-        "date": "09.01.2026",
-        "predicted_attendance": 1424.7305804718667,
-        "predicted_revenue": 35618.26451179667,
-        "occupancy_rate": 0.3561826451179666
-    },
-    {
-        "date": "11.01.2026",
-        "predicted_attendance": 1674.7743330780245,
-        "predicted_revenue": 41869.35832695061,
-        "occupancy_rate": 0.4186935832695061
-    },
-    {
-        "date": "18.01.2026",
-        "predicted_attendance": 2716.247971163934,
-        "predicted_revenue": 67906.19927909835,
-        "occupancy_rate": 0.6790619927909834
-    },
-    {
-        "date": "25.02.2026",
-        "predicted_attendance": 1327.8645107543998,
-        "predicted_revenue": 33196.612768859995,
-        "occupancy_rate": 0.3319661276885999
-    },
-    {
-        "date": "04.03.2026",
-        "predicted_attendance": 1736.3966890698794,
-        "predicted_revenue": 43409.91722674698,
-        "occupancy_rate": 0.4340991722674698
-    },
-    {
-        "date": "08.03.2026",
-        "predicted_attendance": 2305.9155628978333,
-        "predicted_revenue": 57647.88907244583,
-        "occupancy_rate": 0.5764788907244583
-    },
-    {
-        "date": "13.03.2026",
-        "predicted_attendance": 2362.928801223259,
-        "predicted_revenue": 59073.22003058148,
-        "occupancy_rate": 0.5907322003058147
-    }
+[{"date": "14.09.2025", "predicted_attendance": 1691.55, "predicted_revenue": 42288.64, "occupancy_rate": 0.4229, "season_included_occupancy_rate": 0.6729},
+{"date": "21.09.2025", "predicted_attendance": 1576.27, "predicted_revenue": 39406.84, "occupancy_rate": 0.3941, "season_included_occupancy_rate": 0.6441},
+{"date": "26.09.2025", "predicted_attendance": 1110.98, "predicted_revenue": 27774.62, "occupancy_rate": 0.2777, "season_included_occupancy_rate": 0.5277},
+{"date": "05.10.2025", "predicted_attendance": 1926.5, "predicted_revenue": 48162.57, "occupancy_rate": 0.4816, "season_included_occupancy_rate": 0.7316},
+{"date": "12.10.2025", "predicted_attendance": 1231.18, "predicted_revenue": 30779.41, "occupancy_rate": 0.3078, "season_included_occupancy_rate": 0.5578},
+{"date": "19.10.2025", "predicted_attendance": 1527.3, "predicted_revenue": 38182.49, "occupancy_rate": 0.3818, "season_included_occupancy_rate": 0.6318},  
+{"date": "24.10.2025", "predicted_attendance": 1240.83, "predicted_revenue": 31020.79, "occupancy_rate": 0.3102, "season_included_occupancy_rate": 0.5602},
+{"date": "28.10.2025", "predicted_attendance": 746.43, "predicted_revenue": 18660.84, "occupancy_rate": 0.1866, "season_included_occupancy_rate": 0.4366},
+{"date": "30.10.2025", "predicted_attendance": 914.85, "predicted_revenue": 22871.31, "occupancy_rate": 0.2287, "season_included_occupancy_rate": 0.4787},
+{"date": "14.11.2025", "predicted_attendance": 1506.84, "predicted_revenue": 37671.02, "occupancy_rate": 0.3767, "season_included_occupancy_rate": 0.6267},
+{"date": "21.11.2025", "predicted_attendance": 1158.29, "predicted_revenue": 28957.37, "occupancy_rate": 0.2896, "season_included_occupancy_rate": 0.5396},
+{"date": "28.11.2025", "predicted_attendance": 1514.03, "predicted_revenue": 37850.75, "occupancy_rate": 0.3785, "season_included_occupancy_rate": 0.6285},
+{"date": "05.12.2025", "predicted_attendance": 1258.12, "predicted_revenue": 31452.97, "occupancy_rate": 0.3145, "season_included_occupancy_rate": 0.5645},
+{"date": "12.12.2025", "predicted_attendance": 1679.96, "predicted_revenue": 41999.08, "occupancy_rate": 0.42, "season_included_occupancy_rate": 0.67},
+{"date": "21.12.2025", "predicted_attendance": 2680.73, "predicted_revenue": 67018.28, "occupancy_rate": 0.6702, "season_included_occupancy_rate": 0.9202},
+{"date": "23.12.2025", "predicted_attendance": 2220.08, "predicted_revenue": 55501.9, "occupancy_rate": 0.555, "season_included_occupancy_rate": 0.805},
+{"date": "30.12.2025", "predicted_attendance": 1894.04, "predicted_revenue": 47350.91, "occupancy_rate": 0.4735, "season_included_occupancy_rate": 0.7235},
+{"date": "02.01.2026", "predicted_attendance": 1672.66, "predicted_revenue": 41816.51, "occupancy_rate": 0.4182, "season_included_occupancy_rate": 0.6682},
+{"date": "09.01.2026", "predicted_attendance": 1424.73, "predicted_revenue": 35618.26, "occupancy_rate": 0.3562, "season_included_occupancy_rate": 0.6062},
+{"date": "11.01.2026", "predicted_attendance": 1674.77, "predicted_revenue": 41869.36, "occupancy_rate": 0.4187, "season_included_occupancy_rate": 0.6687},
+{"date": "18.01.2026", "predicted_attendance": 2716.25, "predicted_revenue": 67906.2, "occupancy_rate": 0.6791, "season_included_occupancy_rate": 0.9291},
+{"date": "25.01.2026", "predicted_attendance": 1717.64, "predicted_revenue": 42940.97, "occupancy_rate": 0.4294, "season_included_occupancy_rate": 0.6794},
+{"date": "25.02.2026", "predicted_attendance": 1327.86, "predicted_revenue": 33196.61, "occupancy_rate": 0.332, "season_included_occupancy_rate": 0.582},
+{"date": "04.03.2026", "predicted_attendance": 1736.4, "predicted_revenue": 43409.92, "occupancy_rate": 0.4341, "season_included_occupancy_rate": 0.6841},
+{"date": "08.03.2026", "predicted_attendance": 2305.92, "predicted_revenue": 57647.89, "occupancy_rate": 0.5765, "season_included_occupancy_rate": 0.8265},
+{"date": "13.03.2026", "predicted_attendance": 2362.93, "predicted_revenue": 59073.22, "occupancy_rate": 0.5907, "season_included_occupancy_rate": 0.8407}
 ]

@@ -1,7 +1,6 @@
 "use client";
 
 import { AlertTriangle, DollarSign, TrendingUp, Users } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,7 +40,6 @@ const rowColors = {
 const ITEMS_PER_PAGE = 5;
 
 export default function Dashboard() {
-  const router = useRouter();
   const { upcomingGames, kpis } = useDashboardStore();
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -137,7 +135,7 @@ export default function Dashboard() {
             Upcoming Home Games Forecast
           </CardTitle>
           <p className="text-muted-foreground text-sm">
-            Click on any game to view detailed predictions and scenarios • Day tickets only (season tickets not included)
+            Predicted attendance and revenue for all home games • Occupancy includes season ticket holders
           </p>
         </CardHeader>
         <CardContent className="p-0">
@@ -150,7 +148,7 @@ export default function Dashboard() {
                 <TableHead className="text-right">Predicted Tickets</TableHead>
                 <TableHead className="text-right">Predicted Revenue</TableHead>
                 <TableHead className="text-right">Occupancy</TableHead>
-                <TableHead className="text-center">Expected Turnout</TableHead>
+                <TableHead className="text-center">Turnout Level</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -164,11 +162,9 @@ export default function Dashboard() {
                 paginatedGames.map((game, index) => (
                   <TableRow
                     className={cn(
-                      rowColors[game.confidence as keyof typeof rowColors],
-                      "cursor-pointer"
+                      rowColors[game.confidence as keyof typeof rowColors]
                     )}
                     key={startIndex + index}
-                    onClick={() => router.push(`/dashboard/games/${game.id}`)}
                   >
                   <TableCell className="font-medium text-foreground">
                     {new Date(game.date).toLocaleDateString("en-US", {

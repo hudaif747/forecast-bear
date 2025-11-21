@@ -29,8 +29,9 @@ type RiskPoint = {
   revenue: number;
   occupancy: number;
   tickets: number;
-  confidence: "high" | "medium" | "low";
 };
+
+type TurnoutLevel = "high" | "medium" | "low";
 
 const currencyFormatter = new Intl.NumberFormat("de-DE", {
   style: "currency",
@@ -40,22 +41,34 @@ const currencyFormatter = new Intl.NumberFormat("de-DE", {
 
 const integerFormatter = new Intl.NumberFormat("en-US");
 
-const confidenceColors: Record<RiskPoint["confidence"], string> = {
+const formatCurrency = (value: number) => currencyFormatter.format(value);
+const formatTickets = (value: number) => integerFormatter.format(value);
+
+// Get turnout level based on occupancy percentage
+const getTurnoutLevel = (occupancy: number): TurnoutLevel => {
+  if (occupancy >= 65) return "high";
+  if (occupancy >= 50) return "medium";
+  return "low";
+};
+
+const turnoutColors: Record<TurnoutLevel, string> = {
   high: "hsl(var(--success))",
   medium: "hsl(var(--warning))",
   low: "hsl(var(--danger))",
 };
 
-const formatCurrency = (value: number) => currencyFormatter.format(value);
-const formatTickets = (value: number) => integerFormatter.format(value);
+const turnoutLabels: Record<TurnoutLevel, string> = {
+  high: "High Turnout",
+  medium: "Medium Turnout",
+  low: "Low Turnout",
+};
 
 function RiskTooltip({ active, payload }: TooltipProps<number, string>) {
   if (!active || !payload?.length) {
     return null;
   }
   const data = payload[0].payload as RiskPoint;
-  const confidenceLabel =
-    data.confidence.charAt(0).toUpperCase() + data.confidence.slice(1);
+  const turnoutLevel = getTurnoutLevel(data.occupancy);
 
   return (
     <div className="rounded-md border border-border bg-card p-3 text-xs shadow-lg">
@@ -76,14 +89,14 @@ function RiskTooltip({ active, payload }: TooltipProps<number, string>) {
         </div>
       </div>
       <Badge className="mt-2" variant="secondary">
-        {confidenceLabel} confidence
+        {turnoutLabels[turnoutLevel]}
       </Badge>
     </div>
   );
 }
 
 export default function Analytics() {
-  const { seasonalData, opponentData, weatherData } = useAnalyticsStore();
+  const { seasonalData, opponentData } = useAnalyticsStore();
   const { upcomingGames } = useDashboardStore();
 
   const riskPoints = useMemo<RiskPoint[]>(() => {
@@ -100,7 +113,6 @@ export default function Analytics() {
       revenue: game.predictedRevenue,
       occupancy: game.occupancy,
       tickets: game.predictedTickets,
-      confidence: game.confidence,
     }));
   }, [upcomingGames]);
 
@@ -108,10 +120,10 @@ export default function Analytics() {
     <div className="space-y-6 p-6">
       <div>
         <h2 className="mb-2 font-bold text-2xl text-foreground">
-          Historical Performance Analytics
+          Season Analysis Overview
         </h2>
         <p className="text-muted-foreground">
-          Analyze past trends to improve future predictions
+          Historical trends and upcoming game predictions for the 2025-26 season
         </p>
       </div>
 
@@ -191,54 +203,14 @@ export default function Analytics() {
         </CardContent>
       </Card>
 
-      {/* Weather Impact */}
+      {/* Performance Overview */}
       <Card className="border-border">
         <CardHeader>
           <CardTitle className="text-foreground text-xl">
-            Weather Impact Analysis
+            Game Performance Overview
           </CardTitle>
           <p className="text-muted-foreground text-sm">
-            How weather conditions affect game attendance
-          </p>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer height={300} width="100%">
-            <BarChart data={weatherData} layout="vertical">
-              <CartesianGrid
-                stroke="hsl(var(--border))"
-                strokeDasharray="3 3"
-              />
-              <XAxis stroke="hsl(var(--muted-foreground))" type="number" />
-              <YAxis
-                dataKey="condition"
-                stroke="hsl(var(--muted-foreground))"
-                type="category"
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "8px",
-                }}
-              />
-              <Bar
-                dataKey="avgAttendance"
-                fill="hsl(var(--chart-2))"
-                radius={[0, 8, 8, 0]}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-
-      {/* Risk Spotlight */}
-      <Card className="border-border">
-        <CardHeader>
-          <CardTitle className="text-foreground text-xl">
-            Risk Spotlight
-          </CardTitle>
-          <p className="text-muted-foreground text-sm">
-            Revenue vs. occupancy for upcoming games (bubble size = tickets)
+            Revenue vs. occupancy for upcoming games • Bubble size = tickets • Color = expected turnout level
           </p>
         </CardHeader>
         <CardContent>
@@ -280,13 +252,16 @@ export default function Analytics() {
                   cursor={{ strokeDasharray: "3 3" }}
                 />
                 <Legend />
-                <Scatter data={riskPoints} name="Games">
-                  {riskPoints.map((point) => (
-                    <Cell
-                      fill={confidenceColors[point.confidence]}
-                      key={point.id}
-                    />
-                  ))}
+                <Scatter data={riskPoints} name="Upcoming Games">
+                  {riskPoints.map((point) => {
+                    const turnoutLevel = getTurnoutLevel(point.occupancy);
+                    return (
+                      <Cell
+                        fill={turnoutColors[turnoutLevel]}
+                        key={point.id}
+                      />
+                    );
+                  })}
                 </Scatter>
               </ScatterChart>
             </ResponsiveContainer>
@@ -295,7 +270,7 @@ export default function Analytics() {
       </Card>
 
       {/* Key Insights */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <Card className="border-border">
           <CardContent className="pt-6">
             <h3 className="mb-2 font-semibold text-foreground text-lg">
@@ -316,18 +291,6 @@ export default function Analytics() {
             <p className="mb-2 font-bold text-3xl text-primary">München</p>
             <p className="text-muted-foreground text-sm">
               Games against Red Bull München average 4,450 tickets
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-border">
-          <CardContent className="pt-6">
-            <h3 className="mb-2 font-semibold text-foreground text-lg">
-              Weather Impact
-            </h3>
-            <p className="mb-2 font-bold text-3xl text-primary">-17%</p>
-            <p className="text-muted-foreground text-sm">
-              Rainy weather reduces attendance compared to clear conditions
             </p>
           </CardContent>
         </Card>

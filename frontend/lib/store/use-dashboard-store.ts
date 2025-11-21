@@ -21,6 +21,7 @@ interface PredictionData {
   predicted_attendance: number;
   predicted_revenue: number;
   occupancy_rate: number;
+  season_included_occupancy_rate: number;
 }
 
 const predictionsData = predictionsDataRaw as PredictionData[];
@@ -119,11 +120,11 @@ function convertDateFormat(dateStr: string): string {
   return `${year}-${month}-${day}`;
 }
 
-// Helper function to determine confidence based on occupancy rate
+// Helper function to determine confidence based on occupancy rate (including season tickets)
 function getConfidence(occupancy: number): "high" | "medium" | "low" {
-  if (occupancy >= 0.5) return "high";
-  if (occupancy >= 0.35) return "medium";
-  return "low";
+  if (occupancy >= 0.65) return "high";  // 65%+ with season tickets
+  if (occupancy >= 0.5) return "medium"; // 50-64% with season tickets
+  return "low"; // <50% with season tickets
 }
 
 // Transform predictions data to match UpcomingGame interface
@@ -143,8 +144,8 @@ const initialUpcomingGames: UpcomingGame[] = predictionsData
       faceoff: scheduleInfo.time,
       predictedTickets: Math.round(prediction.predicted_attendance),
       predictedRevenue: Math.round(prediction.predicted_revenue),
-      occupancy: Math.round(prediction.occupancy_rate * 100),
-      confidence: getConfidence(prediction.occupancy_rate),
+      occupancy: Math.round(prediction.season_included_occupancy_rate * 100),
+      confidence: getConfidence(prediction.season_included_occupancy_rate),
     };
   })
   .filter((game: UpcomingGame | null): game is UpcomingGame => game !== null);
@@ -165,10 +166,10 @@ const lowestOccupancyGame = initialUpcomingGames.reduce(
     game.occupancy < lowest.occupancy ? game : lowest
 );
 
-// Calculate average occupancy for confidence
+// Calculate average occupancy for confidence (including season tickets)
 const avgOccupancy =
   predictionsData.reduce(
-    (sum: number, pred: PredictionData) => sum + pred.occupancy_rate,
+    (sum: number, pred: PredictionData) => sum + pred.season_included_occupancy_rate,
     0
   ) / predictionsData.length;
 
@@ -176,14 +177,14 @@ const initialKPIs: KPI[] = [
   {
     title: "Forecasted Seasonal Attendance",
     value: Math.round(totalAttendance).toLocaleString("en-US"),
-    subtitle: "Day tickets only (excl. season tickets)",
+    subtitle: "Day tickets (season tickets counted separately)",
     icon: Users,
     trend: `${initialUpcomingGames.length} home games`,
   },
   {
     title: "Forecasted Seasonal Revenue",
     value: `€${(totalRevenue / 1000).toFixed(1)}K`,
-    subtitle: "Day tickets revenue (excl. season tickets)",
+    subtitle: "Day tickets revenue",
     icon: DollarSign,
     trend: `€${Math.round(totalRevenue / initialUpcomingGames.length).toLocaleString("en-US")} avg/game`,
   },
@@ -192,14 +193,14 @@ const initialKPIs: KPI[] = [
     value: `${lowestOccupancyGame.occupancy}%`,
     subtitle: `${new Date(lowestOccupancyGame.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })} vs ${lowestOccupancyGame.opponent}`,
     icon: AlertTriangle,
-    trend: lowestOccupancyGame.occupancy < 30 ? "Critical" : lowestOccupancyGame.occupancy < 50 ? "Needs attention" : "Monitor",
+    trend: lowestOccupancyGame.occupancy < 50 ? "Critical" : lowestOccupancyGame.occupancy < 65 ? "Needs attention" : "Monitor",
   },
   {
     title: "Avg. Occupancy Rate",
     value: `${Math.round(avgOccupancy * 100)}%`,
-    subtitle: "Season average",
+    subtitle: "Season average (incl. season tickets)",
     icon: TrendingUp,
-    trend: avgOccupancy >= 0.4 ? "Good" : "Needs improvement",
+    trend: avgOccupancy >= 0.6 ? "Excellent" : avgOccupancy >= 0.5 ? "Good" : "Needs improvement",
   },
 ];
 
