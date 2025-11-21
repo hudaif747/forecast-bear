@@ -34,6 +34,23 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6 p-6">
+      {/* Season Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-bold text-3xl text-foreground">
+            Season Forecast Dashboard
+          </h1>
+          <div className="mt-2 flex items-center gap-2">
+            <Badge className="bg-primary/10 text-primary border-primary" variant="outline">
+              2025-26 Season
+            </Badge>
+            <span className="text-muted-foreground text-sm">
+              {upcomingGames.length} Home Games
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* KPI Cards */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
         {kpis.map((kpi) => (
@@ -66,7 +83,7 @@ export default function Dashboard() {
             Upcoming Home Games Forecast
           </CardTitle>
           <p className="text-muted-foreground text-sm">
-            Click on any game to view detailed predictions and scenarios
+            Click on any game to view detailed predictions and scenarios • Day tickets only (season tickets not included)
           </p>
         </CardHeader>
         <CardContent className="p-0">

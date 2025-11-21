@@ -10,6 +10,26 @@
 
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import historicalDataRaw from "./historical-data.json";
+import predictionsDataRaw from "./2025-26_predictions.json";
+
+interface HistoricalGame {
+  date: string;
+  season: string;
+  away_team: string;
+  ticket_count: number;
+  gross_revenue: number;
+}
+
+interface PredictionData {
+  date: string;
+  predicted_attendance: number;
+  predicted_revenue: number;
+  occupancy_rate: number;
+}
+
+const historicalData = historicalDataRaw as HistoricalGame[];
+const predictionsData = predictionsDataRaw as PredictionData[];
 
 export interface SeasonalDataPoint {
   month: string;
@@ -52,63 +72,149 @@ export interface AnalyticsStoreState {
   setWeatherData: (data: WeatherDataPoint[]) => void;
 }
 
-// Mock historical data
-const initialSeasonalSeries: SeasonalSeries[] = [
-  {
-    season: "2023-24",
-    points: [
-      { month: "Sep", tickets: 3100, revenue: 124_000 },
-      { month: "Oct", tickets: 3600, revenue: 144_000 },
-      { month: "Nov", tickets: 4000, revenue: 160_000 },
-      { month: "Dec", tickets: 4200, revenue: 168_000 },
-      { month: "Jan", tickets: 3800, revenue: 152_000 },
-      { month: "Feb", tickets: 4100, revenue: 164_000 },
-      { month: "Mar", tickets: 4400, revenue: 176_000 },
-    ],
-  },
-  {
-    season: "2022-23",
-    points: [
-      { month: "Sep", tickets: 2950, revenue: 118_000 },
-      { month: "Oct", tickets: 3400, revenue: 136_000 },
-      { month: "Nov", tickets: 3650, revenue: 146_000 },
-      { month: "Dec", tickets: 3900, revenue: 156_000 },
-      { month: "Jan", tickets: 3600, revenue: 144_000 },
-      { month: "Feb", tickets: 3850, revenue: 154_000 },
-      { month: "Mar", tickets: 4050, revenue: 162_000 },
-    ],
-  },
-];
+// Helper function to get month abbreviation
+function getMonthAbbr(dateStr: string): string {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-US", { month: "short" });
+}
 
+// Helper function to normalize opponent names
+function normalizeOpponentName(opponent: string): string {
+  // Remove "(GER)" and "Grizzlys Wolfsburg" prefix, get first significant word
+  return opponent
+    .replace(/\(GER\)/g, "")
+    .replace(/Grizzlys Wolfsburg/g, "")
+    .trim()
+    .split(" ")
+    .filter((word) => word.length > 0)
+    .slice(0, 2)
+    .join(" ");
+}
+
+// Process historical data by season and month
+function processSeasonalData(): SeasonalSeries[] {
+  const seasonMap: Record<
+    string,
+    Record<string, { tickets: number; revenue: number }>
+  > = {};
+
+  for (const game of historicalData) {
+    const month = getMonthAbbr(game.date);
+    const season = game.season;
+
+    if (!seasonMap[season]) {
+      seasonMap[season] = {};
+    }
+
+    if (!seasonMap[season][month]) {
+      seasonMap[season][month] = { tickets: 0, revenue: 0 };
+    }
+
+    seasonMap[season][month].tickets += game.ticket_count;
+    seasonMap[season][month].revenue += game.gross_revenue;
+  }
+
+  // Convert to array format and sort by season (most recent first)
+  const seasons = Object.keys(seasonMap).sort().reverse();
+  return seasons.map((season) => ({
+    season: `20${season}`,
+    points: Object.entries(seasonMap[season])
+      .map(([month, data]) => ({
+        month,
+        tickets: Math.round(data.tickets),
+        revenue: Math.round(data.revenue),
+      }))
+      .sort((a, b) => {
+        const monthOrder = [
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+        ];
+        return monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month);
+      }),
+  }));
+}
+
+// Process opponent attendance averages
+function processOpponentData(): OpponentDataPoint[] {
+  const opponentMap: Record<string, { total: number; count: number }> = {};
+
+  for (const game of historicalData) {
+    const opponent = normalizeOpponentName(game.away_team);
+
+    if (!opponentMap[opponent]) {
+      opponentMap[opponent] = { total: 0, count: 0 };
+    }
+
+    opponentMap[opponent].total += game.ticket_count;
+    opponentMap[opponent].count += 1;
+  }
+
+  return Object.entries(opponentMap)
+    .map(([opponent, data]) => ({
+      opponent,
+      attendance: Math.round(data.total / data.count),
+    }))
+    .sort((a, b) => b.attendance - a.attendance);
+}
+
+// Process forecast data from predictions
+function processForecastData(): SeasonalForecastPoint[] {
+  const monthMap: Record<string, { total: number; count: number }> = {};
+
+  for (const prediction of predictionsData) {
+    const [day, month] = prediction.date.split(".");
+    const monthAbbr = new Date(
+      `2025-${month}-${day}`
+    ).toLocaleDateString("en-US", { month: "short" });
+
+    if (!monthMap[monthAbbr]) {
+      monthMap[monthAbbr] = { total: 0, count: 0 };
+    }
+
+    monthMap[monthAbbr].total += prediction.predicted_attendance;
+    monthMap[monthAbbr].count += 1;
+  }
+
+  return Object.entries(monthMap)
+    .map(([month, data]) => ({
+      month,
+      forecastTickets: Math.round(data.total),
+    }))
+    .sort((a, b) => {
+      const monthOrder = [
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+      ];
+      return monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month);
+    });
+}
+
+// Generate initial data from real historical data
+const initialSeasonalSeries: SeasonalSeries[] = processSeasonalData();
 const initialSeasonalData: SeasonalDataPoint[] =
-  initialSeasonalSeries[0].points;
+  initialSeasonalSeries[0]?.points || [];
+const initialForecastSeasonalData: SeasonalForecastPoint[] =
+  processForecastData();
+const initialOpponentData: OpponentDataPoint[] = processOpponentData();
 
-const initialForecastSeasonalData: SeasonalForecastPoint[] = [
-  { month: "Sep", forecastTickets: 3350 },
-  { month: "Oct", forecastTickets: 3950 },
-  { month: "Nov", forecastTickets: 4250 },
-  { month: "Dec", forecastTickets: 4400 },
-  { month: "Jan", forecastTickets: 4050 },
-  { month: "Feb", forecastTickets: 4325 },
-  { month: "Mar", forecastTickets: 4625 },
-  { month: "Apr", forecastTickets: 4700 },
-];
-
-const initialOpponentData: OpponentDataPoint[] = [
-  { opponent: "Berlin", attendance: 4300 },
-  { opponent: "München", attendance: 4450 },
-  { opponent: "Mannheim", attendance: 3900 },
-  { opponent: "Köln", attendance: 3200 },
-  { opponent: "Ingolstadt", attendance: 3600 },
-  { opponent: "Augsburg", attendance: 3450 },
-  { opponent: "Straubing", attendance: 3850 },
-];
-
+// Weather data placeholder (not available in historical data)
 const initialWeatherData: WeatherDataPoint[] = [
-  { condition: "Clear", avgAttendance: 4100 },
-  { condition: "Cloudy", avgAttendance: 3900 },
-  { condition: "Rainy", avgAttendance: 3400 },
-  { condition: "Snow", avgAttendance: 3600 },
+  { condition: "Clear", avgAttendance: 0 },
+  { condition: "Cloudy", avgAttendance: 0 },
+  { condition: "Rainy", avgAttendance: 0 },
+  { condition: "Snow", avgAttendance: 0 },
 ];
 
 export const useAnalyticsStore = create<AnalyticsStoreState>()(

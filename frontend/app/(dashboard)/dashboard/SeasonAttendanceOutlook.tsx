@@ -1,6 +1,19 @@
 "use client";
 
-import { Check } from "lucide-react";
+import {
+  Calendar,
+  Check,
+  CircleDot,
+  Clock,
+  MapPin,
+  Moon,
+  Sun,
+  Target,
+  TrendingUp,
+  Trophy,
+  Users,
+  Zap,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 import type { TooltipProps } from "recharts";
 import {
@@ -24,9 +37,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { useAnalyticsStore, useDashboardStore } from "@/lib/store";
 import type { SeasonalDataPoint } from "@/lib/store/types";
 import { cn } from "@/lib/utils";
+import featureImportanceData from "@/lib/store/feature_importance_sorted_v7.json";
 
 const seasonMonths = ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"] as const;
 
@@ -56,6 +75,111 @@ const monthButtonClasses = (isActive: boolean) =>
       ? "border-primary bg-primary/10 text-primary shadow-sm"
       : "border-border/70 text-muted-foreground hover:border-primary/40 hover:text-foreground"
   );
+
+// Map technical feature names to user-friendly labels, icons, and descriptions
+function getFeatureInfo(feature: string): {
+  label: string;
+  icon: typeof Users;
+  description: string;
+} {
+  const featureMap: Record<
+    string,
+    { label: string; icon: typeof Users; description: string }
+  > = {
+    is_dec_holiday: {
+      label: "December Holidays",
+      icon: Calendar,
+      description:
+        "Games during December holidays (Christmas, New Year) see significantly higher attendance",
+    },
+    opponent_attendance: {
+      label: "Opponent Strength",
+      icon: Trophy,
+      description:
+        "Popular opponents with large fan bases draw more spectators to the arena",
+    },
+    month_sin: {
+      label: "Season Period",
+      icon: Moon,
+      description:
+        "Attendance varies throughout the season, peaking during winter months and playoffs",
+    },
+    game_progress: {
+      label: "Season Progress",
+      icon: TrendingUp,
+      description:
+        "How far into the season the game occurs affects fan engagement and attendance",
+    },
+    sunday_opp_adj: {
+      label: "Sunday + Opponent",
+      icon: Sun,
+      description:
+        "Combined effect of Sunday games and opponent quality on attendance numbers",
+    },
+    spieltag: {
+      label: "Match Day",
+      icon: CircleDot,
+      description:
+        "The specific match day number in the league schedule influences attendance patterns",
+    },
+    hour: {
+      label: "Game Time",
+      icon: Clock,
+      description:
+        "Start time of the game (afternoon vs. evening) impacts attendance significantly",
+    },
+    weekday_cos: {
+      label: "Day of Week",
+      icon: Calendar,
+      description:
+        "Weekend games typically attract more fans than weekday games",
+    },
+    sunday_boost: {
+      label: "Sunday Effect",
+      icon: Sun,
+      description:
+        "Sunday games generally see higher attendance due to weekend availability",
+    },
+    is_top_opponent: {
+      label: "Top Opponent",
+      icon: Target,
+      description:
+        "Facing league-leading teams or traditional rivals increases fan interest",
+    },
+    weekday_sin: {
+      label: "Weekday Pattern",
+      icon: Calendar,
+      description:
+        "Cyclical pattern of attendance based on day of the week throughout the season",
+    },
+    distance_log: {
+      label: "Travel Distance",
+      icon: MapPin,
+      description:
+        "Distance between team cities affects away fan attendance and local interest",
+    },
+    holiday_score: {
+      label: "Holiday Period",
+      icon: Zap,
+      description:
+        "Games near holidays and school breaks benefit from increased leisure time",
+    },
+    sunday_top: {
+      label: "Sunday vs Top Team",
+      icon: Trophy,
+      description:
+        "Premium matchups on Sundays against top teams create maximum attendance draw",
+    },
+  };
+
+  return (
+    featureMap[feature] || {
+      label: feature,
+      icon: Users,
+      description: "Feature importance for attendance prediction",
+    }
+  );
+}
 
 function WeekdayTooltip({ active, payload }: TooltipProps<number, string>) {
   if (!active || !payload?.length) {
@@ -365,49 +489,61 @@ export default function SeasonAttendanceOutlook() {
           <div className="rounded-xl border border-border p-4">
             <div>
               <p className="font-medium text-foreground text-sm">
-                Match Day Insights
+                Feature Importance
               </p>
               <p className="text-muted-foreground text-xs">
-                Avg. predicted tickets by weekday
+                Key factors driving attendance predictions • Hover for details
               </p>
             </div>
-            {weekdayInsightData.length === 0 ? (
-              <p className="mt-6 text-muted-foreground text-sm">
-                No games scheduled for the selected months.
-              </p>
-            ) : (
-              <div className="mt-4 h-[220px]">
-                <ResponsiveContainer height="100%" width="100%">
-                  <BarChart
-                    data={weekdayInsightData}
-                    layout="vertical"
-                    margin={{ left: 0, right: 8 }}
-                  >
-                    <CartesianGrid
-                      horizontal={false}
-                      stroke="hsl(var(--border))"
-                      strokeDasharray="3 3"
-                    />
-                    <XAxis
-                      stroke="hsl(var(--muted-foreground))"
-                      type="number"
-                    />
-                    <YAxis
-                      dataKey="weekday"
-                      stroke="hsl(var(--muted-foreground))"
-                      type="category"
-                      width={80}
-                    />
-                    <Tooltip content={<WeekdayTooltip />} />
-                    <Bar
-                      dataKey="avgTickets"
-                      fill="hsl(var(--chart-2))"
-                      radius={[0, 8, 8, 0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            )}
+            <div className="mt-4 space-y-3">
+              {Object.entries(featureImportanceData.feature_importance)
+                .sort(([, a], [, b]) => (b as number) - (a as number))
+                .slice(0, 6)
+                .map(([feature, importance]) => {
+                  const featureInfo = getFeatureInfo(feature);
+                  const importancePercent = Math.round(
+                    (importance as number) * 100
+                  );
+                  return (
+                    <HoverCard key={feature}>
+                      <HoverCardTrigger asChild>
+                        <div className="space-y-2 cursor-help">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <featureInfo.icon className="h-4 w-4 text-primary" />
+                              <span className="font-medium text-foreground text-sm">
+                                {featureInfo.label}
+                              </span>
+                            </div>
+                            <span className="text-muted-foreground text-sm">
+                              {importancePercent}%
+                            </span>
+                          </div>
+                          <div className="h-2 w-full rounded-full bg-muted">
+                            <div
+                              className="h-2 rounded-full bg-primary transition-all"
+                              style={{ width: `${importancePercent}%` }}
+                            />
+                          </div>
+                        </div>
+                      </HoverCardTrigger>
+                      <HoverCardContent className="w-80" side="left">
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <featureInfo.icon className="h-5 w-5 text-primary" />
+                            <h4 className="font-semibold text-sm">
+                              {featureInfo.label}
+                            </h4>
+                          </div>
+                          <p className="text-muted-foreground text-sm">
+                            {featureInfo.description}
+                          </p>
+                        </div>
+                      </HoverCardContent>
+                    </HoverCard>
+                  );
+                })}
+            </div>
           </div>
         </div>
       </CardContent>
