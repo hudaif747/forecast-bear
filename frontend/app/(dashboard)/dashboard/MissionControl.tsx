@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Activity,
   AlertTriangle,
   ArrowRight,
   BarChart3,
@@ -10,14 +9,10 @@ import {
   Clock,
   Cpu,
   Database,
-  DollarSign,
   MessageSquare,
   Network,
   Rocket,
   Settings,
-  Target,
-  TrendingUp,
-  Users,
   Zap,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -99,8 +94,7 @@ export default function MissionControl() {
   const nextGame = upcomingGames[0];
   const daysUntilNext = nextGame
     ? Math.ceil(
-        (new Date(nextGame.date).getTime() - new Date().getTime()) /
-          (1000 * 60 * 60 * 24)
+        (new Date(nextGame.date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
       )
     : null;
 
@@ -644,13 +638,13 @@ export default function MissionControl() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {upcomingGames.slice(0, 8).map((game, index) => (
+                  {upcomingGames.slice(0, 8).map((game) => (
                     <TableRow
                       className={cn(
                         rowColors[game.confidence as keyof typeof rowColors],
                         "h-11 cursor-pointer border-border/50 transition-colors hover:bg-muted/30"
                       )}
-                      key={index}
+                      key={game.id}
                       onClick={() => router.push(`/dashboard/games/${game.id}`)}
                     >
                       <TableCell className="py-2 font-medium text-foreground text-xs">

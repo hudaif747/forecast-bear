@@ -1,9 +1,7 @@
 import { auth } from "@/app/(auth)/auth";
-import type { ArtifactKind } from "@/components/artifact";
 import {
   deleteDocumentsByIdAfterTimestamp,
   getDocumentsById,
-  saveDocument,
 } from "@/lib/db/queries";
 import { ChatSDKError } from "@/lib/errors";
 
@@ -56,13 +54,6 @@ export async function POST(request: Request) {
     return new ChatSDKError("not_found:document").toResponse();
   }
 
-  const {
-    content,
-    title,
-    kind,
-  }: { content: string; title: string; kind: ArtifactKind } =
-    await request.json();
-
   const documents = await getDocumentsById({ id });
 
   if (documents.length > 0) {
@@ -72,14 +63,6 @@ export async function POST(request: Request) {
       return new ChatSDKError("forbidden:document").toResponse();
     }
   }
-
-  const document = await saveDocument({
-    id,
-    content,
-    title,
-    kind,
-    userId: session.user.id,
-  });
 
   return Response.json(document, { status: 200 });
 }
