@@ -1,25 +1,15 @@
-import type { UIMessageStreamWriter } from "ai";
 import { tool } from "ai";
-import type { Session } from "next-auth";
 import { z } from "zod";
-import { documentHandlersByArtifactKind } from "@/lib/artifacts/server";
-import type { ChatMessage } from "@/lib/types";
-import { generateUUID } from "@/lib/utils";
 
-type GenerateChartProps = {
-  session: Session;
-  dataStream: UIMessageStreamWriter<ChatMessage>;
-};
-
-export const generateChart = ({ session, dataStream }: GenerateChartProps) =>
+export const generateChart = () =>
   tool({
     description:
-      "Generate charts inline with text explanations. This tool creates an inline-chart document that displays charts embedded within text content. Available data sources: 'seasonal' (monthly tickets and revenue), 'opponent' (attendance by opponent), 'weather' (average attendance by weather condition), 'upcomingGames' (predicted revenue, tickets, and occupancy for upcoming games). Chart types: 'bar', 'line', 'area'. Charts will be displayed inline with the text explanation, not in a separate window.",
+      "Generate a chart to display inline in the chat. Use this when the user asks for visualizations, charts, or graphs. The chart will appear directly in the chat response. When the user requests filtered data (e.g., 'games with attendance < 4000'), include filter parameters to show only matching data.",
     inputSchema: z.object({
       title: z
         .string()
         .describe(
-          "The title/description for the content (e.g., 'Revenue Overview for Upcoming Games')"
+          "The title of the chart (e.g., 'Monthly Revenue Trend', 'Upcoming Games Revenue Forecast', 'Games with Low Attendance')"
         ),
       chartType: z
         .enum(["bar", "line", "area"])
@@ -31,71 +21,41 @@ export const generateChart = ({ session, dataStream }: GenerateChartProps) =>
         ),
       xKey: z
         .string()
-        .optional()
         .describe(
-          "The key for the x-axis (e.g., 'month', 'opponent', 'condition', 'date')"
+          "The key for the x-axis (e.g., 'month', 'opponent', 'condition', 'date', 'opponent')"
         ),
       yKey: z
         .string()
-        .optional()
         .describe(
           "The key for the y-axis (e.g., 'tickets', 'revenue', 'attendance', 'predictedRevenue', 'predictedTickets', 'occupancy')"
         ),
+      filter: z
+        .object({
+          field: z
+            .string()
+            .describe(
+              "The field to filter on (e.g., 'predictedTickets', 'predictedRevenue', 'occupancy', 'tickets', 'revenue')"
+            ),
+          operator: z
+            .enum(["<", ">", "<=", ">=", "==", "!="])
+            .describe("The comparison operator"),
+          value: z.number().describe("The value to compare against"),
+        })
+        .optional()
+        .describe(
+          "Optional filter to apply to the data. Use this when the user requests filtered data (e.g., 'attendance < 4000', 'revenue > 150000'). If no filter is requested, omit this parameter."
+        ),
     }),
-    execute: async ({ title, chartType, dataSource, xKey, yKey }) => {
-      const id = generateUUID();
-
-      // Create a descriptive title that includes chart configuration
-      // The server-side inline-chart handler will parse this and generate the appropriate config
-      const chartTitle = `${title} | Chart: ${chartType} | Data: ${dataSource} | X: ${xKey || "auto"} | Y: ${yKey || "auto"}`;
-
-      dataStream.write({
-        type: "data-kind",
-        data: "inline-chart",
-        transient: true,
-      });
-
-      dataStream.write({
-        type: "data-id",
-        data: id,
-        transient: true,
-      });
-
-      dataStream.write({
-        type: "data-title",
-        data: chartTitle,
-        transient: true,
-      });
-
-      dataStream.write({
-        type: "data-clear",
-        data: null,
-        transient: true,
-      });
-
-      const documentHandler = documentHandlersByArtifactKind.find(
-        (documentHandlerByArtifactKind) =>
-          documentHandlerByArtifactKind.kind === "inline-chart"
-      );
-
-      if (!documentHandler) {
-        throw new Error("No document handler found for kind: inline-chart");
-      }
-
-      await documentHandler.onCreateDocument({
-        id,
-        title: chartTitle,
-        dataStream,
-        session,
-      });
-
-      dataStream.write({ type: "data-finish", data: null, transient: true });
-
+    execute: ({ title, chartType, dataSource, xKey, yKey, filter }) => {
+      // Return structured data that will be rendered inline
       return {
-        id,
-        title: chartTitle,
-        kind: "inline-chart",
-        content: `Inline chart document created for ${title}. The chart will display ${dataSource} data as a ${chartType} chart, embedded inline with text explanations.`,
+        type: "chart",
+        title,
+        chartType,
+        dataSource,
+        xKey,
+        yKey,
+        filter: filter || undefined,
       };
     },
   });

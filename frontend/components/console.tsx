@@ -6,7 +6,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { useArtifactSelector } from "@/hooks/use-artifact";
 import { cn } from "@/lib/utils";
 import { Loader } from "./elements/loader";
 import { CrossSmallIcon, TerminalWindowIcon } from "./icons";
@@ -32,8 +31,6 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
   const [height, setHeight] = useState<number>(300);
   const [isResizing, setIsResizing] = useState(false);
   const consoleEndRef = useRef<HTMLDivElement>(null);
-
-  const isArtifactVisible = useArtifactSelector((state) => state.isVisible);
 
   const minHeight = 100;
   const maxHeight = 800;
@@ -154,10 +151,10 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
                     {consoleOutput.status === "in_progress"
                       ? "Initializing..."
                       : consoleOutput.status === "loading_packages"
-                        ? consoleOutput.contents.map((content) =>
-                            content.type === "text" ? content.value : null
-                          )
-                        : null}
+                      ? consoleOutput.contents.map((content) =>
+                          content.type === "text" ? content.value : null
+                        )
+                      : null}
                   </div>
                 </div>
               ) : (

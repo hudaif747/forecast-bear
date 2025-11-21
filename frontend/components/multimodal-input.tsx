@@ -470,8 +470,8 @@ function PureModelSelectorCompact({
 
   return (
     <PromptInputModelSelect
-      onValueChange={(modelName) => {
-        const model = chatModels.find((m) => m.name === modelName);
+      onValueChange={(modelId) => {
+        const model = chatModels.find((m) => m.id === modelId);
         if (model) {
           setOptimisticModelId(model.id);
           onModelChange?.(model.id);
@@ -480,7 +480,7 @@ function PureModelSelectorCompact({
           });
         }
       }}
-      value={selectedModel?.name}
+      value={selectedModel?.id}
     >
       <Trigger asChild>
         <Button className="h-8 px-2" variant="ghost">
@@ -494,7 +494,7 @@ function PureModelSelectorCompact({
       <PromptInputModelSelectContent className="min-w-[260px] p-0">
         <div className="flex flex-col gap-px">
           {chatModels.map((model) => (
-            <SelectItem key={model.id} value={model.name}>
+            <SelectItem key={model.id} value={model.id}>
               <div className="truncate font-medium text-xs">{model.name}</div>
               <div className="mt-px truncate text-[10px] text-muted-foreground leading-tight">
                 {model.description}
