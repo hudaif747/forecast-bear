@@ -43,10 +43,10 @@ All colors MUST be HSL.
     /* Confidence Level Colors */
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
-    
+
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 0%;
-    
+
     --danger: 0 84% 60%;
     --danger-foreground: 0 0% 100%;
 
@@ -68,13 +68,17 @@ All colors MUST be HSL.
     --chart-5: 340 82% 52%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(25 95% 53%), hsl(25 85% 45%));
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(25 95% 53%),
+      hsl(25 85% 45%)
+    );
     --gradient-dark: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 5%));
-    
+
     /* Shadows */
     --shadow-glow: 0 0 30px hsl(25 95% 53% / 0.2);
     --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.5);
-    
+
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }

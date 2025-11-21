@@ -68,12 +68,6 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
     consoleEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
-  useEffect(() => {
-    if (!isArtifactVisible) {
-      setConsoleOutputs([]);
-    }
-  }, [isArtifactVisible, setConsoleOutputs]);
-
   return consoleOutputs.length > 0 ? (
     <>
       <div
@@ -151,10 +145,10 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
                     {consoleOutput.status === "in_progress"
                       ? "Initializing..."
                       : consoleOutput.status === "loading_packages"
-                      ? consoleOutput.contents.map((content) =>
-                          content.type === "text" ? content.value : null
-                        )
-                      : null}
+                        ? consoleOutput.contents.map((content) =>
+                            content.type === "text" ? content.value : null
+                          )
+                        : null}
                   </div>
                 </div>
               ) : (

@@ -10,10 +10,7 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-export interface StoreState {
-  // Add your general app state here
-  // Example: user preferences, UI state, etc.
-}
+export type StoreState = {};
 
 export const useStore = create<StoreState>()(
   devtools(
@@ -22,7 +19,6 @@ export const useStore = create<StoreState>()(
     }),
     {
       name: "app-store", // Name for Redux DevTools
-    },
-  ),
+    }
+  )
 );
-

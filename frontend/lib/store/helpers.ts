@@ -20,8 +20,7 @@ export function assertClient(): asserts this is Window {
   if (typeof window === "undefined") {
     throw new Error(
       "Store hooks can only be used in client components. " +
-        "Add 'use client' directive to your component file.",
+        "Add 'use client' directive to your component file."
     );
   }
 }
-

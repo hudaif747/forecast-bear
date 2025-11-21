@@ -11,16 +11,16 @@
  * import type { AnalyticsStoreState } from "@/lib/store/types";
  * ```
  */
-export type { StoreState } from "./use-store";
+
 export type {
   AnalyticsStoreState,
-  SeasonalDataPoint,
   OpponentDataPoint,
+  SeasonalDataPoint,
   WeatherDataPoint,
 } from "./use-analytics-store";
 export type {
   DashboardStoreState,
-  UpcomingGame,
   KPI,
+  UpcomingGame,
 } from "./use-dashboard-store";
-
+export type { StoreState } from "./use-store";

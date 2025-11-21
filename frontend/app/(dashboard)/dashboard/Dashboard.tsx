@@ -1,6 +1,7 @@
 "use client";
 
 import { AlertTriangle, DollarSign, TrendingUp, Users } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -11,9 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
 import { useDashboardStore } from "@/lib/store";
+import { cn } from "@/lib/utils";
 
 const confidenceColors = {
   high: "bg-success/20 text-success border-success",

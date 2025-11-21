@@ -1,5 +1,7 @@
 "use client";
 
+export { useAnalyticsStore } from "./use-analytics-store";
+export { useDashboardStore } from "./use-dashboard-store";
 /**
  * Zustand Store Hooks
  *
@@ -15,6 +17,3 @@
  * ```
  */
 export { useStore } from "./use-store";
-export { useAnalyticsStore } from "./use-analytics-store";
-export { useDashboardStore } from "./use-dashboard-store";
-

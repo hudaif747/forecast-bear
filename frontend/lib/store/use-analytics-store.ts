@@ -78,7 +78,6 @@ export const useAnalyticsStore = create<AnalyticsStoreState>()(
     }),
     {
       name: "analytics-store", // Name for Redux DevTools
-    },
-  ),
+    }
+  )
 );
-

@@ -1,11 +1,9 @@
 import { cookies } from "next/headers";
 import Script from "next/script";
+import { auth } from "@/app/(auth)/auth";
 import { AppSidebar } from "@/components/app-sidebar";
 import { DataStreamProvider } from "@/components/data-stream-provider";
-import {
-  SidebarProvider
-} from "@/components/ui/sidebar-chat";
-import { auth } from "@/app/(auth)/auth";
+import { SidebarProvider } from "@/components/ui/sidebar-chat";
 
 export const experimental_ppr = true;
 
@@ -28,7 +26,7 @@ export default async function Layout({
           <DataStreamProvider>
             <AppSidebar user={session?.user} />
             {/* <SidebarInsetChat className="flex flex-1 overflow-auto"> */}
-              {children}
+            {children}
             {/* </SidebarInsetChat> */}
           </DataStreamProvider>
         </SidebarProvider>

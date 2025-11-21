@@ -8,9 +8,9 @@
  * For types, import from "@/lib/store/types".
  */
 
+import { AlertTriangle, DollarSign, TrendingUp, Users } from "lucide-react";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { AlertTriangle, DollarSign, TrendingUp, Users } from "lucide-react";
 
 export interface UpcomingGame {
   id: number;
@@ -141,7 +141,6 @@ export const useDashboardStore = create<DashboardStoreState>()(
     }),
     {
       name: "dashboard-store", // Name for Redux DevTools
-    },
-  ),
+    }
+  )
 );
-

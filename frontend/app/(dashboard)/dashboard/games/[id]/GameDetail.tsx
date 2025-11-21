@@ -1,20 +1,20 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import {
-  TrendingUp,
-  Users,
+  Activity,
+  CloudRain,
   DollarSign,
   Percent,
-  CloudRain,
-  Zap,
   TrendingDown,
-  Activity,
+  TrendingUp,
+  Users,
+  Zap,
 } from "lucide-react";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
 
 // Mock game data (in real app, fetch by ID from database)
 const allGamesData = [
@@ -25,7 +25,7 @@ const allGamesData = [
     weekday: "Saturday",
     faceoff: "19:30",
     predictedTickets: 4200,
-    predictedRevenue: 168000,
+    predictedRevenue: 168_000,
     occupancy: 93,
     confidence: "high",
     confidenceRange: [3900, 4500],
@@ -39,7 +39,7 @@ const allGamesData = [
     weekday: "Tuesday",
     faceoff: "19:30",
     predictedTickets: 3800,
-    predictedRevenue: 152000,
+    predictedRevenue: 152_000,
     occupancy: 84,
     confidence: "medium",
     confidenceRange: [3500, 4100],
@@ -53,7 +53,7 @@ const allGamesData = [
     weekday: "Saturday",
     faceoff: "19:30",
     predictedTickets: 4350,
-    predictedRevenue: 174000,
+    predictedRevenue: 174_000,
     occupancy: 96,
     confidence: "high",
     confidenceRange: [4000, 4500],
@@ -67,7 +67,7 @@ const allGamesData = [
     weekday: "Wednesday",
     faceoff: "19:30",
     predictedTickets: 3200,
-    predictedRevenue: 128000,
+    predictedRevenue: 128_000,
     occupancy: 71,
     confidence: "low",
     confidenceRange: [2900, 3500],
@@ -81,7 +81,7 @@ const allGamesData = [
     weekday: "Saturday",
     faceoff: "19:30",
     predictedTickets: 3950,
-    predictedRevenue: 158000,
+    predictedRevenue: 158_000,
     occupancy: 87,
     confidence: "medium",
     confidenceRange: [3600, 4300],
@@ -95,7 +95,7 @@ const allGamesData = [
     weekday: "Wednesday",
     faceoff: "19:30",
     predictedTickets: 3450,
-    predictedRevenue: 138000,
+    predictedRevenue: 138_000,
     occupancy: 76,
     confidence: "medium",
     confidenceRange: [3100, 3800],
@@ -109,7 +109,7 @@ const allGamesData = [
     weekday: "Saturday",
     faceoff: "19:30",
     predictedTickets: 3900,
-    predictedRevenue: 156000,
+    predictedRevenue: 156_000,
     occupancy: 86,
     confidence: "high",
     confidenceRange: [3600, 4200],
@@ -123,7 +123,7 @@ const allGamesData = [
     weekday: "Wednesday",
     faceoff: "19:30",
     predictedTickets: 3350,
-    predictedRevenue: 134000,
+    predictedRevenue: 134_000,
     occupancy: 74,
     confidence: "medium",
     confidenceRange: [3000, 3700],
@@ -187,7 +187,7 @@ export default function PureGameDetail({ id }: { id: string }) {
               <CardTitle className="text-2xl text-foreground">
                 {gameData.opponent} vs Grizzlys Wolfsburg
               </CardTitle>
-              <p className="text-muted-foreground mt-1">
+              <p className="mt-1 text-muted-foreground">
                 {new Date(gameData.date).toLocaleDateString("en-US", {
                   weekday: "long",
                   year: "numeric",
@@ -198,12 +198,12 @@ export default function PureGameDetail({ id }: { id: string }) {
               </p>
             </div>
             <Badge
-              variant="outline"
               className={
                 gameData.confidence === "high"
-                  ? "bg-success/20 text-success border-success"
-                  : "bg-warning/20 text-warning border-warning"
+                  ? "border-success bg-success/20 text-success"
+                  : "border-warning bg-warning/20 text-warning"
               }
+              variant="outline"
             >
               {gameData.confidence} confidence
             </Badge>
@@ -212,20 +212,20 @@ export default function PureGameDetail({ id }: { id: string }) {
       </Card>
 
       {/* Key Predictions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <Card className="border-border">
           <CardContent className="pt-6">
-            <div className="flex items-center justify-between mb-4">
+            <div className="mb-4 flex items-center justify-between">
               <Users className="h-6 w-6 text-primary" />
               <Badge variant="secondary">5th-95th percentile</Badge>
             </div>
-            <div className="text-4xl font-bold text-foreground mb-1">
+            <div className="mb-1 font-bold text-4xl text-foreground">
               {gameData.predictedTickets.toLocaleString()}
             </div>
-            <p className="text-sm text-muted-foreground mb-2">
+            <p className="mb-2 text-muted-foreground text-sm">
               Predicted Tickets
             </p>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-muted-foreground text-xs">
               Range: {gameData.percentile5.toLocaleString()} -{" "}
               {gameData.percentile95.toLocaleString()}
             </div>
@@ -234,17 +234,17 @@ export default function PureGameDetail({ id }: { id: string }) {
 
         <Card className="border-border">
           <CardContent className="pt-6">
-            <div className="flex items-center justify-between mb-4">
+            <div className="mb-4 flex items-center justify-between">
               <DollarSign className="h-6 w-6 text-primary" />
               <Badge variant="secondary">±€8,000</Badge>
             </div>
-            <div className="text-4xl font-bold text-foreground mb-1">
+            <div className="mb-1 font-bold text-4xl text-foreground">
               €{gameData.predictedRevenue.toLocaleString()}
             </div>
-            <p className="text-sm text-muted-foreground mb-2">
+            <p className="mb-2 text-muted-foreground text-sm">
               Predicted Revenue
             </p>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-muted-foreground text-xs">
               Confidence band: €156K - €180K
             </div>
           </CardContent>
@@ -252,15 +252,15 @@ export default function PureGameDetail({ id }: { id: string }) {
 
         <Card className="border-border">
           <CardContent className="pt-6">
-            <div className="flex items-center justify-between mb-4">
+            <div className="mb-4 flex items-center justify-between">
               <Percent className="h-6 w-6 text-primary" />
               <Badge variant="secondary">Arena capacity</Badge>
             </div>
-            <div className="text-4xl font-bold text-foreground mb-1">
+            <div className="mb-1 font-bold text-4xl text-foreground">
               {gameData.occupancy}%
             </div>
-            <p className="text-sm text-muted-foreground mb-2">Occupancy Rate</p>
-            <div className="text-xs text-muted-foreground">
+            <p className="mb-2 text-muted-foreground text-sm">Occupancy Rate</p>
+            <div className="text-muted-foreground text-xs">
               {4500 - gameData.predictedTickets} seats remaining
             </div>
           </CardContent>
@@ -270,112 +270,112 @@ export default function PureGameDetail({ id }: { id: string }) {
       {/* Scenario Simulation */}
       <Card className="border-border">
         <CardHeader>
-          <CardTitle className="text-xl text-foreground">
+          <CardTitle className="text-foreground text-xl">
             Scenario Simulation
           </CardTitle>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Adjust factors to see how predictions change dynamically
           </p>
         </CardHeader>
         <CardContent className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-foreground">
+                <label className="font-medium text-foreground text-sm">
                   Team Form
                 </label>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-muted-foreground text-sm">
                   {teamForm[0]}%
                 </span>
               </div>
               <Slider
-                value={teamForm}
-                onValueChange={setTeamForm}
                 max={100}
+                onValueChange={setTeamForm}
                 step={1}
+                value={teamForm}
               />
             </div>
 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-foreground">
+                <label className="font-medium text-foreground text-sm">
                   Weather Condition
                 </label>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-muted-foreground text-sm">
                   {weather[0] < 40
                     ? "Rainy"
                     : weather[0] < 60
-                    ? "Cloudy"
-                    : "Clear"}
+                      ? "Cloudy"
+                      : "Clear"}
                 </span>
               </div>
               <Slider
-                value={weather}
-                onValueChange={setWeather}
                 max={100}
+                onValueChange={setWeather}
                 step={1}
+                value={weather}
               />
             </div>
 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-foreground">
+                <label className="font-medium text-foreground text-sm">
                   Ticket Price Change
                 </label>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-muted-foreground text-sm">
                   {priceChange[0] > 0 ? "+" : ""}
                   {priceChange[0]}%
                 </span>
               </div>
               <Slider
-                value={priceChange}
-                onValueChange={setPriceChange}
-                min={-20}
                 max={20}
+                min={-20}
+                onValueChange={setPriceChange}
                 step={1}
+                value={priceChange}
               />
             </div>
 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-foreground">
+                <label className="font-medium text-foreground text-sm">
                   Marketing Boost
                 </label>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-muted-foreground text-sm">
                   {marketing[0]}%
                 </span>
               </div>
               <Slider
-                value={marketing}
-                onValueChange={setMarketing}
                 max={100}
+                onValueChange={setMarketing}
                 step={1}
+                value={marketing}
               />
             </div>
           </div>
 
           {/* Dynamic Recalculation Card */}
-          <Card className="bg-muted border-primary/50">
+          <Card className="border-primary/50 bg-muted">
             <CardHeader>
-              <CardTitle className="text-lg text-foreground">
+              <CardTitle className="text-foreground text-lg">
                 Updated Forecast
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Tickets</p>
-                  <p className="text-2xl font-bold text-foreground">
+                  <p className="mb-1 text-muted-foreground text-sm">Tickets</p>
+                  <p className="font-bold text-2xl text-foreground">
                     {Math.round(adjustedTickets).toLocaleString()}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="mt-1 text-muted-foreground text-xs">
                     {adjustedTickets > baseTickets ? (
-                      <span className="text-success flex items-center gap-1">
+                      <span className="flex items-center gap-1 text-success">
                         <TrendingUp className="h-3 w-3" />+
                         {Math.round(adjustedTickets - baseTickets)}
                       </span>
                     ) : (
-                      <span className="text-danger flex items-center gap-1">
+                      <span className="flex items-center gap-1 text-danger">
                         <TrendingDown className="h-3 w-3" />
                         {Math.round(adjustedTickets - baseTickets)}
                       </span>
@@ -383,16 +383,16 @@ export default function PureGameDetail({ id }: { id: string }) {
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Revenue</p>
-                  <p className="text-2xl font-bold text-foreground">
+                  <p className="mb-1 text-muted-foreground text-sm">Revenue</p>
+                  <p className="font-bold text-2xl text-foreground">
                     €{Math.round(adjustedRevenue).toLocaleString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">
+                  <p className="mb-1 text-muted-foreground text-sm">
                     Occupancy
                   </p>
-                  <p className="text-2xl font-bold text-foreground">
+                  <p className="font-bold text-2xl text-foreground">
                     {adjustedOccupancy}%
                   </p>
                 </div>
@@ -410,31 +410,31 @@ export default function PureGameDetail({ id }: { id: string }) {
       {/* Feature Importance */}
       <Card className="border-border">
         <CardHeader>
-          <CardTitle className="text-xl text-foreground">
+          <CardTitle className="text-foreground text-xl">
             Why This Prediction?
           </CardTitle>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Feature importance - factors driving this forecast
           </p>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {featureImportance.map((item) => (
-              <div key={item.feature} className="space-y-2">
+              <div className="space-y-2" key={item.feature}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <item.icon className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-medium text-foreground">
+                    <span className="font-medium text-foreground text-sm">
                       {item.feature}
                     </span>
                   </div>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-muted-foreground text-sm">
                     {item.importance}%
                   </span>
                 </div>
-                <div className="w-full bg-muted rounded-full h-2">
+                <div className="h-2 w-full rounded-full bg-muted">
                   <div
-                    className="bg-primary rounded-full h-2 transition-all"
+                    className="h-2 rounded-full bg-primary transition-all"
                     style={{ width: `${item.importance}%` }}
                   />
                 </div>

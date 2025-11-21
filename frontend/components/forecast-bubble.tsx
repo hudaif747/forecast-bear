@@ -183,10 +183,8 @@ export function ForecastBubble({
 
   return (
     <div className="my-4 rounded-lg border bg-card p-6">
-      <h2 className="mb-4 text-xl font-bold">{title}</h2>
-      {summary && (
-        <div className="mb-6 text-muted-foreground">{summary}</div>
-      )}
+      <h2 className="mb-4 font-bold text-xl">{title}</h2>
+      {summary && <div className="mb-6 text-muted-foreground">{summary}</div>}
 
       {defaultCharts.length > 0 && (
         <div className="mb-6 space-y-6">
@@ -204,8 +202,8 @@ export function ForecastBubble({
           <h3 className="font-semibold">Game-by-Game Forecast</h3>
           {forecasts.map((forecast) => (
             <div
-              key={forecast.gameId}
               className="rounded-lg border bg-muted/50 p-4"
+              key={forecast.gameId}
             >
               <div className="mb-2 flex items-center justify-between">
                 <div>
@@ -220,7 +218,7 @@ export function ForecastBubble({
                   </div>
                 </div>
                 <div
-                  className="rounded-full px-3 py-1 text-xs font-medium"
+                  className="rounded-full px-3 py-1 font-medium text-xs"
                   style={{
                     backgroundColor: `${COLORS[forecast.confidence]}20`,
                     color: COLORS[forecast.confidence],
@@ -250,7 +248,8 @@ export function ForecastBubble({
               {forecast.explanations && (
                 <div className="mt-4 border-t pt-4">
                   <div className="text-muted-foreground text-sm">
-                    <strong>Explanation:</strong> {forecast.explanations.overall}
+                    <strong>Explanation:</strong>{" "}
+                    {forecast.explanations.overall}
                   </div>
                 </div>
               )}
@@ -261,4 +260,3 @@ export function ForecastBubble({
     </div>
   );
 }
-

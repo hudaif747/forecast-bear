@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface ZustandProviderProps {
   children: ReactNode;
@@ -8,7 +8,7 @@ interface ZustandProviderProps {
 
 /**
  * Zustand Provider Component
- * 
+ *
  * While Zustand doesn't strictly require a provider (stores are global),
  * this provider can be used for:
  * - Initializing stores with server-side data
@@ -25,4 +25,3 @@ export function ZustandProvider({ children }: ZustandProviderProps) {
 
   return <>{children}</>;
 }
-
