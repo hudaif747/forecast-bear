@@ -4,7 +4,7 @@ import { z } from "zod";
 export const generateForecast = () =>
   tool({
     description:
-      "Generate a forecast with predictions and explanations for upcoming games. This tool returns structured forecast data that will be displayed inline in the chat. Use this when the user asks for predictions, forecasts, or analysis of upcoming games. The forecast includes: 1) Forecast data for upcoming games, 2) Explanations for each prediction based on factors like opponent strength, historical attendance, revenue trends, weather patterns, and weekday effects, 3) Visual charts showing the forecast.",
+      "Generate a forecast with predictions and explanations for upcoming games. This tool returns structured forecast data that will be displayed inline in the chat. Use this when the user asks for predictions, forecasts, rankings, top N matches, or analysis of upcoming games. The forecast includes: 1) Forecast data for upcoming games, 2) Explanations for each prediction based on factors like opponent strength, historical attendance, revenue trends, weather patterns, and weekday effects. IMPORTANT: For rankings, top N queries, or comparisons, you should ALSO use the generateChart tool to visualize the data. Think of this as creating a comprehensive report with both analysis and visualization.",
     inputSchema: z.object({
       title: z
         .string()

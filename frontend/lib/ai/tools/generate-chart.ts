@@ -4,7 +4,7 @@ import { z } from "zod";
 export const generateChart = () =>
   tool({
     description:
-      "Generate a chart to display inline in the chat. Use this when the user asks for visualizations, charts, or graphs. The chart will appear directly in the chat response. When the user requests filtered data (e.g., 'games with attendance < 4000'), include filter parameters to show only matching data.",
+      "Generate a chart to display inline in the chat. Use this when the user asks for visualizations, charts, or graphs. The chart will appear directly in the chat response. IMPORTANT: When you use generateForecast for rankings, top N queries, comparisons, or analysis, you should ALSO use this tool to create complementary visualizations. Always use both tools together to create report-like responses. When the user requests filtered data (e.g., 'games with attendance < 4000'), include filter parameters to show only matching data.",
     inputSchema: z.object({
       title: z
         .string()
