@@ -1,0 +1,79 @@
+spieltag,date,weekday,time,home_team,away_team,distance,season,datetime
+1,2022-09-16,Friday,19.30,Grizzlys Wolfsburg,Löwen Frankfurt,369.0,22-23,2022-09-16 19:30:00
+4,2022-09-25,Sunday,16.30,Grizzlys Wolfsburg,Nürnberg Ice Tigers,463.0,22-23,2022-09-25 16:30:00
+5,2022-09-27,Tuesday,19.30,Grizzlys Wolfsburg,Augsburger Panther,588.0,22-23,2022-09-27 19:30:00
+9, 2022-10-09,Sunday,14.00,Grizzlys Wolfsburg,EHC Red Bull München,600.0,22-23,2022-10-09 14:00:00
+11,2022-10-16,Sunday,19.00,Grizzlys Wolfsburg,Schwenninger Wild Wings,638.0,22-23,2022-10-16 19:00:00
+12,2022-10-18,Wednesday,19.30,Grizzlys Wolfsburg,Nürnberg Ice Tigers,463.0,22-23,2022-10-18 19:30:00
+14,2022-10-23,Sunday,14.00,Grizzlys Wolfsburg,Pinguins Bremerhaven,252.0,22-23,2022-10-23 14:00:00
+17,2022-10-30,Sunday,16.30,Grizzlys Wolfsburg,SC Bietigheim Steelers,,22-23,2022-10-30 16:30:00
+19,2022-11-04,Friday,19.30,Grizzlys Wolfsburg,Löwen Frankfurt,369.0,22-23,2022-11-04 19:30:00
+21,2022-11-18,Friday,19.30,Grizzlys Wolfsburg,Eisbären Berlin,228.0,22-23,2022-11-18 19:30:00
+23,2022-11-25,Friday,19.30,Grizzlys Wolfsburg,Iserlohn Roosters,304.0,22-23,2022-11-25 19:30:00
+26,2022-12-02,Friday,19.30,Grizzlys Wolfsburg,SC Bietigheim Steelers,,22-23,2022-12-02 19:30:00
+28,2022-12-08,Thursday,19.30,Grizzlys Wolfsburg,EHC Red Bull München,600.0,22-23,2022-12-08 19:30:00
+30,2022-12-13,Tuesday,19.30,Grizzlys Wolfsburg,Schwenninger Wild Wings,638.0,22-23,2022-12-13 19:30:00
+32,2022-12-18,Sunday,16.30,Grizzlys Wolfsburg,Adler Mannheim,442.0,22-23,2022-12-18 16:30:00
+33,2022-12-21,Wednesday,19.30,Grizzlys Wolfsburg,Eisbären Berlin,228.0,22-23,2022-12-21 19:30:00
+35,2022-12-26,Monday,16.30,Grizzlys Wolfsburg,Kölner Haie,376.0,22-23,2022-12-26 16:30:00
+36,2022-12-28,Wednesday,19.30,Grizzlys Wolfsburg,ERC Ingolstadt,526.0,22-23,2022-12-28 19:30:00
+38,2023-01-02,Monday,19.30,Grizzlys Wolfsburg,Augsburger Panther,588.0,22-23,2023-01-02 19:30:00
+41,2023-01-08,Sunday,14.00,Grizzlys Wolfsburg,Iserlohn Roosters,304.0,22-23,2023-01-08 14:00:00
+44,2023-01-20,Friday,19.30,Grizzlys Wolfsburg,Straubing Tigers,560.0,22-23,2023-01-20 19:30:00
+47,2023-01-27,Friday,19.30,Grizzlys Wolfsburg,ERC Ingolstadt,526.0,22-23,2023-01-27 19:30:00
+49,2023-02-03,Friday,19.30,Grizzlys Wolfsburg,Kölner Haie,376.0,22-23,2023-02-03 19:30:00
+52,2023-02-15,Wednesday,19.30,Grizzlys Wolfsburg,Düsseldorfer EG,367.0,22-23,2023-02-15 19:30:00
+54,2023-02-19,Sunday,16.30,Grizzlys Wolfsburg,Eisbären Berlin,228.0,22-23,2023-02-19 16:30:00
+57,2023-02-26,Sunday,16.30,Grizzlys Wolfsburg,Adler Mannheim,442.0,22-23,2023-02-26 16:30:00
+59,2023-03-03,Friday,19.30,Grizzlys Wolfsburg,Düsseldorfer EG,367.0,22-23,2023-03-03 19:30:00
+1,2023-09-15,Friday,19.3,Grizzlys Wolfsburg,Augsburger Panther,588.0,23-24,2023-09-15 19:03:00
+3,2023-09-22,Friday,19.3,Grizzlys Wolfsburg,Straubing Tigers,560.0,23-24,2023-09-22 19:03:00
+6,2023-10-01,Sunday,16.3,Grizzlys Wolfsburg,Iserlohn Roosters,304.0,23-24,2023-10-01 16:03:00
+8,2023-10-06,Friday,19.3,Grizzlys Wolfsburg,Adler Mannheim,442.0,23-24,2023-10-06 19:03:00
+9,2023-10-08,Sunday,14.0,Grizzlys Wolfsburg,Eisbären Berlin,228.0,23-24,2023-10-08 14:00:00
+11,2023-10-15,Sunday,16.3,Grizzlys Wolfsburg,Löwen Frankfurt,369.0,23-24,2023-10-15 16:03:00
+12,2023-10-20,Friday,19.3,Grizzlys Wolfsburg,Kölner Haie,376.0,23-24,2023-10-20 19:03:00
+15,2023-10-29,Sunday,19.0,Grizzlys Wolfsburg,Iserlohn Roosters,304.0,23-24,2023-10-29 19:00:00
+18,2023-11-05,Sunday,14.0,Grizzlys Wolfsburg,Löwen Frankfurt,369.0,23-24,2023-11-05 14:00:00
+19,2023-11-16,Thursday,18.0,Grizzlys Wolfsburg,Schwenningen,,23-24,2023-11-16 18:00:00
+23,2023-12-01,Friday,19.3,Grizzlys Wolfsburg,Augsburger Panther,588.0,23-24,2023-12-01 19:03:00
+26,2023-12-10,Sunday,14.0,Grizzlys Wolfsburg,Pinguins Bremerhaven,252.0,23-24,2023-12-10 14:00:00
+27,2023-12-15,Friday,19.3,Grizzlys Wolfsburg,Nürnberg Ice Tigers,463.0,23-24,2023-12-15 19:03:00
+28,2023-12-17,Sunday,19.0,Grizzlys Wolfsburg,ERC Ingolstadt,526.0,23-24,2023-12-17 19:00:00
+30,2023-12-23,Saturday,16.3,Grizzlys Wolfsburg,Adler Mannheim,442.0,23-24,2023-12-23 16:03:00
+32,2023-12-28,Thursday,19.3,Grizzlys Wolfsburg,EHC Red Bull München,600.0,23-24,2023-12-28 19:03:00
+36,2024-01-07,Sunday,14.0,Grizzlys Wolfsburg,Düsseldorfer EG,367.0,23-24,2024-01-07 14:00:00
+38,2024-01-14,Sunday,19.0,Grizzlys Wolfsburg,Straubing Tigers,560.0,23-24,2024-01-14 19:00:00
+39,2024-01-19,Friday,19.3,Grizzlys Wolfsburg,Schwenningen,,23-24,2024-01-19 19:03:00
+41,2024-01-26,Friday,19.3,Grizzlys Wolfsburg,Eisbären Berlin,228.0,23-24,2024-01-26 19:03:00
+43,2024-02-02,Friday,19.3,Grizzlys Wolfsburg,ERC Ingolstadt,526.0,23-24,2024-02-02 19:03:00
+44,2024-02-04,Sunday,16.3,Grizzlys Wolfsburg,EHC Red Bull München,600.0,23-24,2024-02-04 16:03:00
+47,2024-02-18,Sunday,14.0,Grizzlys Wolfsburg,Pinguins Bremerhaven,252.0,23-24,2024-02-18 14:00:00
+45,2024-02-20,Tuesday,19.3,Grizzlys Wolfsburg,Düsseldorfer EG,367.0,23-24,2024-02-20 19:03:00
+50,2024-03-01,Friday,19.3,Grizzlys Wolfsburg,Kölner Haie,376.0,23-24,2024-03-01 19:03:00
+51,2024-03-03,Sunday,14.0,Grizzlys Wolfsburg,Nürnberg Ice Tigers,463.0,23-24,2024-03-03 14:00:00
+2,2024-09-22,Sunday,16.30,Grizzlys Wolfsburg,Düsseldorfer EG,367.0,24-25,2024-09-22 16:30:00
+3,2024-09-27,Friday,19.30,Grizzlys Wolfsburg,Iserlohn Roosters,304.0,24-25,2024-09-27 19:30:00
+6,2024-10-04,Friday,19.30,Grizzlys Wolfsburg,Schwenninger Wild Wings,638.0,24-25,2024-10-04 19:30:00
+9,2024-10-13,Sunday,16.30,Grizzlys Wolfsburg,Adler Mannheim,442.0,24-25,2024-10-13 16:30:00
+11,2024-10-20,Sunday,14.00,Grizzlys Wolfsburg,Eisbären Berlin,228.0,24-25,2024-10-20 14:00:00
+14,2024-10-31,Thursday,14.00,Grizzlys Wolfsburg,Adler Mannheim,442.0,24-25,2024-10-31 14:00:00
+17,2024-11-17,Sunday,14.00,Grizzlys Wolfsburg,Schwenninger Wild Wings,638.0,24-25,2024-11-17 14:00:00
+18,2024-11-21,Thursday,19.30,Grizzlys Wolfsburg,Augsburger Panther,588.0,24-25,2024-11-21 19:30:00
+20,2024-11-27,Wednesday,18.00,Grizzlys Wolfsburg,Düsseldorfer EG,367.0,24-25,2024-11-27 18:00:00
+21,2024-11-29,Friday,19.30,Grizzlys Wolfsburg,Kölner Haie,376.0,24-25,2024-11-29 19:30:00
+23,2024-12-06,Friday,13.00,Grizzlys Wolfsburg,EHC Red Bull München,600.0,24-25,2024-12-06 13:00:00
+25,2024-12-13,Friday,19.30,Grizzlys Wolfsburg,Nürnberg Ice Tigers,463.0,24-25,2024-12-13 19:30:00
+27,2024-12-18,Wednesday,19.30,Grizzlys Wolfsburg,ERC Ingolstadt,526.0,24-25,2024-12-18 19:30:00
+29,2024-12-22,Sunday,14.00,Grizzlys Wolfsburg,Löwen Frankfurt,369.0,24-25,2024-12-22 14:00:00
+30,2024-12-26,Thursday,16.30,Grizzlys Wolfsburg,Eisbären Berlin,228.0,24-25,2024-12-26 16:30:00
+34,2025-01-05,Sunday,16.30,Grizzlys Wolfsburg,Straubing Tigers,560.0,24-25,2025-01-05 16:30:00
+36,2025-01-12,Sunday,14.00,Grizzlys Wolfsburg,Pinguins Bremerhaven,252.0,24-25,2025-01-12 14:00:00
+38,2025-01-19,Sunday,16.30,Grizzlys Wolfsburg,Augsburger Panther,588.0,24-25,2025-01-19 16:30:00
+40,2025-01-26,Sunday,19.00,Grizzlys Wolfsburg,EHC Red Bull München,600.0,24-25,2025-01-26 19:00:00
+41,2025-01-28,Tuesday,19.30,Grizzlys Wolfsburg,Löwen Frankfurt,369.0,24-25,2025-01-28 19:30:00
+43,2025-02-02,Sunday,16.30,Grizzlys Wolfsburg,Iserlohn Roosters,304.0,24-25,2025-02-02 16:30:00
+45,2025-02-16,Sunday,14.00,Grizzlys Wolfsburg,Pinguins Bremerhaven,252.0,24-25,2025-02-16 14:00:00
+47,2025-02-21,Friday,18.00 VW,Grizzlys Wolfsburg,ERC Ingolstadt,526.0,24-25,2025-02-21 18:00:00
+49,2025-02-28,Friday,19.30,Grizzlys Wolfsburg,Kölner Haie,376.0,24-25,2025-02-28 19:30:00
+51,2025-03-04,Tuesday,19.30,Grizzlys Wolfsburg,Straubing Tigers,560.0,24-25,2025-03-04 19:30:00

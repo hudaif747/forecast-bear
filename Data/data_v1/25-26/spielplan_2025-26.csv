@@ -1,0 +1,53 @@
+spieltag,date,weekday,time,home_team,away_team,distance,season
+1,12.09.2025,Friday,19:30,Löwen Frankfurt,Grizzlys Wolfsburg,369,2025-2026
+2,14.09.2025,Sunday,16:30,Grizzlys Wolfsburg,Nürnberg Ice Tigers,463,2025-2026
+3,19.09.2025,Friday,19:30,ERC Ingolstadt,Grizzlys Wolfsburg,526,2025-2026
+4,21.09.2025,Sunday,16:30,Grizzlys Wolfsburg,Dresden Eislöwen,367,2025-2026
+5,26.09.2025,Friday,19:30,Grizzlys Wolfsburg,Schwenninger Wild Wings,638,2025-2026
+6,28.09.2025,Sunday,16:30,Kölner Haie,Grizzlys Wolfsburg,376,2025-2026
+7,03.10.2025,Friday,16:30,EHC Red Bull München,Grizzlys Wolfsburg,600,2025-2026
+8,05.10.2025,Sunday,14:00,Grizzlys Wolfsburg,Pinguins Bremerhaven,252,2025-2026
+9,10.10.2025,Friday,19:30,Augsburger Panther,Grizzlys Wolfsburg,588,2025-2026
+10,12.10.2025,Sunday,16:30,Grizzlys Wolfsburg,Straubing Tigers,560,2025-2026
+11,17.10.2025,Friday,19:30,Eisbären Berlin,Grizzlys Wolfsburg,228,2025-2026
+12,19.10.2025,Sunday,14:00,Grizzlys Wolfsburg,Adler Mannheim,442,2025-2026
+13,24.10.2025,Friday,19:30,Grizzlys Wolfsburg,Iserlohn Roosters,304,2025-2026
+14,26.10.2025,Sunday,16:30,Straubing Tigers,Grizzlys Wolfsburg,560,2025-2026
+15,28.10.2025,Tuesday,19:30,Grizzlys Wolfsburg,EHC Red Bull München,600,2025-2026
+16,30.10.2025,Thursday,19:30,Grizzlys Wolfsburg,Augsburger Panther,588,2025-2026
+17,01.11.2025,Saturday,18:00,Iserlohn Roosters,Grizzlys Wolfsburg,304,2025-2026
+18,14.11.2025,Friday,19:30,Grizzlys Wolfsburg,Kölner Haie,376,2025-2026
+19,16.11.2025,Sunday,14:00,Adler Mannheim,Grizzlys Wolfsburg,442,2025-2026
+20,21.11.2025,Friday,19:30,Grizzlys Wolfsburg,ERC Ingolstadt,526,2025-2026
+21,23.11.2025,Sunday,18:00,Dresden Eislöwen,Grizzlys Wolfsburg,367,2025-2026
+22,26.11.2025,Wednesday,19:30,Pinguins Bremerhaven,Grizzlys Wolfsburg,252,2025-2026
+23,28.11.2025,Friday,19:30,Grizzlys Wolfsburg,Eisbären Berlin,228,2025-2026
+24,30.11.2025,Sunday,16:30,Schwenninger Wild Wings,Grizzlys Wolfsburg,638,2025-2026
+25,05.12.2025,Friday,19:30,Grizzlys Wolfsburg,Löwen Frankfurt,369,2025-2026
+26,07.12.2025,Sunday,14:00,Nürnberg Ice Tigers,Grizzlys Wolfsburg,463,2025-2026
+27,12.12.2025,Friday,19:30,Grizzlys Wolfsburg,Pinguins Bremerhaven,252,2025-2026
+28,14.12.2025,Sunday,16:30,Dresden Eislöwen,Grizzlys Wolfsburg,367,2025-2026
+29,18.12.2025,Thursday,19:30,Kölner Haie,Grizzlys Wolfsburg,376,2025-2026
+30,21.12.2025,Sunday,14:00,Grizzlys Wolfsburg,Adler Mannheim,442,2025-2026
+31,23.12.2025,Tuesday,19:30,Grizzlys Wolfsburg,Iserlohn Roosters,304,2025-2026
+32,26.12.2025,Friday,16:30,Eisbären Berlin,Grizzlys Wolfsburg,228,2025-2026
+33,28.12.2025,Sunday,16:30,ERC Ingolstadt,Grizzlys Wolfsburg,526,2025-2026
+34,30.12.2025,Tuesday,19:30,Grizzlys Wolfsburg,Straubing Tigers,560,2025-2026
+35,02.01.2026,Friday,19:30,Grizzlys Wolfsburg,EHC Red Bull München,600,2025-2026
+36,04.01.2026,Sunday,19:15,Nürnberg Ice Tigers,Grizzlys Wolfsburg,463,2025-2026
+37,06.01.2026,Tuesday,14:00,Schwenninger Wild Wings,Grizzlys Wolfsburg,638,2025-2026
+38,09.01.2026,Friday,19:30,Grizzlys Wolfsburg,Augsburger Panther,588,2025-2026
+39,11.01.2026,Sunday,14:00,Grizzlys Wolfsburg,Löwen Frankfurt,369,2025-2026
+40,16.01.2026,Friday,19:30,Iserlohn Roosters,Grizzlys Wolfsburg,304,2025-2026
+41,18.01.2026,Sunday,14:00,Grizzlys Wolfsburg,Eisbären Berlin,228,2025-2026
+42,22.01.2026,Thursday,19:30,Adler Mannheim,Grizzlys Wolfsburg,442,2025-2026
+43,25.01.2026,Sunday,19:00,Grizzlys Wolfsburg,Dresden Eislöwen,367,2025-2026
+44,27.01.2026,Tuesday,19:30,Pinguins Bremerhaven,Grizzlys Wolfsburg,252,2025-2026
+45,25.02.2026,Wednesday,19:30,Grizzlys Wolfsburg,Schwenninger Wild Wings,638,2025-2026
+46,27.02.2026,Friday,19:30,Straubing Tigers,Grizzlys Wolfsburg,560,2025-2026
+47,01.03.2026,Sunday,14:00,Löwen Frankfurt,Grizzlys Wolfsburg,369,2025-2026
+48,04.03.2026,Wednesday,19:30,Grizzlys Wolfsburg,ERC Ingolstadt,526,2025-2026
+49,06.03.2026,Friday,19:30,EHC Red Bull München,Grizzlys Wolfsburg,600,2025-2026
+50,08.03.2026,Sunday,16:30,Grizzlys Wolfsburg,Nürnberg Ice Tigers,463,2025-2026
+51,13.03.2026,Friday,19:30,Grizzlys Wolfsburg,Kölner Haie,376,2025-2026
+52,15.03.2026,Sunday,14:00,Augsburger Panther,Grizzlys Wolfsburg,588,2025-2026

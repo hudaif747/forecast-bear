@@ -1,0 +1,16 @@
+[
+  "weekday_sin",
+  "weekday_cos",
+  "hour",
+  "month_sin",
+  "is_dec_holiday",
+  "holiday_score",
+  "spieltag",
+  "game_progress",
+  "opponent_attendance",
+  "distance_log",
+  "is_top_opponent",
+  "sunday_boost",
+  "sunday_opp_adj",
+  "sunday_top"
+]

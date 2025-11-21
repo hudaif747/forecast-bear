@@ -1,0 +1,83 @@
+1 season = September to March
+give schedule for new season -> get output predictions
+
+GW Spielplan 2025-2026.pdf
+	Date 
+	Day 
+	Face-Off (game start time) 
+	Home (game host team) -> Grizzlys Wolfsburg (GER)
+	Away (visiting team, opponent)
+	Distance (distance the opponent team fans need to travel to watch the game)
+
+
+
+
+Saison 24_25.xlsx
+	Day tags:
+		Tag (date)
+		Anzahl Tickets (number of tickets sold)
+		Gesamteinnahmen brutto (total revenue from tickets sold)
+	
+	Abo-Veranstaltungen (season tickets):
+		gesamt Abo:
+			Anzahl Tickets (number of tickets sold)
+			Gesamteinnahmen brutto (total revenue from tickets sold)			
+			
+Spielplan GW 24-25 Final.pdf
+	Date 
+	Weekday (day)
+	Face-Off  (game start time)
+	Home (game host team) -> Grizzlys Wolfsburg (GER)
+	Away (visiting team, opponent)
+	Distance (distance the opponent team fans need to travel to watch the game)
+
+
+
+
+Saison 23_24.xlsx
+	Day tags:
+		Tag (date)
+		Anzahl Tickets (number of tickets sold)
+		Gesamteinnahmen brutto (total revenue from tickets sold)
+	
+	Abo-Veranstaltungen (season tickets):
+		gesamt Abo:
+			Anzahl Tickets (number of tickets sold)
+			Gesamteinnahmen brutto (total revenue from tickets sold)
+			
+			
+
+GW_Spielplan_23-24.pdf
+	SPIELTAG (game number, 1-52)
+	DATUM (date of game)
+	UHRZEIT (game start time)
+	SPIELPAARUNG (competing teams)
+	
+
+
+
+Saison 22_23.xlsx
+	Tag (date)
+	Anzahl Tickets (number of tickets sold)
+	Gesamteinnahmen brutto (total revenue from tickets sold)
+	
+	Abo-Veranstaltungen (season tickets):
+		gesamt Abo:			
+			Anzahl Tickets (number of tickets sold)
+			Gesamteinnahmen brutto (total revenue from tickets sold)
+			
+Spielplan 22-23_GW.pdf
+	ST (game number, 1-60)
+	Date (day and date)
+	Bully (game start time) 
+	Home (game host team) -> Grizzlys Wolfsburg (GER)
+	Away (visiting team, opponent)
+	
+
+			
+
+		
+		
+	
+
+	

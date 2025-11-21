@@ -1,0 +1,15 @@
+[
+  "weekday_sin",
+  "weekday_cos",
+  "hour",
+  "is_sunday_afternoon",
+  "is_friday_evening",
+  "holiday_score",
+  "christmas_proximity",
+  "spieltag",
+  "is_late_season",
+  "opponent_attendance",
+  "distance_log",
+  "sunday_opponent",
+  "holiday_opponent"
+]

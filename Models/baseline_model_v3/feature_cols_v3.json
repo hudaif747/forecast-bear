@@ -1,0 +1,18 @@
+[
+  "month_sin",
+  "month_cos",
+  "weekday_sin",
+  "weekday_cos",
+  "hour",
+  "is_weekend",
+  "is_public_holiday",
+  "near_holiday",
+  "is_christmas_period",
+  "is_school_holiday",
+  "is_late_season",
+  "spieltag",
+  "games_remaining",
+  "season_tickets_sold",
+  "opponent_avg_attendance",
+  "distance_log"
+]

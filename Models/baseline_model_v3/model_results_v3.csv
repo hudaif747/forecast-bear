@@ -1,0 +1,7 @@
+Model,RMSE,MAE,MAPE,R²
+XGBoost (tuned),324.08,261.8,16.2,0.606
+Random Forest (tuned),331.93,264.76,15.05,0.587
+Gradient Boosting (tuned),346.49,285.21,16.79,0.55
+Ridge (alpha=10.0),353.32,312.42,19.89,0.532
+Lasso (alpha=10.0),366.47,321.78,19.74,0.497
+Linear Regression,412.75,320.53,19.12,0.361

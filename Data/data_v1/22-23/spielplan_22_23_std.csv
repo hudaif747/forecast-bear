@@ -1,0 +1,50 @@
+spieltag,date,weekday,time,home_team,away_team,distance,season
+1,2022-09-16,Friday,19.30,Grizzlys Wolfsburg (GER),Löwen Frankfurt (GER),,22-23
+2,2022-09-21,Wednesday,19.30,Kölner Haie (GER),Grizzlys Wolfsburg (GER),,22-23
+3,2022-09-23,Friday,19.30,Eisbären Berlin (GER),Grizzlys Wolfsburg (GER),,22-23
+4,2022-09-25,Sunday,16.30,Grizzlys Wolfsburg (GER),Nürnberg Ice Tigers (GER),,22-23
+5,2022-09-27,Tuesday,19.30,Grizzlys Wolfsburg (GER),Augsburger Panther (GER),,22-23
+7,2022-10-02,Sunday,14.00,Iserlohn Roosters (GER),Grizzlys Wolfsburg (GER),,22-23
+8,2022-10-07,Friday,19.30,Pinguins Bremerhaven (GER)Grizzlys Wolfsburg (GER),"8. 9 Sun, Oct 09, 2022 14.00 Grizzlys Wolfsburg (GER)",,22-23
+10,2022-10-14,Friday,19.30,Straubing Tigers (GER),Grizzlys Wolfsburg (GER),,22-23
+11,2022-10-16,Sunday,19.00,Grizzlys Wolfsburg (GER),Schwenninger Wild Wings (GER),,22-23
+13,2022-10-20,Thursday,19.30,Augsburger Panther (GER),Grizzlys Wolfsburg (GER),,22-23
+14,2022-10-23,Sunday,14.00,Grizzlys Wolfsburg (GER),Pinguins Bremerhaven (GER),,22-23
+15,2022-10-26,Wednesday,19.30,Kölner Haie (GER),Grizzlys Wolfsburg (GER),,22-23
+16,2022-10-28,Friday,19.30,Iserlohn Roosters (GER),Grizzlys Wolfsburg (GER),,22-23
+17,2022-10-30,Sunday,16.30,Grizzlys Wolfsburg (GER),SC Bietigheim Steelers (GER),,22-23
+18,2022-11-02,Wednesday,19.30,Düsseldorfer EG (GER),Grizzlys Wolfsburg (GER),,22-23
+19,2022-11-04,Friday,19.30,Grizzlys Wolfsburg (GER),Löwen Frankfurt (GER),,22-23
+20,2022-11-06,Sunday,14.00,Pinguins Bremerhaven (GER)Grizzlys Wolfsburg (GER),"19. 21 Fri, Nov 18, 2022 19.30 Grizzlys Wolfsburg (GER)",,22-23
+22,2022-11-20,Sunday,14.00,Nürnberg Ice Tigers (GER),Grizzlys Wolfsburg (GER),,22-23
+12,2022-11-23,Wednesday,19.30,Grizzlys Wolfsburg (GER),Nürnberg Ice Tigers (GER),,22-23
+23,2022-11-25,Friday,19.30,Grizzlys Wolfsburg (GER),Iserlohn Roosters (GER),,22-23
+24,2022-11-27,Sunday,16.30,Adler Mannheim (GER),Grizzlys Wolfsburg (GER),,22-23
+25,2022-11-29,Tuesday,19.30,ERC Ingolstadt (GER),Grizzlys Wolfsburg (GER),,22-23
+26,2022-12-02,Friday,19.30,Grizzlys Wolfsburg (GER),SC Bietigheim Steelers (GER),,22-23
+27,2022-12-04,Sunday,14.00,Straubing Tigers (GER),Grizzlys Wolfsburg (GER),,22-23
+28,2022-12-08,Thursday,19.30,Grizzlys Wolfsburg (GER),EHC Red Bull München (GER),,22-23
+29,2022-12-11,Sunday,14.00,Nürnberg Ice Tigers (GER),Grizzlys Wolfsburg (GER),,22-23
+30,2022-12-13,Tuesday,19.30,Grizzlys Wolfsburg (GER),Schwenninger Wild Wings (GER),,22-23
+31,2022-12-15,Thursday,19.30,Löwen Frankfurt (GER),Grizzlys Wolfsburg (GER),,22-23
+32,2022-12-18,Sunday,16.30,Grizzlys Wolfsburg (GER),Adler Mannheim (GER),,22-23
+33,2022-12-21,Wednesday,19.30,Grizzlys Wolfsburg (GER),Eisbären Berlin (GER),,22-23
+34,2022-12-23,Friday,19.30,Düsseldorfer EG (GER),Grizzlys Wolfsburg (GER),,22-23
+35,2022-12-26,Monday,16.30,Grizzlys Wolfsburg (GER),Kölner Haie (GER),,22-23
+36,2022-12-28,Wednesday,19.30,Grizzlys Wolfsburg (GER),ERC Ingolstadt (GER),,22-23
+37,2022-12-30,Friday,19.30,EHC Red Bull München (GER)Grizzlys Wolfsburg (GER),"37. 38 Mon, Jan 02, 2023 19.30 Grizzlys Wolfsburg (GER)",,22-23
+39,2023-01-04,Wednesday,19.30,Schwenninger Wild Wings (GEGRri)zzlys Wolfsburg (GER),"39. 41 Sun, Jan 08, 2023 16.30 Grizzlys Wolfsburg (GER)",,22-23
+42,2023-01-13,Friday,19.30,SC Bietigheim Steelers (GER)Grizzlys Wolfsburg (GER),"41. 43 Sun, Jan 15, 2023 14.00 Grizzlys Wolfsburg (GER)",,22-23
+44,2023-01-20,Friday,19.30,Grizzlys Wolfsburg (GER),Straubing Tigers (GER),,22-23
+45,2023-01-22,Sunday,14.00,Eisbären Berlin (GER),Grizzlys Wolfsburg (GER),,22-23
+46,2023-01-24,Tuesday,19.30,Adler Mannheim (GER),Grizzlys Wolfsburg (GER),,22-23
+47,2023-01-27,Friday,19.30,Grizzlys Wolfsburg (GER),ERC Ingolstadt (GER),,22-23
+49,2023-02-03,Friday,19.30,Grizzlys Wolfsburg (GER),Kölner Haie (GER),,22-23
+50,2023-02-05,Sunday,tba,Löwen Frankfurt (GER),Grizzlys Wolfsburg (GER),,22-23
+51,2023-02-12,Sunday,14.00,Augsburger Panther (GER),Grizzlys Wolfsburg (GER),,22-23
+52,2023-02-15,Wednesday,19.30,Grizzlys Wolfsburg (GER),Düsseldorfer EG (GER),,22-23
+53,2023-02-17,Friday,19.30,EHC Red Bull München (GER)Grizzlys Wolfsburg (GER),"51. 54 Sun, Feb 19, 2023 14.00 Grizzlys Wolfsburg (GER)",,22-23
+55,2023-02-22,Wednesday,19.30,SC Bietigheim Steelers (GER)Grizzlys Wolfsburg (GER),"53. 56 Fri, Feb 24, 2023 19.30 Schwenninger Wild Wings (GEGRri)zzlys Wolfsburg (GER)",,22-23
+57,2023-02-26,Sunday,16.30,Grizzlys Wolfsburg (GER),Adler Mannheim (GER),,22-23
+59,2023-03-03,Friday,19.30,Grizzlys Wolfsburg (GER),Düsseldorfer EG (GER),,22-23
+60,2023-03-05,Sunday,14.00,ERC Ingolstadt (GER),Grizzlys Wolfsburg (GER),,22-23

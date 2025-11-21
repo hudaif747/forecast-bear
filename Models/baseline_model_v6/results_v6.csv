@@ -1,0 +1,11 @@
+Model,RMSE,MAE,MAPE,R²
+Ridge (log target),312.18,238.09,12.97,0.635
+CatBoost,331.35,255.13,13.73,0.588
+Final Ensemble (4-way),330.24,261.48,14.15,0.591
+Random Forest,362.65,268.03,14.04,0.507
+Ridge (α=1),354.39,277.83,15.37,0.529
+Stacking Ensemble,347.36,280.34,15.19,0.548
+XGBoost,367.34,288.53,15.5,0.494
+Ridge + Error Correction,379.67,307.17,16.82,0.46
+LightGBM,437.87,326.68,18.52,0.281
+XGBoost (log target),410.96,345.57,19.16,0.367

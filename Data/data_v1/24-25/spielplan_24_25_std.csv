@@ -1,0 +1,53 @@
+spieltag,date,weekday,time,home_team,away_team,distance,season
+1,2024-09-20,Friday,19.30,Pinguins Bremerhaven (GER),Grizzlys Wolfsburg (GER),252 km (D),24-25
+2,2024-09-22,Sunday,16.30,Grizzlys Wolfsburg (GER),Düsseldorfer EG (GER),367 km,24-25
+3,2024-09-27,Friday,19.30,Grizzlys Wolfsburg (GER),Iserlohn Roosters (GER),304 km,24-25
+4,2024-09-29,Sunday,14.00,Löwen Frankfurt (GER),Grizzlys Wolfsburg (GER),369 km,24-25
+5,2024-10-02,Wednesday,19.30,EHC Red Bull München (GER),Grizzlys Wolfsburg (GER),600 km,24-25
+6,2024-10-04,Friday,19.30,Grizzlys Wolfsburg (GER),Schwenninger Wild Wings (GER),638 km,24-25
+7,2024-10-06,Sunday,19.00,Augsburger Panther (GER),Grizzlys Wolfsburg (GER),588 km,24-25
+8,2024-10-11,Friday,19.30,ERC Ingolstadt (GER),Grizzlys Wolfsburg (GER),526 km,24-25
+9,2024-10-13,Sunday,16.30,Grizzlys Wolfsburg (GER),Adler Mannheim (GER),442 km,24-25
+10,2024-10-18,Friday,19.30,Straubing Tigers (GER),Grizzlys Wolfsburg (GER),560 km,24-25
+11,2024-10-20,Sunday,14.00,Grizzlys Wolfsburg (GER),Eisbären Berlin (GER),228 km (D),24-25
+16,2024-10-22,Tuesday,19.30,Eisbären Berlin (GER),Grizzlys Wolfsburg (GER),228 km (D),24-25
+12 25.10.2024 Fri 19.30 Grizzlys Wolfsburg (GER) Nürnberg Ice Tigers (GER) 463 km,,,,,,,24-25
+13,2024-10-27,Sunday,14.00,Kölner Haie (GER),Grizzlys Wolfsburg (GER),376 km,24-25
+14,2024-10-31,Thursday,14.00,Grizzlys Wolfsburg (GER),Adler Mannheim (GER),442 km,24-25
+15,2024-11-03,Sunday,14.00,Pinguins Bremerhaven (GER),Grizzlys Wolfsburg (GER),252 km (D),24-25
+17,2024-11-17,Sunday,14.00,Grizzlys Wolfsburg (GER),Schwenninger Wild Wings (GER),638 km,24-25
+18,2024-11-21,Thursday,19.30,Grizzlys Wolfsburg (GER),Augsburger Panther (GER),588 km,24-25
+19,2024-11-24,Sunday,16.30,ERC Ingolstadt (GER),Grizzlys Wolfsburg (GER),526 km,24-25
+20,2024-11-27,Wednesday,18.00,Grizzlys Wolfsburg (GER),Düsseldorfer EG (GER),367 km,24-25
+21,2024-11-29,Friday,19.30,Grizzlys Wolfsburg (GER),Kölner Haie (GER),376 km,24-25
+22,2024-12-01,Sunday,19.00,Iserlohn Roosters (GER),Grizzlys Wolfsburg (GER),304 km,24-25
+23,2024-12-06,Friday,13.00,Grizzlys Wolfsburg (GER),EHC Red Bull München (GER),600 km,24-25
+24,2024-12-08,Sunday,16.30,Löwen Frankfurt (GER),Grizzlys Wolfsburg (GER),369 km,24-25
+25,2024-12-13,Friday,19.30,Grizzlys Wolfsburg (GER),Nürnberg Ice Tigers (GER),463 km,24-25
+26,2024-12-15,Sunday,16.30,Straubing Tigers (GER),Grizzlys Wolfsburg (GER),560 km,24-25
+27,2024-12-18,Wednesday,19.30,Grizzlys Wolfsburg (GER),ERC Ingolstadt (GER),526 km,24-25
+28,2024-12-20,Friday,19.30,Iserlohn Roosters (GER),Grizzlys Wolfsburg (GER),304 km,24-25
+29,2024-12-22,Sunday,14.00,Grizzlys Wolfsburg (GER),Löwen Frankfurt (GER),369 km,24-25
+30,2024-12-26,Thursday,16.30,Grizzlys Wolfsburg (GER),Eisbären Berlin (GER),228 km (D),24-25
+31,2024-12-28,Saturday,20.00,Düsseldorfer EG (GER),Grizzlys Wolfsburg (GER),367 km,24-25
+32,2024-12-30,Monday,19.30,EHC Red Bull München (GER),Grizzlys Wolfsburg (GER),600 km,24-25
+33,2025-01-03,Friday,19.30,Schwenninger Wild Wings (GER),Grizzlys Wolfsburg (GER),638 km,24-25
+34,2025-01-05,Sunday,16.30,Grizzlys Wolfsburg (GER),Straubing Tigers (GER),560 km,24-25
+35,2025-01-10,Friday,19.30,Kölner Haie (GER),Grizzlys Wolfsburg (GER),376 km,24-25
+36,2025-01-12,Sunday,14.00,Grizzlys Wolfsburg (GER),Pinguins Bremerhaven (GER),252 km (D),24-25
+37,2025-01-17,Friday,19.30,Nürnberg Ice Tigers (GER),Grizzlys Wolfsburg (GER),463 km,24-25
+38,2025-01-19,Sunday,16.30,Grizzlys Wolfsburg (GER),Augsburger Panther (GER),588 km,24-25
+39,2025-01-24,Friday,19.30,Adler Mannheim (GER),Grizzlys Wolfsburg (GER),442 km,24-25
+40,2025-01-26,Sunday,19.00,Grizzlys Wolfsburg (GER),EHC Red Bull München (GER),600 km,24-25
+41,2025-01-28,Tuesday,19.30,Grizzlys Wolfsburg (GER),Löwen Frankfurt (GER),369 km,24-25
+42,2025-01-31,Friday,19.30,Augsburger Panther (GER),Grizzlys Wolfsburg (GER),588 km,24-25
+43,2025-02-02,Sunday,16.30,Grizzlys Wolfsburg (GER),Iserlohn Roosters (GER),304 km,24-25
+44,2025-02-14,Friday,19.30,Nürnberg Ice Tigers (GER),Grizzlys Wolfsburg (GER),463 km,24-25
+45,2025-02-16,Sunday,14.00,Grizzlys Wolfsburg (GER),Pinguins Bremerhaven (GER),252 km (D),24-25
+46,2025-02-19,Wednesday,19.30,Adler Mannheim (GER),Grizzlys Wolfsburg (GER),442 km,24-25
+47,2025-02-21,Friday,18.00 VW,Grizzlys Wolfsburg (GER),ERC Ingolstadt (GER),526 km,24-25
+48,2025-02-23,Sunday,16.30,Schwenninger Wild Wings (GER),Grizzlys Wolfsburg (GER),638 km,24-25
+49,2025-02-28,Friday,19.30,Grizzlys Wolfsburg (GER),Kölner Haie (GER),376 km,24-25
+50,2025-03-02,Sunday,14.00,Eisbären Berlin (GER),Grizzlys Wolfsburg (GER),228 km (D),24-25
+51,2025-03-04,Tuesday,19.30,Grizzlys Wolfsburg (GER),Straubing Tigers (GER),560 km,24-25
+52,2025-03-07,Friday,19.30,Düsseldorfer EG (GER),Grizzlys Wolfsburg (GER),367 km,24-25

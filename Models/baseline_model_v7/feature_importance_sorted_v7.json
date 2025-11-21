@@ -1,0 +1,52 @@
+{
+  "model": "Avg (Ridge+CB)",
+  "mae": 198.15,
+  "feature_importance": {
+    "is_dec_holiday": 0.14771365185966362,
+    "opponent_attendance": 0.12627521008190937,
+    "month_sin": 0.11500394996020472,
+    "game_progress": 0.10106087961594905,
+    "sunday_opp_adj": 0.09343713901540185,
+    "spieltag": 0.07239445784143872,
+    "hour": 0.0713749368977579,
+    "weekday_cos": 0.05615318946173856,
+    "sunday_boost": 0.04788792216795532,
+    "is_top_opponent": 0.04589863728578518,
+    "weekday_sin": 0.03772385926016245,
+    "distance_log": 0.03246467902167127,
+    "holiday_score": 0.030605965002172934,
+    "sunday_top": 0.022005522528189107
+  },
+  "ridge_importance": {
+    "weekday_sin": 0.03911835096535787,
+    "weekday_cos": 0.09584762249343637,
+    "hour": 0.058549154347795986,
+    "month_sin": 0.18848288682573744,
+    "is_dec_holiday": 0.1818313330484409,
+    "holiday_score": 0.015289894368965272,
+    "spieltag": 0.0721969516925474,
+    "game_progress": 0.0076697741348203405,
+    "opponent_attendance": 0.09510064802749711,
+    "distance_log": 0.0015159325394442458,
+    "is_top_opponent": 0.006515839394075062,
+    "sunday_boost": 0.05715610563854589,
+    "sunday_opp_adj": 0.14143556893796982,
+    "sunday_top": 0.039289937585366336
+  },
+  "catboost_importance": {
+    "weekday_sin": 0.03632936755496703,
+    "weekday_cos": 0.016458756430040758,
+    "hour": 0.0842007194477198,
+    "month_sin": 0.041525013094672,
+    "is_dec_holiday": 0.11359597067088634,
+    "holiday_score": 0.045922035635380595,
+    "spieltag": 0.07259196399033005,
+    "game_progress": 0.19445198509707776,
+    "opponent_attendance": 0.15744977213632164,
+    "distance_log": 0.0634134255038983,
+    "is_top_opponent": 0.0852814351774953,
+    "sunday_boost": 0.03861973869736476,
+    "sunday_opp_adj": 0.04543870909283389,
+    "sunday_top": 0.004721107471011879
+  }
+}
