@@ -78,6 +78,36 @@ const COLORS = {
   low: "#ef4444",
 };
 
+// Regex patterns for formatting field names
+const predictedTicketsRegex = /predictedTickets/g;
+const predictedRevenueRegex = /predictedRevenue/g;
+const occupancyRegex = /occupancy/g;
+const opponentRegex = /opponent/g;
+const dateRegex = /date/g;
+const monthRegex = /month/g;
+const ticketsRegex = /tickets/g;
+const revenueRegex = /revenue/g;
+const attendanceRegex = /attendance/g;
+const conditionRegex = /condition/g;
+const avgAttendanceRegex = /avgAttendance/g;
+const forecastTicketsRegex = /forecastTickets/g;
+
+function formatFieldName(name: string): string {
+  return name
+    .replace(predictedTicketsRegex, "Predicted Tickets")
+    .replace(predictedRevenueRegex, "Predicted Revenue")
+    .replace(occupancyRegex, "Occupancy")
+    .replace(opponentRegex, "Opponent")
+    .replace(dateRegex, "Date")
+    .replace(monthRegex, "Month")
+    .replace(ticketsRegex, "Tickets")
+    .replace(revenueRegex, "Revenue")
+    .replace(attendanceRegex, "Attendance")
+    .replace(conditionRegex, "Condition")
+    .replace(avgAttendanceRegex, "Avg. Attendance")
+    .replace(forecastTicketsRegex, "Forecast Tickets");
+}
+
 export function ForecastBubble({
   title,
   summary,
@@ -190,13 +220,32 @@ export function ForecastBubble({
   ) => {
     const dataSource = getDataset(chart.dataset, chart.season);
 
-    let data = dataSource.map((item) => {
-      const record = item as Record<string, unknown>;
-      return {
-        [chart.xKey]: record[chart.xKey],
-        [chart.yKey]: record[chart.yKey],
-      };
-    });
+    // Validate data source is not empty
+    if (!dataSource || dataSource.length === 0) {
+      return (
+        <div className="flex h-80 min-h-80 items-center justify-center text-muted-foreground">
+          No data available for this chart
+        </div>
+      );
+    }
+
+    let data = dataSource
+      .map((item) => {
+        const record = item as Record<string, unknown>;
+        const xValue = record[chart.xKey];
+        const yValue = record[chart.yKey];
+        
+        // Skip items where required keys are missing or undefined
+        if (xValue === undefined || xValue === null || yValue === undefined || yValue === null) {
+          return null;
+        }
+        
+        return {
+          [chart.xKey]: xValue,
+          [chart.yKey]: yValue,
+        };
+      })
+      .filter((item): item is Record<string, unknown> => item !== null);
 
     // Apply filter if provided
     if (chart.filter) {
@@ -225,6 +274,15 @@ export function ForecastBubble({
       });
     }
 
+    // Guard against empty data after filtering
+    if (data.length === 0) {
+      return (
+        <div className="flex h-80 min-h-80 items-center justify-center text-muted-foreground">
+          No data matches the filter criteria
+        </div>
+      );
+    }
+
     const color = CHART_COLORS[index % CHART_COLORS.length];
     const gradientId = `gradient-${index}`;
 
@@ -246,8 +304,11 @@ export function ForecastBubble({
                 stroke="hsl(var(--muted-foreground) / 0.1)"
                 vertical={false}
               />
-              <XAxis dataKey={chart.xKey} />
-              <YAxis />
+              <XAxis
+                dataKey={chart.xKey}
+                tick={{ fill: "hsl(var(--foreground))" }}
+              />
+              <YAxis tick={{ fill: "hsl(var(--foreground))" }} />
               <Tooltip
                 contentStyle={{
                   backgroundColor: "hsl(var(--background))",
@@ -257,6 +318,12 @@ export function ForecastBubble({
                 }}
                 itemStyle={{ color: "hsl(var(--foreground))" }}
                 labelStyle={{ color: "hsl(var(--foreground))" }}
+                formatter={(value, name) => {
+                  if (typeof value === "number") {
+                    return [value.toLocaleString(), formatFieldName(name)];
+                  }
+                  return [value, formatFieldName(name)];
+                }}
               />
               <Legend />
               <Bar dataKey={chart.yKey} fill={`url(#${gradientId})`} />
@@ -285,8 +352,11 @@ export function ForecastBubble({
                 stroke="hsl(var(--muted-foreground) / 0.1)"
                 vertical={false}
               />
-              <XAxis dataKey={chart.xKey} />
-              <YAxis />
+              <XAxis
+                dataKey={chart.xKey}
+                tick={{ fill: "hsl(var(--foreground))" }}
+              />
+              <YAxis tick={{ fill: "hsl(var(--foreground))" }} />
               <Tooltip
                 contentStyle={{
                   backgroundColor: "hsl(var(--background))",
@@ -296,6 +366,12 @@ export function ForecastBubble({
                 }}
                 itemStyle={{ color: "hsl(var(--foreground))" }}
                 labelStyle={{ color: "hsl(var(--foreground))" }}
+                formatter={(value, name) => {
+                  if (typeof value === "number") {
+                    return [value.toLocaleString(), formatFieldName(name)];
+                  }
+                  return [value, formatFieldName(name)];
+                }}
               />
               <Legend />
               <Area
@@ -310,37 +386,7 @@ export function ForecastBubble({
       );
     }
 
-    return (
-      <div className="h-80 min-h-80 w-full">
-        <ResponsiveContainer height="100%" width="100%">
-          <AreaChart
-            data={data}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          >
-            <defs>
-              <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor={color} stopOpacity={0.8} />
-                <stop offset="100%" stopColor={color} stopOpacity={0.2} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid
-              stroke="hsl(var(--muted-foreground) / 0.1)"
-              vertical={false}
-            />
-            <XAxis dataKey={chart.xKey} />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Area
-              dataKey={chart.yKey}
-              fill={`url(#${gradientId})`}
-              stroke={color}
-              type="monotone"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-    );
+    return null;
   };
 
   return (
