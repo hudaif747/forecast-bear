@@ -14,6 +14,40 @@ import predictionsDataRaw from "./2025-26_predictions.json" with {
   type: "json",
 };
 import historicalDataRaw from "./historical-data.json" with { type: "json" };
+import mockPredictionsDataRaw from "./mock-2025-26_predictions.json" with {
+  type: "json",
+};
+import mockHistoricalDataRaw from "./mock-historical-data.json" with {
+  type: "json",
+};
+
+// Toggle to use mock data (set via environment variable or localStorage)
+// Priority: localStorage > NEXT_PUBLIC_USE_MOCK_DATA
+const getUseMockData = () => {
+  if (typeof window !== "undefined") {
+    // Client-side: check localStorage first, then env variable
+    const localStorageValue = localStorage.getItem("USE_MOCK_DATA");
+    if (localStorageValue !== null) {
+      return localStorageValue === "true";
+    }
+    // Check NEXT_PUBLIC env variable (available on client)
+    return process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true";
+  }
+  // Server-side: check env variables
+  return (
+    process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true" ||
+    process.env.USE_MOCK_DATA === "true"
+  );
+};
+
+const USE_MOCK_DATA = getUseMockData();
+
+// Debug helper (only in development)
+if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+  console.log("[Mock Data] USE_MOCK_DATA:", USE_MOCK_DATA);
+  console.log("[Mock Data] NEXT_PUBLIC_USE_MOCK_DATA:", process.env.NEXT_PUBLIC_USE_MOCK_DATA);
+  console.log("[Mock Data] localStorage:", localStorage.getItem("USE_MOCK_DATA"));
+}
 
 interface HistoricalGame {
   date: string;
@@ -30,8 +64,12 @@ interface PredictionData {
   occupancy_rate: number;
 }
 
-const historicalData = historicalDataRaw as HistoricalGame[];
-const predictionsData = predictionsDataRaw as PredictionData[];
+const historicalData = (
+  USE_MOCK_DATA ? mockHistoricalDataRaw : historicalDataRaw
+) as HistoricalGame[];
+const predictionsData = (
+  USE_MOCK_DATA ? mockPredictionsDataRaw : predictionsDataRaw
+) as PredictionData[];
 
 export interface SeasonalDataPoint {
   month: string;

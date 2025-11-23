@@ -16,6 +16,37 @@ import { devtools } from "zustand/middleware";
 import predictionsDataRaw from "./2025-26_predictions.json" with {
   type: "json",
 };
+import mockPredictionsDataRaw from "./mock-2025-26_predictions.json" with {
+  type: "json",
+};
+
+// Toggle to use mock data (set via environment variable or localStorage)
+// Priority: localStorage > NEXT_PUBLIC_USE_MOCK_DATA
+const getUseMockData = () => {
+  if (typeof window !== "undefined") {
+    // Client-side: check localStorage first, then env variable
+    const localStorageValue = localStorage.getItem("USE_MOCK_DATA");
+    if (localStorageValue !== null) {
+      return localStorageValue === "true";
+    }
+    // Check NEXT_PUBLIC env variable (available on client)
+    return process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true";
+  }
+  // Server-side: check env variables
+  return (
+    process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true" ||
+    process.env.USE_MOCK_DATA === "true"
+  );
+};
+
+const USE_MOCK_DATA = getUseMockData();
+
+// Debug helper (only in development)
+if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+  console.log("[Mock Data] USE_MOCK_DATA:", USE_MOCK_DATA);
+  console.log("[Mock Data] NEXT_PUBLIC_USE_MOCK_DATA:", process.env.NEXT_PUBLIC_USE_MOCK_DATA);
+  console.log("[Mock Data] localStorage:", localStorage.getItem("USE_MOCK_DATA"));
+}
 
 interface PredictionData {
   date: string;
@@ -25,7 +56,9 @@ interface PredictionData {
   season_included_occupancy_rate: number;
 }
 
-const predictionsData = predictionsDataRaw as PredictionData[];
+const predictionsData = (
+  USE_MOCK_DATA ? mockPredictionsDataRaw : predictionsDataRaw
+) as PredictionData[];
 
 export interface UpcomingGame {
   id: number;
@@ -60,7 +93,130 @@ export interface DashboardStoreState {
 const scheduleMap: Record<
   string,
   { opponent: string; weekday: string; time: string }
-> = {
+> = USE_MOCK_DATA
+  ? {
+      "2025-09-14": {
+        opponent: "Team Alpha",
+        weekday: "Sunday",
+        time: "16:30",
+      },
+      "2025-09-26": {
+        opponent: "Team Beta",
+        weekday: "Friday",
+        time: "19:30",
+      },
+      "2025-10-05": {
+        opponent: "Team Gamma",
+        weekday: "Sunday",
+        time: "14:00",
+      },
+      "2025-10-12": {
+        opponent: "Team Delta",
+        weekday: "Sunday",
+        time: "16:30",
+      },
+      "2025-10-19": {
+        opponent: "Team Epsilon",
+        weekday: "Sunday",
+        time: "14:00",
+      },
+      "2025-10-24": {
+        opponent: "Team Zeta",
+        weekday: "Friday",
+        time: "19:30",
+      },
+      "2025-10-28": {
+        opponent: "Team Eta",
+        weekday: "Tuesday",
+        time: "19:30",
+      },
+      "2025-10-30": {
+        opponent: "Team Theta",
+        weekday: "Thursday",
+        time: "19:30",
+      },
+      "2025-11-14": {
+        opponent: "Team Iota",
+        weekday: "Friday",
+        time: "19:30",
+      },
+      "2025-11-21": {
+        opponent: "Team Kappa",
+        weekday: "Friday",
+        time: "19:30",
+      },
+      "2025-11-28": {
+        opponent: "Team Lambda",
+        weekday: "Friday",
+        time: "19:30",
+      },
+      "2025-12-05": {
+        opponent: "Team Mu",
+        weekday: "Friday",
+        time: "19:30",
+      },
+      "2025-12-12": {
+        opponent: "Team Nu",
+        weekday: "Friday",
+        time: "19:30",
+      },
+      "2025-12-21": {
+        opponent: "Team Xi",
+        weekday: "Sunday",
+        time: "14:00",
+      },
+      "2025-12-23": {
+        opponent: "Team Omicron",
+        weekday: "Tuesday",
+        time: "19:30",
+      },
+      "2025-12-30": {
+        opponent: "Team Pi",
+        weekday: "Tuesday",
+        time: "19:30",
+      },
+      "2026-01-02": {
+        opponent: "Team Rho",
+        weekday: "Friday",
+        time: "19:30",
+      },
+      "2026-01-09": {
+        opponent: "Team Sigma",
+        weekday: "Friday",
+        time: "19:30",
+      },
+      "2026-01-11": {
+        opponent: "Team Tau",
+        weekday: "Sunday",
+        time: "14:00",
+      },
+      "2026-01-18": {
+        opponent: "Team Upsilon",
+        weekday: "Sunday",
+        time: "14:00",
+      },
+      "2026-02-25": {
+        opponent: "Team Phi",
+        weekday: "Wednesday",
+        time: "19:30",
+      },
+      "2026-03-04": {
+        opponent: "Team Chi",
+        weekday: "Wednesday",
+        time: "19:30",
+      },
+      "2026-03-08": {
+        opponent: "Team Psi",
+        weekday: "Sunday",
+        time: "16:30",
+      },
+      "2026-03-13": {
+        opponent: "Team Omega",
+        weekday: "Friday",
+        time: "19:30",
+      },
+    }
+  : {
   "2025-09-14": {
     opponent: "Nürnberg Ice Tigers",
     weekday: "Sunday",
