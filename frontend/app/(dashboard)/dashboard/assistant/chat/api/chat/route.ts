@@ -178,6 +178,33 @@ export async function POST(request: Request) {
 
     const stream = createUIMessageStream({
       execute: ({ writer: dataStream }) => {
+        // Emit initial streaming events immediately
+        dataStream.write({
+          type: "data-info",
+          data: { status: "Preparing forecast…" },
+        });
+
+        const statusMessages = [
+          "Fetching game and seasonal context…",
+          "Analyzing opponent trends…",
+          "Computing confidence and revenue impact…",
+          "Generating chart dataset…",
+          "Rendering charts…",
+        ];
+
+        let statusIndex = 0;
+        const timeouts: NodeJS.Timeout[] = [];
+
+        statusMessages.forEach((message, index) => {
+          const timeout = setTimeout(() => {
+            dataStream.write({
+              type: "data-info",
+              data: { status: message },
+            });
+          }, (index + 1) * 200);
+          timeouts.push(timeout);
+        });
+
         const result = streamText({
           model: myProvider.languageModel(selectedChatModel),
           system: systemPrompt({ selectedChatModel, requestHints }),
@@ -191,13 +218,23 @@ export async function POST(request: Request) {
           tools: {
             getWeather,
             getStoreData: getStoreData(),
-            generateForecast: generateForecast(),
+            generateForecast: generateForecast((status) => {
+              // Stream status updates from the tool
+              dataStream.write({
+                type: "data-info",
+                data: { status },
+              });
+            }),
           },
-          experimental_telemetry: {
-            isEnabled: isProductionEnvironment,
-            functionId: "stream-text",
-          },
-          onFinish: async ({ usage }) => {
+          onFinish: async ({ usage, toolCalls }) => {
+            // Clear all timeouts and streaming status when done
+            timeouts.forEach((timeout) => clearTimeout(timeout));
+            dataStream.write({
+              type: "data-info",
+              data: { status: "" },
+            });
+
+            // Original onFinish logic
             try {
               const providers = await getTokenlensCatalog();
               const modelId =
@@ -228,6 +265,10 @@ export async function POST(request: Request) {
               finalMergedUsage = usage;
               dataStream.write({ type: "data-usage", data: finalMergedUsage });
             }
+          },
+          experimental_telemetry: {
+            isEnabled: isProductionEnvironment,
+            functionId: "stream-text",
           },
         });
 

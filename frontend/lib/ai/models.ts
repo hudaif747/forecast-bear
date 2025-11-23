@@ -12,10 +12,10 @@ export const chatModels: ChatModel[] = [
     name: "GPT-5.1",
     description: "Advanced multimodal model with vision and text capabilities",
   },
-  // {
-  //   id: "chat-model-reasoning",
-  //   name: "GPT-5.1 Think",
-  //   description:
-  //     "Uses advanced chain-of-thought reasoning for complex problems",
-  // },
+  {
+    id: "chat-model-reasoning",
+    name: "GPT-5.1 Think",
+    description:
+      "Uses advanced chain-of-thought reasoning for complex problems",
+  },
 ];

@@ -26,6 +26,7 @@ export type ChatTools = {
 export type CustomUIDataTypes = {
   appendMessage: string;
   usage: AppUsage;
+  info: { status: string };
 };
 
 export type ChatMessage = UIMessage<

@@ -8,6 +8,8 @@ import {
   BarChart,
   CartesianGrid,
   Legend,
+  Line,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -48,7 +50,7 @@ type ForecastBubbleProps = {
   charts?: Array<{
     type: "bar" | "line" | "area";
     xKey: string;
-    yKey: string;
+    yKey: string | string[];
     title: string;
     dataset?: ChartDataset;
     season?: string;
@@ -68,6 +70,7 @@ type ForecastBubbleProps = {
       | "historicalGames"
       | "weather";
   }>;
+  streamStatus?: string | null;
 };
 
 const CHART_COLORS = ["#eb6911", "#b5866e", "#fff7f1", "#dfe0df"];
@@ -114,6 +117,7 @@ export function ForecastBubble({
   forecasts,
   charts = [],
   historicalInsights = [],
+  streamStatus = null,
 }: ForecastBubbleProps) {
   const { upcomingGames } = useDashboardStore();
   const {
@@ -199,7 +203,7 @@ export function ForecastBubble({
     chart: {
       type: "bar" | "line" | "area";
       xKey: string;
-      yKey: string;
+      yKey: string | string[];
       title: string;
       dataset?:
         | "forecast"
@@ -229,26 +233,38 @@ export function ForecastBubble({
       );
     }
 
+    // Handle multiple yKeys for comparison charts
+    const yKeys = Array.isArray(chart.yKey) ? chart.yKey : [chart.yKey];
+
     const mappedData: Array<Record<string, unknown> | null> = dataSource.map(
       (item) => {
         const record = item as Record<string, unknown>;
         const xValue = record[chart.xKey];
-        const yValue = record[chart.yKey];
 
-        // Skip items where required keys are missing or undefined
-        if (
-          xValue === undefined ||
-          xValue === null ||
-          yValue === undefined ||
-          yValue === null
-        ) {
+        // Skip items where xKey is missing
+        if (xValue === undefined || xValue === null) {
           return null;
         }
 
-        return {
+        // Build data object with xKey and all yKeys
+        const dataPoint: Record<string, unknown> = {
           [chart.xKey]: xValue,
-          [chart.yKey]: yValue,
-        } as Record<string, unknown>;
+        };
+
+        // Add all yKeys to the data point
+        for (const yKey of yKeys) {
+          const yValue = record[yKey];
+          if (yValue !== undefined && yValue !== null) {
+            dataPoint[yKey] = yValue;
+          }
+        }
+
+        // Only include if at least one yKey has a value
+        const hasAnyYValue = yKeys.some(
+          (yKey) => dataPoint[yKey] !== undefined && dataPoint[yKey] !== null
+        );
+
+        return hasAnyYValue ? dataPoint : null;
       }
     );
 
@@ -304,10 +320,23 @@ export function ForecastBubble({
               margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
             >
               <defs>
-                <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor={color} stopOpacity={1} />
-                  <stop offset="100%" stopColor={color} stopOpacity={0.3} />
-                </linearGradient>
+                {yKeys.map((_, i) => {
+                  const barColor = CHART_COLORS[(index + i) % CHART_COLORS.length];
+                  const barGradientId = `${gradientId}-${i}`;
+                  return (
+                    <linearGradient
+                      id={barGradientId}
+                      key={barGradientId}
+                      x1="0"
+                      x2="0"
+                      y1="0"
+                      y2="1"
+                    >
+                      <stop offset="0%" stopColor={barColor} stopOpacity={1} />
+                      <stop offset="100%" stopColor={barColor} stopOpacity={0.3} />
+                    </linearGradient>
+                  );
+                })}
               </defs>
               <CartesianGrid
                 stroke="hsl(var(--muted-foreground) / 0.1)"
@@ -336,15 +365,81 @@ export function ForecastBubble({
                 labelStyle={{ color: "hsl(var(--foreground))" }}
               />
               <Legend />
-              <Bar dataKey={chart.yKey} fill={`url(#${gradientId})`} />
+              {yKeys.map((yKey, i) => {
+                const barColor = CHART_COLORS[(index + i) % CHART_COLORS.length];
+                const barGradientId = `${gradientId}-${i}`;
+                return (
+                  <Bar
+                    dataKey={yKey}
+                    fill={`url(#${barGradientId})`}
+                    key={yKey}
+                    name={formatFieldName(yKey)}
+                  />
+                );
+              })}
             </BarChart>
           </ResponsiveContainer>
         </div>
       );
     }
 
-    // Treat "line" as "area" - always use area charts
-    if (chart.type === "line" || chart.type === "area") {
+    // Render line charts with multiple lines for comparison
+    if (chart.type === "line") {
+      return (
+        <div className="h-80 min-h-80 w-full">
+          <ResponsiveContainer height="100%" width="100%">
+            <LineChart
+              data={data}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid
+                stroke="hsl(var(--muted-foreground) / 0.1)"
+                vertical={false}
+              />
+              <XAxis
+                dataKey={chart.xKey}
+                tick={{ fill: "hsl(var(--foreground))" }}
+              />
+              <YAxis tick={{ fill: "hsl(var(--foreground))" }} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "hsl(var(--background))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "0.5rem",
+                  color: "hsl(var(--foreground))",
+                }}
+                formatter={(value, name) => {
+                  const nameStr = String(name);
+                  if (typeof value === "number") {
+                    return [value.toLocaleString(), formatFieldName(nameStr)];
+                  }
+                  return [value, formatFieldName(nameStr)];
+                }}
+                itemStyle={{ color: "hsl(var(--foreground))" }}
+                labelStyle={{ color: "hsl(var(--foreground))" }}
+              />
+              <Legend />
+              {yKeys.map((yKey, i) => {
+                const lineColor = CHART_COLORS[(index + i) % CHART_COLORS.length];
+                return (
+                  <Line
+                    dataKey={yKey}
+                    key={yKey}
+                    name={formatFieldName(yKey)}
+                    stroke={lineColor}
+                    strokeWidth={2}
+                    type="monotone"
+                  />
+                );
+              })}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      );
+    }
+
+    // Render area charts (can also have multiple areas for comparison)
+    if (chart.type === "area") {
       return (
         <div className="h-80 min-h-80 w-full">
           <ResponsiveContainer height="100%" width="100%">
@@ -353,10 +448,23 @@ export function ForecastBubble({
               margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
             >
               <defs>
-                <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor={color} stopOpacity={0.8} />
-                  <stop offset="100%" stopColor={color} stopOpacity={0.2} />
-                </linearGradient>
+                {yKeys.map((_, i) => {
+                  const areaColor = CHART_COLORS[(index + i) % CHART_COLORS.length];
+                  const areaGradientId = `${gradientId}-${i}`;
+                  return (
+                    <linearGradient
+                      id={areaGradientId}
+                      key={areaGradientId}
+                      x1="0"
+                      x2="0"
+                      y1="0"
+                      y2="1"
+                    >
+                      <stop offset="0%" stopColor={areaColor} stopOpacity={0.8} />
+                      <stop offset="100%" stopColor={areaColor} stopOpacity={0.2} />
+                    </linearGradient>
+                  );
+                })}
               </defs>
               <CartesianGrid
                 stroke="hsl(var(--muted-foreground) / 0.1)"
@@ -385,12 +493,20 @@ export function ForecastBubble({
                 labelStyle={{ color: "hsl(var(--foreground))" }}
               />
               <Legend />
-              <Area
-                dataKey={chart.yKey}
-                fill={`url(#${gradientId})`}
-                stroke={color}
-                type="monotone"
-              />
+              {yKeys.map((yKey, i) => {
+                const areaColor = CHART_COLORS[(index + i) % CHART_COLORS.length];
+                const areaGradientId = `${gradientId}-${i}`;
+                return (
+                  <Area
+                    dataKey={yKey}
+                    fill={`url(#${areaGradientId})`}
+                    key={yKey}
+                    name={formatFieldName(yKey)}
+                    stroke={areaColor}
+                    type="monotone"
+                  />
+                );
+              })}
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -400,10 +516,19 @@ export function ForecastBubble({
     return null;
   };
 
+  const isStreaming = streamStatus !== null && streamStatus.trim() !== "";
+
   return (
     <div className="my-4 rounded-lg border bg-card p-6">
       <h2 className="mb-4 font-bold text-xl">{title}</h2>
       {summary && <div className="mb-6 text-muted-foreground">{summary}</div>}
+
+      {/* Streaming status banner */}
+      {isStreaming && (
+        <div className="mb-4 animate-pulse text-muted-foreground text-sm">
+          {streamStatus}
+        </div>
+      )}
 
       {historicalInsights.length > 0 && (
         <div className="mb-6 space-y-2">
@@ -421,12 +546,23 @@ export function ForecastBubble({
 
       {defaultCharts.length > 0 && (
         <div className="mb-6 space-y-6">
-          {defaultCharts.map((chart, index) => (
-            <div key={chart.title}>
-              <h3 className="mb-3 font-semibold">{chart.title}</h3>
-              {renderChart(chart, index)}
-            </div>
-          ))}
+          {isStreaming ? (
+            // Show skeleton charts while streaming
+            defaultCharts.map((chart, index) => (
+              <div key={chart.title}>
+                <h3 className="mb-3 font-semibold">{chart.title}</h3>
+                <div className="h-80 w-full animate-pulse rounded-lg bg-muted" />
+              </div>
+            ))
+          ) : (
+            // Render real charts when not streaming
+            defaultCharts.map((chart, index) => (
+              <div key={chart.title}>
+                <h3 className="mb-3 font-semibold">{chart.title}</h3>
+                {renderChart(chart, index)}
+              </div>
+            ))
+          )}
         </div>
       )}
 

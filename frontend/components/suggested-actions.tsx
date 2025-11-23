@@ -16,10 +16,10 @@ type SuggestedActionsProps = {
 
 function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
   const suggestedActions = [
-    "How many tickets should we expect vs Eisbären Berlin next month?",
-    "What's the revenue projection at 80% occupancy?",
-    "Which top 3 matches this season have the highest demand score?",
-    "Show me games where expected attendance < 4000 (low risk).",
+    "Show me a forecast with charts for the next 5 games",
+    "Visualize attendance trends by opponent",
+    "Rank top 5 highest revenue games with charts",
+    "Display seasonal patterns with area charts",
   ];
 
   return (

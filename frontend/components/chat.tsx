@@ -61,6 +61,7 @@ export function Chat({
   const [usage, setUsage] = useState<AppUsage | undefined>(initialLastContext);
   const [showCreditCardAlert, setShowCreditCardAlert] = useState(false);
   const [currentModelId, setCurrentModelId] = useState(initialChatModel);
+  const [streamStatus, setStreamStatus] = useState<string | null>(null);
   const currentModelIdRef = useRef(currentModelId);
 
   useEffect(() => {
@@ -99,6 +100,10 @@ export function Chat({
       setDataStream((ds) => (ds ? [...ds, dataPart] : []));
       if (dataPart.type === "data-usage") {
         setUsage(dataPart.data);
+      }
+      if (dataPart.type === "data-info") {
+        const status = dataPart.data?.status;
+        setStreamStatus(status && status.trim() ? status : null);
       }
     },
     onFinish: () => {

@@ -44,12 +44,18 @@ const PurePreviewMessage = ({
   requiresScrollPadding: boolean;
 }) => {
   const [mode, setMode] = useState<"view" | "edit">("view");
+  const { dataStream } = useDataStream();
 
   const attachmentsFromMessage = message.parts.filter(
     (part) => part.type === "file"
   );
 
-  useDataStream();
+  // Extract latest stream status from dataStream
+  const streamStatus =
+    dataStream
+      .filter((part) => part.type === "data-info")
+      .map((part) => part.data?.status)
+      .at(-1) || null;
 
   return (
     <motion.div
@@ -188,28 +194,6 @@ const PurePreviewMessage = ({
             if (type === "tool-generateForecast") {
               const { toolCallId, state } = part;
 
-              // Show loading state while tool is running
-              if (state === "input-streaming" || state === "input-available") {
-                return (
-                  <Tool defaultOpen={true} key={toolCallId}>
-                    <ToolHeader state={state} type="tool-generateForecast" />
-                    <ToolContent>
-                      {state === "input-available" && (
-                        <ToolInput input={part.input} />
-                      )}
-                      <div className="flex items-center justify-center p-8">
-                        <div className="flex flex-col items-center gap-2">
-                          <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-                          <p className="text-muted-foreground text-sm">
-                            Generating forecast and charts...
-                          </p>
-                        </div>
-                      </div>
-                    </ToolContent>
-                  </Tool>
-                );
-              }
-
               // Show error state
               if (state === "output-error") {
                 return (
@@ -222,8 +206,9 @@ const PurePreviewMessage = ({
                 );
               }
 
-              // Show completed forecast
-              if (state === "output-available" && part.output) {
+              // Show ForecastBubble immediately when streaming or when output is available
+              // This allows smooth streaming without the loading card
+              if (streamStatus || part.output || state === "input-streaming" || state === "input-available") {
                 const output = part.output as {
                   type?: string;
                   title?: string;
@@ -247,7 +232,7 @@ const PurePreviewMessage = ({
                   charts?: Array<{
                     type: "bar" | "line" | "area";
                     xKey: string;
-                    yKey: string;
+                    yKey: string | string[];
                     title: string;
                     filter?: {
                       field: string;
@@ -274,21 +259,19 @@ const PurePreviewMessage = ({
                       | "historicalGames"
                       | "weather";
                   }>;
-                };
+                } | undefined;
 
-                if (
-                  output.type === "forecast" &&
-                  output.title &&
-                  output.forecasts
-                ) {
+                // Show ForecastBubble with streaming status or output data
+                if (output?.type === "forecast" || streamStatus) {
                   return (
                     <ForecastBubble
-                      charts={output.charts}
-                      forecasts={output.forecasts}
-                      historicalInsights={output.historicalInsights}
+                      charts={output?.charts || []}
+                      forecasts={output?.forecasts || []}
+                      historicalInsights={output?.historicalInsights}
                       key={toolCallId}
-                      summary={output.summary || ""}
-                      title={output.title}
+                      streamStatus={streamStatus}
+                      summary={output?.summary || ""}
+                      title={output?.title || ""}
                     />
                   );
                 }

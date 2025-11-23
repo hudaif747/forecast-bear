@@ -1,7 +1,9 @@
 import { tool } from "ai";
 import { z } from "zod";
 
-export const generateForecast = () =>
+export const generateForecast = (
+  onStatusUpdate?: (status: string) => void
+) =>
   tool({
     description:
       "Generate a forecast with predictions and explanations for upcoming games. This tool returns structured forecast data that will be displayed inline in the chat. Use this when the user asks for predictions, forecasts, rankings, top N matches, analysis, or visualizations of upcoming games. The forecast includes: 1) Forecast data for upcoming games (filtered if requested), 2) Historical context pulled from store data (seasonal trends, opponent averages, etc.), 3) Charts to visualize the requested insight. IMPORTANT: Always include charts when the user asks for visualizations, rankings, or comparisons. When the user requests filtered data (e.g., 'attendance < 4000'), you MUST filter the forecasts array to only include matching games.",
@@ -68,7 +70,11 @@ export const generateForecast = () =>
           z.object({
             type: z.enum(["bar", "line", "area"]),
             xKey: z.string(),
-            yKey: z.string(),
+            yKey: z
+              .union([z.string(), z.array(z.string())])
+              .describe(
+                "The field(s) to plot on the y-axis. Can be a single string for one data series, or an array of strings for comparison charts (e.g., ['predictedTickets', 'predictedRevenue'] for comparing multiple metrics, or ['predictedTickets', 'historicalAverage'] for comparing forecast vs historical)."
+              ),
             title: z.string(),
             dataset: z
               .enum([
@@ -110,10 +116,20 @@ export const generateForecast = () =>
         )
         .optional()
         .describe(
-          "Array of chart configurations to visualize the forecast. Always include charts when the user asks for visualizations, rankings, or comparisons. When the user requests filtered data, include the same filter in the chart configuration."
+          "Array of chart configurations to visualize the forecast. Always include charts when the user asks for visualizations, rankings, or comparisons. When the user requests filtered data, include the same filter in the chart configuration. For comparison charts, use an array of yKeys (e.g., ['predictedTickets', 'predictedRevenue']) to show multiple data series side-by-side in bar charts or as multiple lines in line charts."
         ),
     }),
-    execute: ({ title, summary, forecasts, charts, historicalInsights }) => {
+    execute: async ({ title, summary, forecasts, charts, historicalInsights }) => {
+      // Send streaming status updates
+      onStatusUpdate?.("Analyzing historical patterns…");
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      onStatusUpdate?.("Filtering games…");
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      onStatusUpdate?.("Building chart objects…");
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
       // Return structured data that will be rendered inline
       return {
         type: "forecast",
