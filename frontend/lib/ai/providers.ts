@@ -23,11 +23,11 @@ export const myProvider = isTestEnvironment
     })()
   : customProvider({
       languageModels: {
-        "chat-model": openai("gpt-4o"),
+        "chat-model": openai("gpt-5.1"),
         "chat-model-reasoning": wrapLanguageModel({
-          model: openai("gpt-4o-mini"),
+          model: openai("gpt-5.1"),
           middleware: extractReasoningMiddleware({ tagName: "think" }),
         }),
-        "title-model": openai("gpt-4o-mini"),
+        "title-model": openai("gpt-5.1"),
       },
     });
