@@ -34,6 +34,13 @@
 - [Auth.js](https://authjs.dev)
   - Simple and secure authentication
 
+## Example prompts (exec-friendly)
+
+- "Rank the top 5 highest revenue games and explain the key demand drivers for each."
+- "Give me an executive summary for the next 30 days: biggest upside, biggest risks, and recommended actions."
+- "Which games are most at risk of under-selling? Propose 3 interventions (pricing, promo, inventory) and why."
+- "Show seasonal patterns: monthly forecast for tickets + revenue (separate charts) and what’s driving peaks/dips."
+
 ## Model Providers
 
 This template uses [OpenAI](https://openai.com) models directly via the [AI SDK](https://ai-sdk.dev/docs/introduction). The default configuration includes:

@@ -85,6 +85,7 @@ export interface SeasonalSeries {
 export interface SeasonalForecastPoint {
   month: string;
   forecastTickets: number;
+  forecastRevenue: number;
 }
 
 export interface OpponentDataPoint {
@@ -205,7 +206,10 @@ function processOpponentData(): OpponentDataPoint[] {
 
 // Process forecast data from predictions
 function processForecastData(): SeasonalForecastPoint[] {
-  const monthMap: Record<string, { total: number; count: number }> = {};
+  const monthMap: Record<
+    string,
+    { ticketsTotal: number; revenueTotal: number; count: number }
+  > = {};
 
   for (const prediction of predictionsData) {
     const [day, month] = prediction.date.split(".");
@@ -215,17 +219,19 @@ function processForecastData(): SeasonalForecastPoint[] {
     );
 
     if (!monthMap[monthAbbr]) {
-      monthMap[monthAbbr] = { total: 0, count: 0 };
+      monthMap[monthAbbr] = { ticketsTotal: 0, revenueTotal: 0, count: 0 };
     }
 
-    monthMap[monthAbbr].total += prediction.predicted_attendance;
+    monthMap[monthAbbr].ticketsTotal += prediction.predicted_attendance;
+    monthMap[monthAbbr].revenueTotal += prediction.predicted_revenue;
     monthMap[monthAbbr].count += 1;
   }
 
   return Object.entries(monthMap)
     .map(([month, data]) => ({
       month,
-      forecastTickets: Math.round(data.total),
+      forecastTickets: Math.round(data.ticketsTotal),
+      forecastRevenue: Math.round(data.revenueTotal),
     }))
     .sort((a, b) => {
       const monthOrder = [

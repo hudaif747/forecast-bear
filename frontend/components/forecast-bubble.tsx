@@ -94,6 +94,7 @@ const attendanceRegex = /attendance/g;
 const conditionRegex = /condition/g;
 const avgAttendanceRegex = /avgAttendance/g;
 const forecastTicketsRegex = /forecastTickets/g;
+const forecastRevenueRegex = /forecastRevenue/g;
 
 function formatFieldName(name: string): string {
   return name
@@ -108,7 +109,8 @@ function formatFieldName(name: string): string {
     .replace(attendanceRegex, "Attendance")
     .replace(conditionRegex, "Condition")
     .replace(avgAttendanceRegex, "Avg. Attendance")
-    .replace(forecastTicketsRegex, "Forecast Tickets");
+    .replace(forecastTicketsRegex, "Forecast Tickets")
+    .replace(forecastRevenueRegex, "Forecast Revenue");
 }
 
 export function ForecastBubble({
@@ -127,6 +129,185 @@ export function ForecastBubble({
     opponentData,
     weatherData,
   } = useAnalyticsStore();
+
+  const findFirstRecord = (data: unknown[]): Record<string, unknown> | null => {
+    for (const item of data) {
+      if (item && typeof item === "object") {
+        return item as Record<string, unknown>;
+      }
+    }
+    return null;
+  };
+
+  const findExistingKey = (
+    record: Record<string, unknown>,
+    desiredKey: string
+  ): string | null => {
+    if (!desiredKey) return null;
+    if (desiredKey in record) return desiredKey;
+    const lower = desiredKey.toLowerCase();
+    const match = Object.keys(record).find((k) => k.toLowerCase() === lower);
+    return match ?? null;
+  };
+
+  type DatasetName = ChartDataset;
+
+  const getAliasesForDataset = (
+    datasetName: DatasetName
+  ): Record<string, string> => {
+    // Keys are lowercased for case-insensitive matching.
+    switch (datasetName) {
+      case "seasonal":
+      case "seasonalSeries":
+        return {
+          date: "month",
+          month: "month",
+          tickets: "tickets",
+          attendance: "tickets",
+          predictedtickets: "tickets",
+          predictedattendance: "tickets",
+          revenue: "revenue",
+          predictedrevenue: "revenue",
+        };
+      case "forecastSeasonal":
+        return {
+          date: "month",
+          month: "month",
+          tickets: "forecastTickets",
+          revenue: "forecastRevenue",
+          attendance: "forecastTickets",
+          predictedtickets: "forecastTickets",
+          predictedattendance: "forecastTickets",
+          forecasttickets: "forecastTickets",
+          predictedrevenue: "forecastRevenue",
+          forecastrevenue: "forecastRevenue",
+        };
+      case "opponent":
+        return {
+          team: "opponent",
+          opponent: "opponent",
+          attendance: "attendance",
+          tickets: "attendance",
+          predictedtickets: "attendance",
+        };
+      case "weather":
+        return {
+          weather: "condition",
+          condition: "condition",
+          attendance: "avgAttendance",
+          tickets: "avgAttendance",
+          predictedtickets: "avgAttendance",
+          avgattendance: "avgAttendance",
+        };
+      case "upcoming":
+      case "forecast":
+      default:
+        return {
+          date: "date",
+          opponent: "opponent",
+          month: "date",
+          tickets: "predictedTickets",
+          attendance: "predictedTickets",
+          predictedtickets: "predictedTickets",
+          predictedattendance: "predictedTickets",
+          revenue: "predictedRevenue",
+          predictedrevenue: "predictedRevenue",
+          occupancy: "occupancy",
+          occupancyrate: "occupancy",
+        };
+    }
+  };
+
+  const coerceChartToDataset = (
+    chart: {
+      type: "bar" | "line" | "area";
+      xKey: string;
+      yKey: string | string[];
+      title: string;
+      dataset?: DatasetName;
+      season?: string;
+      filter?: { field: string; operator: "<" | ">" | "<=" | ">=" | "==" | "!="; value: number };
+    }
+  ) => {
+    const originalDataset = (chart.dataset ?? "forecast") as DatasetName;
+    const candidates: DatasetName[] = [
+      originalDataset,
+      // Add likely alternates for robustness when the model guesses wrong.
+      "seasonal",
+      "forecastSeasonal",
+      "seasonalSeries",
+      "opponent",
+      "weather",
+      "forecast",
+      "upcoming",
+    ];
+
+    const uniqueCandidates = Array.from(new Set(candidates));
+
+    let best = {
+      dataset: originalDataset,
+      xKey: chart.xKey,
+      yKeys: Array.isArray(chart.yKey) ? chart.yKey : [chart.yKey],
+      score: -1,
+    };
+
+    for (const dataset of uniqueCandidates) {
+      const dataSource = getDataset(dataset, chart.season);
+      const record = findFirstRecord(dataSource);
+      if (!record) continue;
+
+      const aliases = getAliasesForDataset(dataset);
+
+      const desiredX = chart.xKey?.trim();
+      const mappedX =
+        findExistingKey(record, desiredX) ??
+        findExistingKey(record, aliases[desiredX?.toLowerCase() ?? ""] ?? "");
+
+      const desiredYKeys = Array.isArray(chart.yKey) ? chart.yKey : [chart.yKey];
+      const mappedYKeys = desiredYKeys
+        .map((k) => k?.trim())
+        .map((k) => {
+          const direct = findExistingKey(record, k);
+          if (direct) return direct;
+          const aliased = aliases[k.toLowerCase()];
+          if (aliased) {
+            const found = findExistingKey(record, aliased);
+            if (found) return found;
+          }
+          return null;
+        })
+        .filter((k): k is string => Boolean(k));
+
+      const score = (mappedX ? 1 : 0) + mappedYKeys.length;
+      if (score > best.score) {
+        best = {
+          dataset,
+          xKey: mappedX ?? chart.xKey,
+          yKeys: mappedYKeys.length > 0 ? mappedYKeys : best.yKeys,
+          score,
+        };
+      }
+    }
+
+    // Hard fallback: if nothing matched, try a sensible seasonal pattern chart.
+    if (best.score <= 0) {
+      return {
+        ...chart,
+        dataset: "seasonal" as const,
+        xKey: "month",
+        yKey: (String(chart.title).toLowerCase().includes("revenue")
+          ? "revenue"
+          : "tickets") as any,
+      };
+    }
+
+    return {
+      ...chart,
+      dataset: best.dataset,
+      xKey: best.xKey,
+      yKey: best.yKeys.length === 1 ? best.yKeys[0] : best.yKeys,
+    };
+  };
 
   // Merge forecast data with upcoming games data for charting
   const forecastData = useMemo(() => {
@@ -222,7 +403,8 @@ export function ForecastBubble({
     },
     index: number
   ) => {
-    const dataSource = getDataset(chart.dataset, chart.season);
+    const normalizedChart = coerceChartToDataset(chart);
+    const dataSource = getDataset(normalizedChart.dataset, normalizedChart.season);
 
     // Validate data source is not empty
     if (!dataSource || dataSource.length === 0) {
@@ -234,12 +416,14 @@ export function ForecastBubble({
     }
 
     // Handle multiple yKeys for comparison charts
-    const yKeys = Array.isArray(chart.yKey) ? chart.yKey : [chart.yKey];
+    const yKeys = Array.isArray(normalizedChart.yKey)
+      ? normalizedChart.yKey
+      : [normalizedChart.yKey];
 
     const mappedData: Array<Record<string, unknown> | null> = dataSource.map(
       (item) => {
         const record = item as Record<string, unknown>;
-        const xValue = record[chart.xKey];
+        const xValue = record[normalizedChart.xKey];
 
         // Skip items where xKey is missing
         if (xValue === undefined || xValue === null) {
@@ -248,7 +432,7 @@ export function ForecastBubble({
 
         // Build data object with xKey and all yKeys
         const dataPoint: Record<string, unknown> = {
-          [chart.xKey]: xValue,
+          [normalizedChart.xKey]: xValue,
         };
 
         // Add all yKeys to the data point
@@ -343,7 +527,7 @@ export function ForecastBubble({
                 vertical={false}
               />
               <XAxis
-                dataKey={chart.xKey}
+                dataKey={normalizedChart.xKey}
                 tick={{ fill: "hsl(var(--foreground))" }}
               />
               <YAxis tick={{ fill: "hsl(var(--foreground))" }} />
@@ -397,7 +581,7 @@ export function ForecastBubble({
                 vertical={false}
               />
               <XAxis
-                dataKey={chart.xKey}
+                dataKey={normalizedChart.xKey}
                 tick={{ fill: "hsl(var(--foreground))" }}
               />
               <YAxis tick={{ fill: "hsl(var(--foreground))" }} />
@@ -471,7 +655,7 @@ export function ForecastBubble({
                 vertical={false}
               />
               <XAxis
-                dataKey={chart.xKey}
+                dataKey={normalizedChart.xKey}
                 tick={{ fill: "hsl(var(--foreground))" }}
               />
               <YAxis tick={{ fill: "hsl(var(--foreground))" }} />
@@ -546,23 +730,16 @@ export function ForecastBubble({
 
       {defaultCharts.length > 0 && (
         <div className="mb-6 space-y-6">
-          {isStreaming ? (
-            // Show skeleton charts while streaming
-            defaultCharts.map((chart, index) => (
-              <div key={chart.title}>
-                <h3 className="mb-3 font-semibold">{chart.title}</h3>
-                <div className="h-80 w-full animate-pulse rounded-lg bg-muted" />
-              </div>
-            ))
-          ) : (
-            // Render real charts when not streaming
-            defaultCharts.map((chart, index) => (
-              <div key={chart.title}>
-                <h3 className="mb-3 font-semibold">{chart.title}</h3>
-                {renderChart(chart, index)}
-              </div>
-            ))
-          )}
+          {/*
+            Render charts as soon as we have chart configs + data.
+            Streaming status is shown separately in the banner above.
+          */}
+          {defaultCharts.map((chart, index) => (
+            <div key={chart.title}>
+              <h3 className="mb-3 font-semibold">{chart.title}</h3>
+              {renderChart(chart, index)}
+            </div>
+          ))}
         </div>
       )}
 

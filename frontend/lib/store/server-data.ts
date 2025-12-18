@@ -18,6 +18,9 @@ import mockPredictionsDataRaw from "./mock-2025-26_predictions.json" with {
 import mockHistoricalDataRaw from "./mock-historical-data.json" with {
   type: "json",
 };
+import featureImportanceDataRaw from "./feature_importance_sorted_v7.json" with {
+  type: "json",
+};
 
 // Toggle to use mock data (set via environment variable)
 const USE_MOCK_DATA =
@@ -168,7 +171,7 @@ function processOpponentData(): OpponentDataPoint[] {
 }
 
 function processForecastSeasonalData(): SeasonalForecastPoint[] {
-  const monthTotals: Record<string, number> = {};
+  const monthTotals: Record<string, { tickets: number; revenue: number }> = {};
 
   for (const prediction of predictionGames) {
     if (!prediction.date) {
@@ -189,14 +192,18 @@ function processForecastSeasonalData(): SeasonalForecastPoint[] {
       continue;
     }
 
-    monthTotals[monthAbbr] =
-      (monthTotals[monthAbbr] ?? 0) + prediction.predicted_attendance;
+    const current = monthTotals[monthAbbr] ?? { tickets: 0, revenue: 0 };
+    monthTotals[monthAbbr] = {
+      tickets: current.tickets + prediction.predicted_attendance,
+      revenue: current.revenue + prediction.predicted_revenue,
+    };
   }
 
   return Object.entries(monthTotals)
-    .map(([month, total]) => ({
+    .map(([month, totals]) => ({
       month,
-      forecastTickets: Math.round(total),
+      forecastTickets: Math.round(totals.tickets),
+      forecastRevenue: Math.round(totals.revenue),
     }))
     .sort((a, b) => {
       const indexA = monthOrder.indexOf(a.month);
@@ -644,6 +651,7 @@ const analyticsSnapshot = {
   forecastSeasonalData: processForecastSeasonalData(),
   opponentData: processOpponentData(),
   weatherData: processWeatherData(),
+  featureImportance: featureImportanceDataRaw,
 };
 
 const upcomingGames = buildUpcomingGames();

@@ -16,10 +16,12 @@ type SuggestedActionsProps = {
 
 function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
   const suggestedActions = [
-    "Show me a forecast with charts for the next 5 games",
-    "Visualize attendance trends by opponent",
-    "Rank top 5 highest revenue games with charts",
-    "Display seasonal patterns with area charts",
+    "Executive summary: next 30 days — biggest upside and biggest risks (with charts) + recommended actions",
+    "Rank the top 5 highest revenue games and explain the key demand drivers for each (exec-friendly)",
+    "Which upcoming games are most at risk of under-selling? Prioritize 3 interventions (pricing, promo, inventory) and why",
+    "Season outlook: monthly forecast for tickets + revenue (separate charts) + what’s driving the peaks and dips",
+    "Opponent analysis: which opponents consistently over/under-perform vs baseline? Show a chart + implications for pricing",
+    "If we want +5% revenue this month, where should we focus first? Give 3 concrete levers and the games affected",
   ];
 
   return (

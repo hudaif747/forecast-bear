@@ -6,7 +6,7 @@ export const generateForecast = (
 ) =>
   tool({
     description:
-      "Generate a forecast with predictions and explanations for upcoming games. This tool returns structured forecast data that will be displayed inline in the chat. Use this when the user asks for predictions, forecasts, rankings, top N matches, analysis, or visualizations of upcoming games. The forecast includes: 1) Forecast data for upcoming games (filtered if requested), 2) Historical context pulled from store data (seasonal trends, opponent averages, etc.), 3) Charts to visualize the requested insight. IMPORTANT: Always include charts when the user asks for visualizations, rankings, or comparisons. When the user requests filtered data (e.g., 'attendance < 4000'), you MUST filter the forecasts array to only include matching games.",
+      "Generate a forecast with predictions and explanations for upcoming games. This tool returns structured forecast data that will be displayed inline in the chat. Use this when the user asks for predictions, forecasts, rankings, top N matches, analysis, or visualizations of upcoming games. The forecast includes: 1) Forecast data for upcoming games (filtered if requested), 2) Historical context pulled from store data (seasonal trends, opponent averages, etc.), 3) Charts to visualize the requested insight. IMPORTANT: Always include charts when the user asks for visualizations, rankings, or comparisons. When the user requests filtered data (e.g., 'attendance < 4000'), you MUST filter the forecasts array to only include matching games. If the user asks for seasonal/monthly patterns, do NOT invent per-month 'games' in forecasts—return forecasts: [] and express the insight via charts using seasonal/seasonalSeries/forecastSeasonal datasets.",
     inputSchema: z.object({
       title: z
         .string()
@@ -73,7 +73,7 @@ export const generateForecast = (
             yKey: z
               .union([z.string(), z.array(z.string())])
               .describe(
-                "The field(s) to plot on the y-axis. Can be a single string for one data series, or an array of strings for comparison charts (e.g., ['predictedTickets', 'predictedRevenue'] for comparing multiple metrics, or ['predictedTickets', 'historicalAverage'] for comparing forecast vs historical)."
+                "The field(s) to plot on the y-axis. Use a single string for one data series. Use an array ONLY when the series are directly comparable / same units (e.g., ['predictedTickets', 'historicalAverageTickets'] or multiple ticket-count series). DO NOT combine different units (e.g., revenue vs tickets) in the same chart because it is not normalized and comparisons become misleading."
               ),
             title: z.string(),
             dataset: z
@@ -116,7 +116,7 @@ export const generateForecast = (
         )
         .optional()
         .describe(
-          "Array of chart configurations to visualize the forecast. Always include charts when the user asks for visualizations, rankings, or comparisons. When the user requests filtered data, include the same filter in the chart configuration. For comparison charts, use an array of yKeys (e.g., ['predictedTickets', 'predictedRevenue']) to show multiple data series side-by-side in bar charts or as multiple lines in line charts."
+          "Array of chart configurations to visualize the forecast. Always include charts when the user asks for visualizations, rankings, or comparisons. When the user requests filtered data, include the same filter in the chart configuration. Avoid mixed-unit comparisons: do NOT put revenue and tickets in the same multi-series chart; use separate charts (or a normalized metric like occupancy) instead."
         ),
     }),
     execute: async ({ title, summary, forecasts, charts, historicalInsights }) => {
